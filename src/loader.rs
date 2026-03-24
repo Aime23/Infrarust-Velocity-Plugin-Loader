@@ -1,10 +1,8 @@
 use std::{collections::HashMap, sync::Mutex};
 
 use infrarust_api::{
-    event::BoxFuture,
-    plugin::{Plugin, PluginMetadata},
+    event::BoxFuture, loader::{LoaderError, PluginContextFactory, PluginLoader}, plugin::{Plugin, PluginMetadata}
 };
-use infrarust_core::plugin::{LoaderError, PluginContextFactory, PluginLoader};
 
 use crate::plugin::plugin_candidate::PluginCandidate;
 
