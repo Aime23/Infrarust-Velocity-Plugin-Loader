@@ -64,6 +64,8 @@ impl TryFrom<&Path> for PluginCandidate {
 
 #[cfg(test)]
 mod tests {
+    use crate::types::velocity_plugin_metadata::VelocityPluginDependency;
+
     use super::*;
     use std::path::PathBuf;
 
@@ -73,15 +75,15 @@ mod tests {
         let plugin_candidate = PluginCandidate::try_from(test_jar_path.as_path()).unwrap();
 
         assert_eq!(plugin_candidate.metadata.id, "infrarust_test_plugin");
-        assert_eq!(plugin_candidate.metadata.name, "test_plugin");
-        assert_eq!(plugin_candidate.metadata.version, "1.0-SNAPSHOT");
+        assert_eq!(plugin_candidate.metadata.name, Some("test_plugin".to_owned()));
+        assert_eq!(plugin_candidate.metadata.version, Some("1.0-SNAPSHOT".to_owned()));
         assert_eq!(
             plugin_candidate.metadata.authors,
-            Vec::<String>::new()
+            Some(Vec::<String>::new())
         );
         assert_eq!(
             plugin_candidate.metadata.dependencies,
-            Vec::<String>::new()
+            Some(Vec::<VelocityPluginDependency>::new())
         );
         assert_eq!(
             plugin_candidate.metadata.main,
