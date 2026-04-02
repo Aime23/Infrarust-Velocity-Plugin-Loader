@@ -18,6 +18,7 @@ pub enum PluginCandidateLoadingError {
 // This represents a plugin candidate; it needs to be built from a source file.
 // The source file must be a valid jar and contain a valid `velocity-plugin.json`.
 // It does not guarantee that the candidate will be loaded successfully.
+#[derive(Debug, Clone)]
 pub struct PluginCandidate {
     metadata: VelocityPluginMetadata,
     path: PathBuf,
