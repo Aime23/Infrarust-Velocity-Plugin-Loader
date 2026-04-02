@@ -36,6 +36,12 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
 
     public native void native_finalize();
 
+    public native Optional<Player> native_get_player_by_uuid(long uuid_1, long uuid_2);
+    public native Optional<Player> native_get_player_by_name(String name);
+    public native InfrarustPlayer[] native_get_all_players();
+    public native InfrarustPlayer[] native_match_player(String name);
+    public native int native_get_player_count();
+
     @Override
     public void shutdown(Component component) {
     }
@@ -55,27 +61,27 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
 
     @Override
     public Optional<Player> getPlayer(String name) {
-        return null;
+        return this.native_get_player_by_name(name);
     }
 
     @Override
     public Optional<Player> getPlayer(UUID uuid) {
-        return null;
+        return this.native_get_player_by_uuid(uuid.getMostSignificantBits(), uuid.getLeastSignificantBits());
     }
 
     @Override
     public Collection<Player> getAllPlayers() {
-        return List.of();
+        return List.of(this.native_get_all_players());
     }
 
     @Override
     public Collection<Player> matchPlayer(String s) {
-        return List.of();
+        return List.of(this.native_match_player(s));
     }
 
     @Override
     public int getPlayerCount() {
-        return 0;
+        return this.native_get_player_count();
     }
 
     @Override
