@@ -30,24 +30,28 @@ public class InfrarustRegisteredServer extends NativeFinalize implements Registe
 
     public native void native_finalize();
 
+    private native ServerInfo native_get_server_info();
+    private native InfrarustPlayer[] native_get_players_connected();
+    private native CompletableFuture<ServerPing> native_ping(PingOptions pingOptions);
+
     @Override
     public ServerInfo getServerInfo() {
-        return null;
+        return this.native_get_server_info();
     }
 
     @Override
     public Collection<Player> getPlayersConnected() {
-        return List.of();
+        return List.of(this.native_get_players_connected());
     }
 
     @Override
     public CompletableFuture<ServerPing> ping() {
-        return null;
+        return this.native_ping(null);
     }
 
     @Override
     public CompletableFuture<ServerPing> ping(PingOptions pingOptions) {
-        return null;
+        return this.native_ping(pingOptions);
     }
 
     @Override
