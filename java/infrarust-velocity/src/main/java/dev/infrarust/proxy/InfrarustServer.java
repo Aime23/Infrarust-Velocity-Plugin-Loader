@@ -41,6 +41,9 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
     public native InfrarustPlayer[] native_get_all_players();
     public native InfrarustPlayer[] native_match_player(String name);
     public native int native_get_player_count();
+    public native Optional<RegisteredServer> native_get_server(String server_name);
+    public native InfrarustRegisteredServer[] native_get_all_servers();
+    public native InfrarustRegisteredServer[] native_match_server(String name);
 
     @Override
     public void shutdown(Component component) {
@@ -86,17 +89,17 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
 
     @Override
     public Optional<RegisteredServer> getServer(String s) {
-        return Optional.empty();
+        return this.native_get_server(s);
     }
 
     @Override
     public Collection<RegisteredServer> getAllServers() {
-        return List.of();
+        return List.of(this.native_get_all_servers());
     }
 
     @Override
     public Collection<RegisteredServer> matchServer(String s) {
-        return List.of();
+        return List.of(this.native_match_server(s));
     }
 
     @Override
