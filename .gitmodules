@@ -1,0 +1,6 @@
+[submodule "java/infrarust-velocity/velocity/source/"]
+	path = java/infrarust-velocity/velocity/source/
+	url = https://github.com/PaperMC/Velocity.git
+[submodule "java/infrarust-velocity/velocity/source"]
+	path = java/infrarust-velocity/velocity/source
+	url = https://github.com/PaperMC/Velocity.git
