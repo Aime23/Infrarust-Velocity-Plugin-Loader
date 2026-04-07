@@ -2,3 +2,7 @@ crate::java::implementation::java::net::inet_socket_address::InetSocketAddress =
 crate::java::implementation::java::util::array_list::ArrayList => java.util.ArrayList
 crate::java::implementation::java::util::optional::Optional => java.util.Optional
 crate::java::implementation::java::nio::file::path::Path => java.nio.file.Path
+unsafe crate::java::handle::PluginContextHandle => long
+unsafe crate::java::handle::PlayerRegistryHandle => long
+unsafe crate::java::handle::ConfigServiceHandle => long
+unsafe crate::java::handle::PlayerHandle => long
