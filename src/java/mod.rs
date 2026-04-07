@@ -5,6 +5,7 @@ use jni::{
 
 pub mod generated;
 pub mod implementation;
+pub mod handle;
 
 pub trait TryFromJni<'local, T>: Sized {
     fn try_from_jni(env: &mut ::jni::Env<'local>, value: T) -> Result<Self, jni::errors::Error>;
