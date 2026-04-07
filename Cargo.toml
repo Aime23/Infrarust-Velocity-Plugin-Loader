@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+derive_more = { version = "2.1.1", features = ["into", "from"] }
 infrarust-api = { git = "https://github.com/Shadowner/Infrarust.git", tag = "v2.0.0-alpha.1" }
 jni = { version = "0.22.4", features = ["invocation"] }
 serde = { version = "1.0.228", features = ["derive"] }
