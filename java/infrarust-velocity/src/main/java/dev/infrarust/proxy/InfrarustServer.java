@@ -27,10 +27,10 @@ import java.util.*;
 
 public class InfrarustServer extends NativeFinalize implements ProxyServer {
 
-
+    @RustPrimitive("crate::java::handle::PluginContextHandle")
     protected final long plugin_context_handle;
 
-    public InfrarustServer(long plugin_context_handle) {
+    public InfrarustServer(@RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle) {
         this.plugin_context_handle = plugin_context_handle;
     }
 

@@ -18,7 +18,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class InfrarustRegisteredServer extends NativeFinalize implements RegisteredServer {
 
+    @RustPrimitive("crate::java::handle::PlayerRegistryHandle")
     protected final long player_registry_handle;
+    @RustPrimitive("crate::java::handle::ConfigServiceHandle")
     protected final long config_service_handle;
     protected final String server_id;
 

@@ -24,11 +24,14 @@ import net.kyori.adventure.text.Component;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.jetbrains.annotations.NotNull;
 
+import dev.infrarust.NativeFinalize;
+import io.github.jni_rs.jbindgen.RustPrimitive;
+
 import java.net.InetSocketAddress;
 import java.util.*;
 
 public class InfrarustPlayer extends NativeFinalize implements Player {
-    
+    @RustPrimitive("crate::java::handle::PlayerHandle")
     protected final long player_handle;
 
     public InfrarustPlayer(long playerHandle) {
