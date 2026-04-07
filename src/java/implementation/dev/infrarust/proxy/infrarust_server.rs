@@ -15,6 +15,7 @@ use crate::{
             InfrarustPlayer, InfrarustServer, InfrarustServerAPI, InfrarustServerNativeInterface,
             server::InfrarustRegisteredServer,
         },
+        handle::NewTypeHandle,
         implementation::java::util::optional::Optional,
     },
 };
@@ -24,11 +25,10 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
 
     fn native_get_player_by_name<'local>(
         env: &mut ::jni::Env<'local>,
-        _this: InfrarustServer<'local>,
+        this: InfrarustServer<'local>,
         name: ::jni::objects::JString<'local>,
     ) -> ::std::result::Result<Optional<'local>, Self::Error> {
-        let context =
-            Handle::from_raw(_this.plugin_context_handle(env)?).into::<Box<dyn PluginContext>>();
+        let context = this.plugin_context_handle(env)?.into_instance();
 
         let name_str: String = name.to_string();
         return Ok(context
@@ -40,12 +40,12 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
 
     fn native_get_player_by_uuid<'local>(
         env: &mut ::jni::Env<'local>,
-        _this: InfrarustServer<'local>,
+        this: InfrarustServer<'local>,
         uuid_1: ::jni::sys::jlong,
         uuid_2: ::jni::sys::jlong,
     ) -> ::std::result::Result<Optional<'local>, Self::Error> {
-        let context =
-            Handle::from_raw(_this.plugin_context_handle(env)?).into::<Box<dyn PluginContext>>();
+        let context = this.plugin_context_handle(env)?.into_instance();
+
         let uuid = uuid::Uuid::from_u64_pair(uuid_1 as u64, uuid_2 as u64);
         return Ok(context
             .player_registry()
@@ -56,22 +56,22 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
 
     fn native_get_all_players<'local>(
         env: &mut ::jni::Env<'local>,
-        _this: InfrarustServer<'local>,
+        this: InfrarustServer<'local>,
     ) -> ::std::result::Result<JObjectArray<'local, InfrarustPlayer<'local>>, Self::Error> {
-        let context =
-            Handle::from_raw(_this.plugin_context_handle(env)?).into::<Box<dyn PluginContext>>();
+        let context = this.plugin_context_handle(env)?.into_instance();
+
         let players = context.player_registry().get_all_players();
         return players.to_jni(env);
     }
 
     fn native_match_player<'local>(
         env: &mut ::jni::Env<'local>,
-        _this: InfrarustServer<'local>,
+        this: InfrarustServer<'local>,
         name: ::jni::objects::JString<'local>,
     ) -> ::std::result::Result<JObjectArray<'local, InfrarustPlayer<'local>>, Self::Error> {
         let pattern = name.to_string();
-        let context =
-            Handle::from_raw(_this.plugin_context_handle(env)?).into::<Box<dyn PluginContext>>();
+        let context = this.plugin_context_handle(env)?.into_instance();
+
         let players: Vec<Arc<dyn infrarust_api::player::Player>> = context
             .player_registry()
             .get_all_players()
@@ -83,21 +83,21 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
 
     fn native_get_player_count<'local>(
         env: &mut ::jni::Env<'local>,
-        _this: InfrarustServer<'local>,
+        this: InfrarustServer<'local>,
     ) -> ::std::result::Result<jint, Self::Error> {
-        let context =
-            Handle::from_raw(_this.plugin_context_handle(env)?).into::<Box<dyn PluginContext>>();
+        let context = this.plugin_context_handle(env)?.into_instance();
+
         let count = context.player_registry().online_count() as jint;
         return Ok(count);
     }
 
     fn native_get_server<'local>(
         env: &mut ::jni::Env<'local>,
-        _this: InfrarustServer<'local>,
+        this: InfrarustServer<'local>,
         server_name: ::jni::objects::JString<'local>,
     ) -> ::std::result::Result<Optional<'local>, Self::Error> {
-        let context =
-            Handle::from_raw(_this.plugin_context_handle(env)?).into::<Box<dyn PluginContext>>();
+        let context = this.plugin_context_handle(env)?.into_instance();
+
         // let server_name = server_name.to_string();
         let registered_server = InfrarustRegisteredServer::new(
             env,
@@ -110,11 +110,11 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
 
     fn native_get_all_servers<'local>(
         env: &mut ::jni::Env<'local>,
-        _this: InfrarustServer<'local>,
+        this: InfrarustServer<'local>,
     ) -> ::std::result::Result<JObjectArray<'local, InfrarustRegisteredServer<'local>>, Self::Error>
     {
-        let context =
-            Handle::from_raw(_this.plugin_context_handle(env)?).into::<Box<dyn PluginContext>>();
+        let context = this.plugin_context_handle(env)?.into_instance();
+
         let servers = context.server_manager().get_all_servers();
         let mut servers_obj: Vec<InfrarustRegisteredServer> = Vec::with_capacity(servers.len());
         for (server_id, _) in servers.into_iter() {
@@ -131,11 +131,11 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
 
     fn native_shutdown<'local>(
         env: &mut ::jni::Env<'local>,
-        _this: InfrarustServer<'local>,
+        this: InfrarustServer<'local>,
         _component: ::jni::objects::JObject<'local>,
     ) -> Result<(), Self::Error> {
-        let context =
-            Handle::from_raw(_this.plugin_context_handle(env)?).into::<Box<dyn PluginContext>>();
+        let context = this.plugin_context_handle(env)?.into_instance();
+
         // Trigger proxy shutdown
         let _token = context.proxy_shutdown();
         return Ok(());
@@ -146,7 +146,7 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
         this: InfrarustServer<'local>,
     ) -> Result<(), Self::Error> {
         // Free the handle memory
-        Handle::from_raw(this.plugin_context_handle(env)?).delete::<Box<dyn PluginContext>>();
+        this.plugin_context_handle(env)?.delete_handle();
         Ok(())
     }
 

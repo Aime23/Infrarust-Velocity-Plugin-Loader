@@ -18,6 +18,7 @@ use crate::{
                 },
             },
         },
+        handle::NewTypeHandle,
         implementation::java::net::inet_socket_address::InetSocketAddress,
     },
 };
@@ -29,15 +30,13 @@ impl InfrarustRegisteredServerNativeInterface for InfrarustRegisteredServerAPI {
         env: &mut ::jni::Env<'local>,
         this: InfrarustRegisteredServer<'local>,
     ) -> ::std::result::Result<ServerInfo<'local>, Self::Error> {
-        let config_service =
-            Handle::from_raw(this.config_service_handle(env)?).into::<Box<dyn ConfigService>>();
+        let config_service = this.config_service_handle(env)?.into_instance();
         let server_id = ServerId::new(this.server_id(env)?.to_string());
 
         if let Some(config) = config_service.get_server_config(&server_id) {
             let name = JString::from_str(env, server_id.as_str())?;
             let hostname = JString::from_str(env, &config.addresses[0].host)?;
-            let address =
-                InetSocketAddress::new(env, hostname, config.addresses[0].port as i32)?;
+            let address = InetSocketAddress::new(env, hostname, config.addresses[0].port as i32)?;
             return ServerInfo::new(env, name, address);
         }
         return Ok(ServerInfo::null());
@@ -50,8 +49,7 @@ impl InfrarustRegisteredServerNativeInterface for InfrarustRegisteredServerAPI {
         ::jni::objects::JObjectArray<'local, InfrarustPlayer<'local>>,
         Self::Error,
     > {
-        let player_registry =
-            Handle::from_raw(this.player_registry_handle(env)?).into::<Box<dyn PlayerRegistry>>();
+        let player_registry = this.player_registry_handle(env)?.into_instance();
         let server_id = ServerId::new(this.server_id(env)?.to_string());
 
         let players = player_registry.get_players_on_server(&server_id);
@@ -70,8 +68,8 @@ impl InfrarustRegisteredServerNativeInterface for InfrarustRegisteredServerAPI {
         env: &mut ::jni::Env<'local>,
         this: InfrarustRegisteredServer<'local>,
     ) -> ::std::result::Result<(), Self::Error> {
-        Handle::from_raw(this.config_service_handle(env)?).delete::<Box<dyn ConfigService>>();
-        Handle::from_raw(this.player_registry_handle(env)?).delete::<Box<dyn PlayerRegistry>>();
+        this.config_service_handle(env)?.delete_handle();
+        this.player_registry_handle(env)?.delete_handle();
         Ok(())
     }
 }
