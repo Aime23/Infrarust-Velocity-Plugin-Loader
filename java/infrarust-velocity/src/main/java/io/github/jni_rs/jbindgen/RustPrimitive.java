@@ -40,7 +40,7 @@ import java.lang.annotation.Target;
  *
  * <p>
  * <b>Type mapping requirement:</b>
- * 
+ *
  * <pre>
  * unsafe ThingHandle => long
  * unsafe RawFd => int
@@ -48,7 +48,7 @@ import java.lang.annotation.Target;
  *
  * <p>
  * The generated Rust binding will use the custom type instead of the primitive:
- * 
+ *
  * <pre>
  * fn process_handle(&amp;self, env: &amp;mut Env, thing: ThingHandle) -> Result&lt;JString&gt;
  * </pre>
@@ -56,7 +56,7 @@ import java.lang.annotation.Target;
  * @since 1.0
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
+@Target({ElementType.PARAMETER, ElementType.FIELD})
 public @interface RustPrimitive {
     /**
      * The Rust type name that this primitive maps to.
