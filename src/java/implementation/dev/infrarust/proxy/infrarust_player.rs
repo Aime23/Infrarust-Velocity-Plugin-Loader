@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use jni::bind_java_type;
+use jni::{bind_java_type, objects::JString};
 
 use crate::{
     handle::Handle,
@@ -8,9 +8,51 @@ use crate::{
         ToJni,
         generated::dev::infrarust::proxy::{
             InfrarustPlayer, InfrarustPlayerAPI, InfrarustPlayerNativeInterface,
-        }, implementation::java::util::optional::Optional,
+        },
+        handle::{NewTypeHandle, PlayerHandle},
+        implementation::java::util::{optional::Optional, uuid::UUID},
     },
 };
+
+impl InfrarustPlayerNativeInterface for InfrarustPlayerAPI {
+    type Error = jni::errors::Error;
+
+    fn native_finalize<'local>(
+        env: &mut ::jni::Env<'local>,
+        this: InfrarustPlayer<'local>,
+    ) -> ::std::result::Result<(), Self::Error> {
+        this.player_handle(env)?.delete_handle();
+        Ok(())
+    }
+
+    fn native_get_current_server<'local>(
+        env: &mut ::jni::Env<'local>,
+        this: InfrarustPlayer<'local>,
+    ) -> ::std::result::Result<
+        crate::java::implementation::java::util::optional::Optional<'local>,
+        Self::Error,
+    > {
+        let player = this.player_handle(env)?.into_instance();
+        return player.current_server().map(|v| v.to_string()).to_jni(env);
+    }
+
+    fn native_get_unique_id<'local>(
+        env: &mut ::jni::Env<'local>,
+        this: InfrarustPlayer<'local>,
+    ) -> Result<UUID<'local>, jni::errors::Error> {
+        let player = this.player_handle(env)?.into_instance();
+        return player.profile().uuid.to_jni(env);
+    }
+
+    fn native_get_username<'local>(
+        env: &mut ::jni::Env<'local>,
+        this: InfrarustPlayer<'local>,
+    ) -> ::std::result::Result<::jni::objects::JString<'local>, Self::Error> {
+        let player = this.player_handle(env)?.into_instance();
+        let username = player.profile().username.clone();
+        return JString::from_str(env, username);
+    }
+}
 
 impl<'local> ToJni<'local> for Arc<dyn infrarust_api::player::Player> {
     type Kind = InfrarustPlayer<'local>;
