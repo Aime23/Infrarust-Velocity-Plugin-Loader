@@ -15,7 +15,7 @@ use crate::{
 impl<'local> ToJni<'local> for Arc<dyn infrarust_api::player::Player> {
     type Kind = InfrarustPlayer<'local>;
     fn to_jni(self, env: &mut jni::Env<'local>) -> Result<Self::Kind, jni::errors::Error> {
-        let handle = Handle::from(self.clone()).raw();
+        let handle = PlayerHandle::from_instance(Box::new(self.clone()));
         return InfrarustPlayer::new(env, handle);
     }
 }
