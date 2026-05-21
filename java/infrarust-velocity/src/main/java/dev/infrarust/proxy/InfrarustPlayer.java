@@ -17,7 +17,6 @@ import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.util.GameProfile;
 import com.velocitypowered.api.util.ModInfo;
 import com.velocitypowered.api.util.ServerLink;
-import dev.infrarust.NativeFinalize;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
@@ -34,11 +33,15 @@ public class InfrarustPlayer extends NativeFinalize implements Player {
     @RustPrimitive("crate::java::handle::PlayerHandle")
     protected final long player_handle;
 
-    public InfrarustPlayer(long playerHandle) {
+    public InfrarustPlayer(@RustPrimitive("crate::java::handle::PlayerHandle") long playerHandle) {
         player_handle = playerHandle;
     }
 
     public native void native_finalize();
+
+    private native String native_get_username();
+    private native UUID native_get_unique_id();
+    private native Optional<ServerConnection> native_get_current_server();
 
     @Override
     public String getUsername() {
