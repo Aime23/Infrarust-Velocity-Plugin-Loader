@@ -4,3 +4,4 @@
 [submodule "vendor/jni-rs"]
 	path = vendor/jni-rs
 	url = git@github.com:Aime23/jni-rs.git
+	branch = feat/unsafe_alias_to_custom_types
