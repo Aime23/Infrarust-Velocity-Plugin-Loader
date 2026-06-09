@@ -1,5 +1,11 @@
 package dev.infrarust.proxy;
 
+import java.net.InetSocketAddress;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.plugin.PluginManager;
@@ -13,7 +19,7 @@ import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import com.velocitypowered.api.scheduler.Scheduler;
 import com.velocitypowered.api.util.ProxyVersion;
-import com.velocitypowered.proxy.plugin.VelocityPluginManager;
+
 import dev.infrarust.NativeFinalize;
 import dev.infrarust.event.InfrarustEventManager;
 import dev.infrarust.plugin.InfrarustPluginManager;
@@ -21,9 +27,6 @@ import dev.infrarust.proxy.server.InfrarustRegisteredServer;
 import dev.infrarust.scheduler.InfrarustScheduler;
 import io.github.jni_rs.jbindgen.RustPrimitive;
 import net.kyori.adventure.text.Component;
-
-import java.net.InetSocketAddress;
-import java.util.*;
 
 public class InfrarustServer extends NativeFinalize implements ProxyServer {
 
@@ -54,12 +57,18 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
     public native InfrarustRegisteredServer[] native_get_all_servers();
     public native InfrarustRegisteredServer[] native_match_server(String name);
 
+
+    public native void native_shutdown(Component component);
+
+
     @Override
     public void shutdown(Component component) {
+        this.native_shutdown(component);
     }
 
     @Override
     public void shutdown() {
+        this.native_shutdown(null);
     }
 
     @Override
@@ -69,6 +78,7 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
 
     @Override
     public void closeListeners() {
+
     }
 
     @Override
