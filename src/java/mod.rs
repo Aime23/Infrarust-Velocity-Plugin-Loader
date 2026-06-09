@@ -11,6 +11,10 @@ pub trait TryFromJni<'local, T>: Sized {
     fn try_from_jni(env: &mut ::jni::Env<'local>, value: T) -> Result<Self, jni::errors::Error>;
 }
 
+pub trait TryFromJniNullable<'local, T>: Sized {
+    fn try_from_jni_nullable(env: &mut ::jni::Env<'local>, value: T) -> Result<Self, jni::errors::Error>;
+}
+
 pub trait ToJni<'local> {
     type Kind: Reference + Default + Into<JObject<'local>> + AsRef<JObject<'local>> + 'local;
     fn to_jni(self, env: &mut ::jni::Env<'local>) -> Result<Self::Kind, jni::errors::Error>;
