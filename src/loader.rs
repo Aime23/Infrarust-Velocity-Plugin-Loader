@@ -1,14 +1,38 @@
-use std::{collections::HashMap, sync::Mutex};
-
-use infrarust_api::{
-    event::BoxFuture, loader::{LoaderError, PluginContextFactory, PluginLoader}, plugin::{Plugin, PluginMetadata}
+use std::{
+    collections::HashMap,
+    sync::{Arc, Mutex},
 };
 
-use crate::plugin::plugin_candidate::PluginCandidate;
+use infrarust_api::{
+    event::BoxFuture,
+    loader::{LoaderError, PluginContextFactory, PluginLoader},
+    plugin::{Plugin, PluginContext, PluginMetadata},
+};
+use jni::{
+    JNIVersion,
+    refs::Global,
+    vm::{InitArgsBuilder, JavaVM},
+};
 
-struct PluginLoaderVelocity {
+use crate::{
+    errors::CustomError,
+    handle::Handle,
+    java::{
+        ToJni, TryFromJni, TryFromJniNullable,
+        generated::{
+            com::velocitypowered::api::plugin::PluginContainer,
+            dev::infrarust::proxy::InfrarustServer,
+        },
+        handle::{NewTypeHandle, PluginContextHandle},
+    },
+    plugin::{plugin_candidate::PluginCandidate, velocity_plugin::VelocityPlugin},
+};
+
+pub struct PluginLoaderVelocity {
     // Store discovered plugin by id to be able to load them without rescanning every file in the plugin folder
     plugin_index: Mutex<HashMap<String, PluginCandidate>>,
+    jvm: Mutex<Option<JavaVM>>,
+    server: Mutex<Option<Global<InfrarustServer<'static>>>>,
 }
 
 impl PluginLoader for PluginLoaderVelocity {
@@ -55,13 +79,144 @@ impl PluginLoader for PluginLoaderVelocity {
         plugin_id: &'a str,
         context_factory: &'a dyn PluginContextFactory,
     ) -> BoxFuture<'a, Result<Box<dyn Plugin>, LoaderError>> {
-        todo!()
+        // If VM is not initialized, initialize it.
+        // Register all the class we will use
+        // Initialize the InfrarustVelocityServer by creating a context using the context_factory
+        // Ask the newly created InfrarustVelocityServer to load the plugin
+        //
+        // TODO: Propagate error
+        return Box::pin(async move {
+            self.init_jvm()?;
+            self.init_and_start_infrarust_server(context_factory.create_context("VelocityLoader"));
+            let jvm = self.jvm.lock().map_err(|err| LoaderError::LoadFailed {
+                plugin_id: plugin_id.to_owned(),
+                reason: "Unable to acquire read lock for JVM".to_owned(),
+                source: None,
+            })?;
+
+            let jvm = jvm.as_ref().ok_or(LoaderError::LoadFailed {
+                plugin_id: plugin_id.to_owned(),
+                reason: "JVM not initialized".to_owned(),
+                source: None,
+            })?;
+            let server = self.server.lock().map_err(|err| LoaderError::LoadFailed {
+                plugin_id: plugin_id.to_owned(),
+                reason: "Unable to acquire read lock for InfrarustServer".to_owned(),
+                source: None,
+            })?;
+            let server = server.as_ref().ok_or(LoaderError::LoadFailed {
+                plugin_id: plugin_id.to_owned(),
+                reason: "InfrarustServer not initialized".to_owned(),
+                source: None,
+            })?;
+            let index_lock = self
+                .plugin_index
+                .lock()
+                .map_err(|err| LoaderError::LoadFailed {
+                    plugin_id: plugin_id.to_owned(),
+                    reason: "Unable to acquire read lock for plugin_index".to_owned(),
+                    source: None,
+                })?;
+
+            let candidate = index_lock.get(plugin_id).unwrap();
+            let plugin = jvm.attach_current_thread(|env| {
+                let plugin_manager = server.plugin_manager(env)?;
+                let jni_parent = candidate.path().parent().unwrap().to_jni(env)?;
+                let jni_candidate = candidate.path().to_jni(env)?;
+                let plugin = plugin_manager.load_plugin(env, jni_parent, jni_candidate)?;
+                let plugin: Option<PluginContainer> = Option::try_from_jni_nullable(env, plugin)?;
+                if let Some(plugin) = plugin {
+                    let plugin = env.new_global_ref(plugin)?;
+                    return Ok(plugin);
+                }
+                return Err(CustomError {
+                    reason: "Java plugin instantiation error".to_owned(),
+                });
+            });
+            if let Ok(plugin) = plugin {
+                let ok: Box<dyn Plugin> =
+                    Box::new(VelocityPlugin::new(candidate.clone(), plugin, jvm.clone()));
+                return Ok(ok);
+            } else {
+                return Err(LoaderError::LoadFailed {
+                    plugin_id: plugin_id.to_owned(),
+                    reason: "Bruh".to_owned(),
+                    source: None,
+                });
+            }
+        });
     }
 
-    fn unload<'a>(
-        &'a self,
-        plugin_id: &'a str,
-    ) -> BoxFuture<'a, Result<(), LoaderError>> {
+    fn unload<'a>(&'a self, plugin_id: &'a str) -> BoxFuture<'a, Result<(), LoaderError>> {
         todo!()
+    }
+}
+
+impl PluginLoaderVelocity {
+    fn init_jvm(&self) -> Result<(), LoaderError> {
+        // TODO: Allow passing those args throught config
+        let args = InitArgsBuilder::new()
+            .version(JNIVersion::V1_8)
+            .option("-Xcheck:jni")
+            .option("-Djava.class.path=./java/")
+            .build()
+            .map_err(|err| LoaderError::LoadFailed {
+                plugin_id: "VelocityLoader".to_owned(),
+                reason: "Unable to initilialize JVM options".to_owned(),
+                source: Some(err.into()),
+            })?;
+        let jvm = JavaVM::new(args).map_err(|err| LoaderError::LoadFailed {
+            plugin_id: "VelocityLoader".to_owned(),
+            reason: "Unable to initilialize JVM".to_owned(),
+            source: Some(err.into()),
+        })?;
+        let mut lock = self.jvm.lock().map_err(|err| LoaderError::LoadFailed {
+            plugin_id: "VelocityLoader".to_owned(),
+            reason: "Unable to acquire JVM write lock".to_owned(),
+            source: None,
+        })?;
+        *lock = Some(jvm);
+        Ok(())
+    }
+
+    fn init_and_start_infrarust_server(
+        &self,
+        context: Arc<dyn PluginContext>,
+    ) -> Result<(), LoaderError> {
+        let jvm_lock = self.jvm.lock().map_err(|err| LoaderError::LoadFailed {
+            plugin_id: "VelocityLoader".to_owned(),
+            reason: "Unable to acquire JVM read lock".to_owned(),
+            source: None,
+        })?;
+
+        let mut server_lock = self.server.lock().map_err(|err| LoaderError::LoadFailed {
+            plugin_id: "VelocityLoader".to_owned(),
+            reason: "Unable to acquire server write lock".to_owned(),
+            source: None,
+        })?;
+
+        jvm_lock
+            .as_ref()
+            .unwrap()
+            .attach_current_thread(|env| -> jni::errors::Result<()> {
+                let handle = PluginContextHandle::from_instance(Box::new(context));
+                let server = InfrarustServer::new(env, handle)?;
+                let server = env.new_global_ref(server)?;
+                *server_lock = Some(server);
+                Ok(())
+            })
+            .map_err(|err| LoaderError::LoadFailed {
+                plugin_id: "".to_owned(),
+                reason: err.to_string(),
+                source: None,
+            })?;
+        Ok(())
+    }
+    pub fn new() -> Self {
+        Self {
+            jvm: Mutex::new(None),
+            server: Mutex::new(None),
+            plugin_index: Mutex::new(HashMap::new()),
+        }
     }
 }
