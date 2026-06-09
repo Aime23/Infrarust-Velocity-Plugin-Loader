@@ -72,3 +72,11 @@ where
         return Ok(array_list);
     }
 }
+
+impl<'local> ToJni<'local> for String {
+    type Kind = jni::objects::JString<'local>;
+
+    fn to_jni(self, env: &mut jni::Env<'local>) -> Result<Self::Kind, jni::errors::Error> {
+        return jni::objects::JString::from_str(env, self);
+    }
+}
