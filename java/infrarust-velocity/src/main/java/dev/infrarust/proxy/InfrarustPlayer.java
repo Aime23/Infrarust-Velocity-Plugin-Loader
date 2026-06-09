@@ -46,7 +46,7 @@ public class InfrarustPlayer extends NativeFinalize implements Player {
 
     @Override
     public String getUsername() {
-        return "";
+        return this.native_get_username();
     }
 
     @Override
@@ -61,12 +61,12 @@ public class InfrarustPlayer extends NativeFinalize implements Player {
 
     @Override
     public UUID getUniqueId() {
-        return null;
+        return this.native_get_unique_id();
     }
 
     @Override
     public Optional<ServerConnection> getCurrentServer() {
-        return Optional.empty();
+        return this.native_get_current_server();
     }
 
     @Override
@@ -136,7 +136,7 @@ public class InfrarustPlayer extends NativeFinalize implements Player {
 
     @Override
     public void disconnect(Component reason) {
-
+        this.native_disconnect(reason);
     }
 
     @Override
