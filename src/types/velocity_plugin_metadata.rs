@@ -12,23 +12,33 @@ pub struct VelocityPluginMetadata {
     pub main: String,
 }
 
-
 #[derive(Debug, Deserialize, Clone, PartialEq)]
 pub struct VelocityPluginDependency {
     pub id: String,
     #[serde(default)]
-    pub optional: bool
+    pub optional: bool,
 }
 
 impl Into<PluginMetadata> for VelocityPluginMetadata {
     fn into(self) -> PluginMetadata {
-        PluginMetadata {
-            id: self.id.clone(),
-            name: self.name.unwrap_or(self.id),
-            version: self.version.unwrap_or("unknown".to_owned()),
-            authors: self.authors.unwrap_or_default(),
-            description: self.description,
-            dependencies: Vec::new(), // TODO: Make up a way to handle velocity dependencies gracefully
+        let mut metadata = PluginMetadata::new(
+            self.id.clone(),
+            self.name.unwrap_or(self.id),
+            self.version.unwrap_or("unknown".to_owned()),
+        );
+        if let Some(description) = self.description {
+            metadata = metadata.description(description);
         }
+        for author in self.authors.unwrap_or_default().iter() {
+            metadata = metadata.author(author);
+        }
+        for dependency in self.dependencies.unwrap_or_default().into_iter() {
+            if dependency.optional {
+                metadata = metadata.optional_dependency(dependency.id);
+            } else {
+                metadata = metadata.depends_on(dependency.id);
+            }
+        }
+        return metadata;
     }
 }
