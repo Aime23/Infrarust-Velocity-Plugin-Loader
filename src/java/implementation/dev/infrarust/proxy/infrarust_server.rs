@@ -11,12 +11,19 @@ use crate::{
     handle::Handle,
     java::{
         ToJni, ToJniArray,
-        generated::dev::infrarust::proxy::{
-            InfrarustPlayer, InfrarustServer, InfrarustServerAPI, InfrarustServerNativeInterface,
-            server::InfrarustRegisteredServer,
+        generated::dev::infrarust::{
+            event::InfrarustEventManager,
+            plugin::InfrarustPluginManager,
+            proxy::{
+                InfrarustPlayer, InfrarustServer, InfrarustServerAPI,
+                InfrarustServerNativeInterface, server::InfrarustRegisteredServer,
+            },
+            scheduler::InfrarustScheduler,
         },
-        handle::NewTypeHandle,
-        implementation::java::util::optional::Optional,
+        handle::{NewTypeHandle, PluginContextHandle},
+        implementation::{
+            dev::infrarust::event::infrarust_event_manager, java::util::optional::Optional,
+        },
     },
 };
 
@@ -132,7 +139,7 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
     fn native_shutdown<'local>(
         env: &mut ::jni::Env<'local>,
         this: InfrarustServer<'local>,
-        _component: ::jni::objects::JObject<'local>,
+        _component: crate::java::generated::net::kyori::adventure::text::Component<'local>,
     ) -> Result<(), Self::Error> {
         let context = this.plugin_context_handle(env)?.into_instance();
 
@@ -153,23 +160,28 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
     fn native_get_event_manager<'local>(
         env: &mut ::jni::Env<'local>,
         class: ::jni::objects::JClass<'local>,
-        arg0: ::jni::sys::jlong,
+        arg0: PluginContextHandle,
+        plugin_manager: InfrarustPluginManager,
     ) -> ::std::result::Result<
         crate::java::generated::dev::infrarust::event::InfrarustEventManager<'local>,
         Self::Error,
     > {
-        todo!()
+        let plugin_context_handle =
+            PluginContextHandle::from_instance(arg0.into_instance().clone());
+        return InfrarustEventManager::new(env, plugin_context_handle, plugin_manager);
     }
 
     fn native_get_scheduler<'local>(
         env: &mut ::jni::Env<'local>,
         class: ::jni::objects::JClass<'local>,
-        arg0: ::jni::sys::jlong,
+        arg0: PluginContextHandle,
     ) -> ::std::result::Result<
         crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler<'local>,
         Self::Error,
     > {
-        todo!()
+        let plugin_context_handle =
+            PluginContextHandle::from_instance(arg0.into_instance().clone());
+        return InfrarustScheduler::new(env, plugin_context_handle);
     }
 
     fn native_match_server<'local>(
