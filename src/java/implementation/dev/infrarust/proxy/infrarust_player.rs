@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use infrarust_api::types::Component;
 use jni::{bind_java_type, objects::JString};
 
 use crate::{
@@ -51,6 +52,17 @@ impl InfrarustPlayerNativeInterface for InfrarustPlayerAPI {
         let player = this.player_handle(env)?.into_instance();
         let username = player.profile().username.clone();
         return JString::from_str(env, username);
+    }
+
+    fn native_disconnect<'local>(
+        env: &mut ::jni::Env<'local>,
+        this: InfrarustPlayer<'local>,
+        component: crate::java::generated::net::kyori::adventure::text::Component<'local>,
+    ) -> ::std::result::Result<(), Self::Error> {
+        let player = this.player_handle(env)?.into_instance();
+        // TODO: Use provided component
+        player.disconnect(Component::text("Disconnected"));
+        return Ok(());
     }
 }
 
