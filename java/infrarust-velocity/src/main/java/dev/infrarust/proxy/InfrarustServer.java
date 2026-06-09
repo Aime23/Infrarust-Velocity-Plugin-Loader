@@ -29,12 +29,21 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
 
     @RustPrimitive("crate::java::handle::PluginContextHandle")
     protected final long plugin_context_handle;
+    protected final InfrarustEventManager eventManager;
+    protected final InfrarustScheduler scheduler;
+    protected final InfrarustPluginManager pluginManager;
 
     public InfrarustServer(@RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle) {
         this.plugin_context_handle = plugin_context_handle;
+        this.pluginManager = new InfrarustPluginManager(this);
+        this.eventManager = native_get_event_manager(plugin_context_handle, this.pluginManager);
+        this.scheduler = native_get_scheduler(plugin_context_handle);
     }
 
     public native void native_finalize();
+
+    public static native InfrarustEventManager native_get_event_manager(@RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle, InfrarustPluginManager pluginManager);
+    public static native InfrarustScheduler native_get_scheduler(@RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle);
 
     public native Optional<Player> native_get_player_by_uuid(long uuid_1, long uuid_2);
     public native Optional<Player> native_get_player_by_name(String name);
@@ -124,12 +133,12 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
 
     @Override
     public PluginManager getPluginManager() {
-        return null;
+        return this.pluginManager;
     }
 
     @Override
     public EventManager getEventManager() {
-        return null;
+        return this.eventManager;
     }
 
     @Override
@@ -139,7 +148,7 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
 
     @Override
     public Scheduler getScheduler() {
-        return null;
+        return this.scheduler;
     }
 
     @Override
