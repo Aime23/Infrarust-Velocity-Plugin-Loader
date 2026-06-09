@@ -4,15 +4,18 @@ use jni::{
 };
 
 pub mod generated;
-pub mod implementation;
 pub mod handle;
+pub mod implementation;
 
 pub trait TryFromJni<'local, T>: Sized {
     fn try_from_jni(env: &mut ::jni::Env<'local>, value: T) -> Result<Self, jni::errors::Error>;
 }
 
 pub trait TryFromJniNullable<'local, T>: Sized {
-    fn try_from_jni_nullable(env: &mut ::jni::Env<'local>, value: T) -> Result<Self, jni::errors::Error>;
+    fn try_from_jni_nullable(
+        env: &mut ::jni::Env<'local>,
+        value: T,
+    ) -> Result<Self, jni::errors::Error>;
 }
 
 pub trait ToJni<'local> {
