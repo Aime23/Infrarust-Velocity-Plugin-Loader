@@ -344,10 +344,11 @@ dependencies = [
 
 [[package]]
 name = "infrarust-api"
-version = "2.0.0-alpha.1"
-source = "git+https://github.com/Shadowner/Infrarust.git?tag=v2.0.0-alpha.1#03a5517aae0ceed83576e7a4d48d80dba2f19261"
+version = "2.0.0-beta.1"
+source = "git+https://github.com/Shadowner/Infrarust.git?tag=v2.0.0-beta.1#376fd37aa5f5f07631986ebba498e11e9b29f38d"
 dependencies = [
  "bytes",
+ "serde_json",
  "thiserror",
  "tokio-util",
  "tracing",
@@ -737,9 +738,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.149"
+version = "1.0.150"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "83fc039473c5595ace860d8c4fafa220ff474b3fc6bfdb4293327f1a37e94d86"
+checksum = "e8014e44b4736ed0538adeecded0fce2a272f22dc9578a7eb6b2d9993c74cfb9"
 dependencies = [
  "itoa",
  "memchr",
@@ -973,9 +974,9 @@ checksum = "ebc1c04c71510c7f702b52b7c350734c9ff1295c464a03335b00bb84fc54f853"
 
 [[package]]
 name = "uuid"
-version = "1.23.0"
+version = "1.23.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5ac8b6f42ead25368cf5b098aeb3dc8a1a2c05a3eee8a9a1a68c640edbfc79d9"
+checksum = "144d6b123cef80b301b8f72a9e2ca4370ddec21950d0a103dd22c437006d2db7"
 dependencies = [
  "getrandom 0.4.2",
  "js-sys",
