@@ -1,5 +1,7 @@
-use infrarust_api::plugin::Plugin;
-use jni::refs::Global;
+use std::sync::Mutex;
+
+use infrarust_api::{error::PluginError, plugin::Plugin};
+use jni::{refs::Global, vm::JavaVM};
 
 use crate::{
     java::generated::com::velocitypowered::{
@@ -11,6 +13,7 @@ use crate::{
 pub struct VelocityPlugin {
     candidate: PluginCandidate,
     java_plugin: Global<PluginContainer<'static>>,
+    jvm: Mutex<JavaVM>,
 }
 
 impl Plugin for VelocityPlugin {
@@ -28,10 +31,15 @@ impl Plugin for VelocityPlugin {
 }
 
 impl VelocityPlugin {
-    pub fn new(candidate: PluginCandidate, java_plugin: Global<PluginContainer>) -> Self {
+    pub fn new(
+        candidate: PluginCandidate,
+        java_plugin: Global<PluginContainer>,
+        jvm: JavaVM,
+    ) -> Self {
         Self {
             candidate,
             java_plugin,
+            jvm: Mutex::new(jvm),
         }
     }
 }
