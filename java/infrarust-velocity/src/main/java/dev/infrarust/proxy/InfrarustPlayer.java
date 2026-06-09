@@ -42,6 +42,7 @@ public class InfrarustPlayer extends NativeFinalize implements Player {
     private native String native_get_username();
     private native UUID native_get_unique_id();
     private native Optional<ServerConnection> native_get_current_server();
+    private native void native_disconnect(Component component);
 
     @Override
     public String getUsername() {
