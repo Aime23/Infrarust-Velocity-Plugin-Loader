@@ -3,7 +3,7 @@ use std::{any::{Any, TypeId}, mem::ManuallyDrop};
 use jni::{bind_java_type, objects::JObject, refs::Reference};
 
 use crate::java::{
-    TryFromJni, ToJni, implementation::java::net::inet_socket_address::InetSocketAddress,
+    ToJni, TryFromJni, TryFromJniNullable, implementation::java::net::inet_socket_address::InetSocketAddress
 };
 
 bind_java_type! {
@@ -39,6 +39,28 @@ impl<
 
         return Err(jni::errors::Error::ParseFailed(format!(
             "Invalid call to from_jni, trying to convert a JObject to {} of size {}",
+            T::class_name().to_string(),
+            std::mem::size_of::<T>()
+        )));
+    }
+}
+
+impl<
+    'local,
+    T: Sized + Reference + Default + Into<JObject<'local>> + AsRef<JObject<'local>> + 'local,
+> TryFromJniNullable<'local, T> for  Option<T>
+{
+    fn try_from_jni_nullable(env: &mut jni::Env<'local>, value: T) -> Result<Option<T>, jni::errors::Error> {
+        if value.is_null() {
+            return Ok(None);
+        }
+
+        if std::mem::size_of::<T>() == std::mem::size_of::<JObject>() {
+            return Ok(Some(unsafe { std::mem::transmute_copy(&ManuallyDrop::new(value)) }));
+        }
+
+        return Err(jni::errors::Error::ParseFailed(format!(
+            "Invalid call to try_from_jni_nullable, trying to convert a JObject to {} of size {}",
             T::class_name().to_string(),
             std::mem::size_of::<T>()
         )));
