@@ -79,15 +79,8 @@ impl PluginLoader for PluginLoaderVelocity {
         plugin_id: &'a str,
         context_factory: &'a dyn PluginContextFactory,
     ) -> BoxFuture<'a, Result<Box<dyn Plugin>, LoaderError>> {
-        // If VM is not initialized, initialize it.
-        // Register all the class we will use
-        // Initialize the InfrarustVelocityServer by creating a context using the context_factory
-        // Ask the newly created InfrarustVelocityServer to load the plugin
-        //
         // TODO: Propagate error
         return Box::pin(async move {
-            self.init_jvm()?;
-            self.init_and_start_infrarust_server(context_factory.create_context("VelocityLoader"));
             let jvm = self.jvm.lock().map_err(|err| LoaderError::LoadFailed {
                 plugin_id: plugin_id.to_owned(),
                 reason: "Unable to acquire read lock for JVM".to_owned(),
@@ -149,6 +142,17 @@ impl PluginLoader for PluginLoaderVelocity {
 
     fn unload<'a>(&'a self, plugin_id: &'a str) -> BoxFuture<'a, Result<(), LoaderError>> {
         todo!()
+    }
+
+    fn on_load<'a>(
+        &'a self,
+        context_factory: &'a dyn PluginContextFactory,
+    ) -> BoxFuture<'a, Result<(), LoaderError>> {
+        Box::pin(async {
+            self.init_jvm()?;
+            self.init_and_start_infrarust_server(context_factory.create_context("VelocityLoader"));
+            Ok(())
+        })
     }
 }
 
