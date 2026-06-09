@@ -1,5 +1,11 @@
 package dev.infrarust.proxy.server;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.messages.ChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.PluginMessageEncoder;
@@ -7,14 +13,10 @@ import com.velocitypowered.api.proxy.server.PingOptions;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import com.velocitypowered.api.proxy.server.ServerPing;
+
 import dev.infrarust.NativeFinalize;
 import dev.infrarust.proxy.InfrarustPlayer;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import io.github.jni_rs.jbindgen.RustPrimitive;
 
 public class InfrarustRegisteredServer extends NativeFinalize implements RegisteredServer {
 
