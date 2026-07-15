@@ -15,18 +15,12 @@ public class EventHandlerBuilder {
         Method method
     ) {
         try {
-            final MethodHandle methodHandle =
-                MethodHandles.lookup().findVirtual(
-                    method.getClass(),
-                    method.getName(),
-                    MethodType.methodType(
-                        method.getReturnType(),
-                        method.getParameterTypes()
-                    )
-                );
+            final MethodHandle methodHandle = MethodHandles.lookup().unreflect(
+                method
+            );
             return (AwaitingEventExecutor<Object>) event -> {
                 try {
-                    return (EventTask) methodHandle.invokeExact(
+                    return (EventTask) methodHandle.invoke(
                         listener,
                         event
                     );
@@ -34,8 +28,6 @@ public class EventHandlerBuilder {
                     throw new IllegalStateException(e);
                 }
             };
-        } catch (NoSuchMethodException e) {
-            throw new IllegalStateException(e);
         } catch (IllegalAccessException e) {
             throw new IllegalStateException(e);
         }
@@ -46,25 +38,17 @@ public class EventHandlerBuilder {
         Method method
     ) {
         try {
-            final MethodHandle methodHandle =
-                MethodHandles.lookup().findVirtual(
-                    method.getClass(),
-                    method.getName(),
-                    MethodType.methodType(
-                        method.getReturnType(),
-                        method.getParameterTypes()
-                    )
-                );
+            final MethodHandle methodHandle = MethodHandles.lookup().unreflect(
+                method
+            );
             return (AwaitingEventExecutor<Object>) event -> {
                 try {
-                    methodHandle.invokeExact(listener, event);
+                    methodHandle.invoke(listener, event);
                     return null;
                 } catch (Throwable e) {
                     throw new IllegalStateException(e);
                 }
             };
-        } catch (NoSuchMethodException e) {
-            throw new IllegalStateException(e);
         } catch (IllegalAccessException e) {
             throw new IllegalStateException(e);
         }
@@ -75,26 +59,18 @@ public class EventHandlerBuilder {
         Method method
     ) {
         try {
-            final MethodHandle methodHandle =
-                MethodHandles.lookup().findVirtual(
-                    method.getClass(),
-                    method.getName(),
-                    MethodType.methodType(
-                        method.getReturnType(),
-                        method.getParameterTypes()
-                    )
-                );
+            final MethodHandle methodHandle = MethodHandles.lookup().unreflect(
+                method
+            );
             return (AwaitingEventExecutor<Object>) event -> {
                 return EventTask.withContinuation(continuation -> {
                     try {
-                        methodHandle.invokeExact(listener, event, continuation);
+                        methodHandle.invoke(listener, event, continuation);
                     } catch (Throwable e) {
                         throw new IllegalStateException(e);
                     }
                 });
             };
-        } catch (NoSuchMethodException e) {
-            throw new IllegalStateException(e);
         } catch (IllegalAccessException e) {
             throw new IllegalStateException(e);
         }
