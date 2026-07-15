@@ -26,7 +26,15 @@ public class InfrarustRegisteredServer extends NativeFinalize implements Registe
     protected final long config_service_handle;
     protected final String server_id;
 
-    public InfrarustRegisteredServer(long playerRegistryHandle, long configServiceHandle, String serverId) {
+    public InfrarustRegisteredServer(
+        @RustPrimitive(
+            "crate::java::handle::PlayerRegistryHandle"
+        ) long playerRegistryHandle,
+        @RustPrimitive(
+            "crate::java::handle::ConfigServiceHandle"
+        ) long configServiceHandle,
+        String serverId
+    ) {
         player_registry_handle = playerRegistryHandle;
         config_service_handle = configServiceHandle;
         server_id = serverId;
