@@ -184,19 +184,51 @@ public class InfrarustEventManager
     }
 
     @Override
-    public void unregisterListeners(final Object plugin) {}
+    public void unregisterListeners(final Object plugin) {
+        final PluginContainer pluginContainer =
+            this.pluginManager.ensurePluginContainer(plugin);
+        unregisterIf(
+            registered -> registered.pluginContainer == pluginContainer
+        );
+    }
 
     @Override
-    public void unregisterListener(
-        final Object plugin,
-        final Object listener
-    ) {}
+    public void unregisterListener(final Object plugin, final Object listener) {
+        final PluginContainer pluginContainer =
+            this.pluginManager.ensurePluginContainer(plugin);
+        unregisterIf(
+            registered ->
+                registered.pluginContainer == pluginContainer &&
+                registered.eventHandler == listener
+        );
+    }
 
     @Override
     public <E> void unregister(
         final Object plugin,
         final EventHandler<E> handler
-    ) {}
+    ) {
+        unregisterListener(plugin, handler);
+    }
+
+    // Really close to what velocity is doing be I found their solution elegant
+    private void unregisterIf(
+        final Predicate<RegisteredEventHandler> predicate
+    ) {
+        final List<RegisteredEventHandler> removed = new ArrayList<>();
+        try {
+            final Iterator<RegisteredEventHandler> it =
+                registeredEventHandlers.iterator();
+            while (it.hasNext()) {
+                final RegisteredEventHandler registration = it.next();
+                if (predicate.test(registration)) {
+                    it.remove();
+                    removed.add(registration);
+                }
+            }
+        } finally {
+        }
+    }
 
     public enum AsyncLevel {
         None, // Fully sync
