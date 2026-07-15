@@ -18,12 +18,17 @@ import dev.infrarust.NativeFinalize;
 import dev.infrarust.proxy.InfrarustPlayer;
 import io.github.jni_rs.jbindgen.RustPrimitive;
 
-public class InfrarustRegisteredServer extends NativeFinalize implements RegisteredServer {
+public class InfrarustRegisteredServer
+    extends NativeFinalize
+    implements RegisteredServer
+{
 
     @RustPrimitive("crate::java::handle::PlayerRegistryHandle")
     protected final long player_registry_handle;
+
     @RustPrimitive("crate::java::handle::ConfigServiceHandle")
     protected final long config_service_handle;
+
     protected final String server_id;
 
     public InfrarustRegisteredServer(
@@ -43,8 +48,12 @@ public class InfrarustRegisteredServer extends NativeFinalize implements Registe
     public native void native_finalize();
 
     private native ServerInfo native_get_server_info();
+
     private native InfrarustPlayer[] native_get_players_connected();
-    private native CompletableFuture<ServerPing> native_ping(PingOptions pingOptions);
+
+    private native CompletableFuture<ServerPing> native_ping(
+        PingOptions pingOptions
+    );
 
     @Override
     public ServerInfo getServerInfo() {
@@ -67,12 +76,18 @@ public class InfrarustRegisteredServer extends NativeFinalize implements Registe
     }
 
     @Override
-    public boolean sendPluginMessage(@NotNull ChannelIdentifier identifier, byte @NotNull [] data) {
+    public boolean sendPluginMessage(
+        @NotNull ChannelIdentifier identifier,
+        byte @NotNull [] data
+    ) {
         return false;
     }
 
     @Override
-    public boolean sendPluginMessage(@NotNull ChannelIdentifier identifier, @NotNull PluginMessageEncoder dataEncoder) {
+    public boolean sendPluginMessage(
+        @NotNull ChannelIdentifier identifier,
+        @NotNull PluginMessageEncoder dataEncoder
+    ) {
         return false;
     }
 }
