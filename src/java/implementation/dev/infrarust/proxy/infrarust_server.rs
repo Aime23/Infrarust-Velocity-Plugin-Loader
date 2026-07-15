@@ -20,7 +20,7 @@ use crate::{
             },
             scheduler::InfrarustScheduler,
         },
-        handle::{NewTypeHandle, PluginContextHandle},
+        handle::{ConfigServiceHandle, NewTypeHandle, PlayerRegistryHandle, PluginContextHandle},
         implementation::{
             dev::infrarust::event::infrarust_event_manager, java::util::optional::Optional,
         },
@@ -103,13 +103,17 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
         this: InfrarustServer<'local>,
         server_name: ::jni::objects::JString<'local>,
     ) -> ::std::result::Result<Optional<'local>, Self::Error> {
-        let context = this.plugin_context_handle(env)?.into_instance();
+        let plugin_context = this.plugin_context_handle(env)?.into_instance();
 
         // let server_name = server_name.to_string();
         let registered_server = InfrarustRegisteredServer::new(
             env,
-            Handle::from(context.player_registry_handle().clone()).raw(),
-            Handle::from(context.config_service_handle().clone()).raw(),
+            PlayerRegistryHandle::from_instance(Box::new(
+                plugin_context.player_registry_handle().clone(),
+            )),
+            ConfigServiceHandle::from_instance(Box::new(
+                plugin_context.config_service_handle().clone(),
+            )),
             server_name,
         )?;
         return Ok(Optional::of(env, registered_server)?);
@@ -120,16 +124,20 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
         this: InfrarustServer<'local>,
     ) -> ::std::result::Result<JObjectArray<'local, InfrarustRegisteredServer<'local>>, Self::Error>
     {
-        let context = this.plugin_context_handle(env)?.into_instance();
+        let plugin_context = this.plugin_context_handle(env)?.into_instance();
 
-        let servers = context.server_manager().get_all_servers();
+        let servers = plugin_context.server_manager().get_all_servers();
         let mut servers_obj: Vec<InfrarustRegisteredServer> = Vec::with_capacity(servers.len());
         for (server_id, _) in servers.into_iter() {
             let server_name = JString::from_str(env, server_id.as_str())?;
             servers_obj.push(InfrarustRegisteredServer::new(
                 env,
-                Handle::from(context.player_registry_handle().clone()).raw(),
-                Handle::from(context.config_service_handle().clone()).raw(),
+                PlayerRegistryHandle::from_instance(Box::new(
+                    plugin_context.player_registry_handle().clone(),
+                )),
+                ConfigServiceHandle::from_instance(Box::new(
+                    plugin_context.config_service_handle().clone(),
+                )),
                 server_name,
             )?);
         }
