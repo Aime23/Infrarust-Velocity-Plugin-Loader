@@ -150,7 +150,7 @@ impl PluginLoader for PluginLoaderVelocity {
     ) -> BoxFuture<'a, Result<(), LoaderError>> {
         Box::pin(async {
             self.init_jvm()?;
-            self.init_and_start_infrarust_server(context_factory.create_context("VelocityLoader"));
+            self.init_and_start_infrarust_server(context_factory.create_context("VelocityLoader"))?;
             Ok(())
         })
     }
