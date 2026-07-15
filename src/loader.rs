@@ -133,7 +133,7 @@ impl PluginLoader for PluginLoaderVelocity {
             } else {
                 return Err(LoaderError::LoadFailed {
                     plugin_id: plugin_id.to_owned(),
-                    reason: "Bruh".to_owned(),
+                    reason: plugin.unwrap_err().reason,
                     source: None,
                 });
             }
