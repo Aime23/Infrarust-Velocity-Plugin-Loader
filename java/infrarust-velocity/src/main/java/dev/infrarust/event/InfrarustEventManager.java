@@ -2,6 +2,8 @@ package dev.infrarust.event;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.velocitypowered.api.event.Continuation;
 import com.velocitypowered.api.event.EventHandler;
 import com.velocitypowered.api.event.EventManager;
@@ -224,7 +226,81 @@ public class InfrarustEventManager
 
     @Override
     public <E> CompletableFuture<E> fire(final E event) {
-        return null;
+        Class<?> eventClass = event.getClass();
+        List<RegisteredEventHandler> handlers =
+            this.mappedEventHandlers.getOrDefault(
+                eventClass,
+                new ArrayList<>()
+            );
+
+        if (handlers.size() == 0) {
+            return CompletableFuture.completedFuture(event);
+        }
+        final CompletableFuture<E> future = new CompletableFuture<>();
+
+        RegisteredEventHandler handler = handlers.getFirst();
+        if (handler.asyncType == AsyncLevel.Full) {
+            handler.pluginContainer
+                .getExecutorService()
+                .execute(() ->
+                    callEventHandlers(
+                        event,
+                        future,
+                        0,
+                        true,
+                        handlers.toArray(new RegisteredEventHandler[0])
+                    )
+                );
+        } else {
+            callEventHandlers(
+                event,
+                future,
+                0,
+                false,
+                handlers.toArray(new RegisteredEventHandler[0])
+            );
+        }
+        return future;
+    }
+
+    private <E> void callEventHandlers(
+        final E event,
+        final @Nullable CompletableFuture<E> future,
+        final int offset,
+        final boolean currentlyAsync,
+        final RegisteredEventHandler[] handlers
+    ) {
+        for (int i = offset; i < handlers.length; i++) {
+            RegisteredEventHandler handler = handlers[i];
+            final EventTask eventTask = handler.eventHandler.executeAsync(
+                event
+            );
+
+            if (eventTask == null) continue;
+            // Handling continuation
+            ContinuationTask<E> continuationTask = new ContinuationTask<E>(
+                eventTask,
+                handlers,
+                future,
+                event,
+                i,
+                currentlyAsync
+            );
+            if (currentlyAsync || !eventTask.requiresAsync()) {
+                // Already in an async context
+                if (continuationTask.execute()) {
+                    continue;
+                }
+            } else {
+                // Execute asynchronously
+                handler.pluginContainer
+                    .getExecutorService()
+                    .execute(continuationTask);
+            }
+        }
+        if (future != null) {
+            future.complete(event);
+        }
     }
 
     @Override
