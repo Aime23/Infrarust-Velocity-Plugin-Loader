@@ -26,7 +26,10 @@ impl Plugin for VelocityPlugin {
         ctx: &'a dyn infrarust_api::prelude::PluginContext,
     ) -> infrarust_api::prelude::BoxFuture<'a, Result<(), infrarust_api::prelude::PluginError>>
     {
-        todo!()
+        return Box::pin(async move {
+            println!("Enabled plugin {}", self.candidate.metadata().id);
+            Ok(())
+        });
     }
 }
 
