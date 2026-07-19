@@ -1,5 +1,13 @@
 package dev.infrarust.proxy;
 
+import java.net.InetSocketAddress;
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.UUID;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.NotNull;
 import com.velocitypowered.api.network.HandshakeIntent;
 import com.velocitypowered.api.network.ProtocolState;
 import com.velocitypowered.api.network.ProtocolVersion;
@@ -17,17 +25,11 @@ import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.util.GameProfile;
 import com.velocitypowered.api.util.ModInfo;
 import com.velocitypowered.api.util.ServerLink;
+import dev.infrarust.NativeFinalize;
+import io.github.jni_rs.jbindgen.RustPrimitive;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.jetbrains.annotations.NotNull;
-
-import dev.infrarust.NativeFinalize;
-import io.github.jni_rs.jbindgen.RustPrimitive;
-
-import java.net.InetSocketAddress;
-import java.util.*;
 
 public class InfrarustPlayer extends NativeFinalize implements Player {
     @RustPrimitive("crate::java::handle::PlayerHandle")
@@ -40,8 +42,11 @@ public class InfrarustPlayer extends NativeFinalize implements Player {
     public native void native_finalize();
 
     private native String native_get_username();
+
     private native UUID native_get_unique_id();
+
     private native Optional<ServerConnection> native_get_current_server();
+
     private native void native_disconnect(Component component);
 
     @Override
@@ -185,7 +190,8 @@ public class InfrarustPlayer extends NativeFinalize implements Player {
     }
 
     @Override
-    public boolean sendPluginMessage(@NotNull ChannelIdentifier identifier, @NotNull PluginMessageEncoder dataEncoder) {
+    public boolean sendPluginMessage(@NotNull ChannelIdentifier identifier,
+            @NotNull PluginMessageEncoder dataEncoder) {
         return false;
     }
 

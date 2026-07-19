@@ -9,14 +9,13 @@ import java.lang.annotation.Target;
  * Annotation to map a Java primitive type parameter to a custom Rust type.
  *
  * <p>
- * This annotation is used for parameters in native methods and regular methods
- * where a Java primitive (typically {@code long}) is used to represent a Rust
- * type that transparently wraps the primitive (such as a handle or pointer
- * type).
+ * This annotation is used for parameters in native methods and regular methods where a Java
+ * primitive (typically {@code long}) is used to represent a Rust type that transparently wraps the
+ * primitive (such as a handle or pointer type).
  *
  * <p>
- * This requires a corresponding "unsafe RustType => javaPrimitive" type mapping
- * to be provided via --type-map or in a type mapping file.
+ * This requires a corresponding "unsafe RustType => javaPrimitive" type mapping to be provided via
+ * --type-map or in a type mapping file.
  *
  * <p>
  * <b>Usage example:</b>

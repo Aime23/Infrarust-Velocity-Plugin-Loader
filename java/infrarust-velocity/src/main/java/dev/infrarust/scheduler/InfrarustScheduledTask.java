@@ -1,14 +1,11 @@
 package dev.infrarust.scheduler;
 
+import org.jetbrains.annotations.NotNull;
 import com.velocitypowered.api.scheduler.ScheduledTask;
 import com.velocitypowered.api.scheduler.TaskStatus;
 import dev.infrarust.NativeFinalize;
-import org.jetbrains.annotations.NotNull;
 
-public class InfrarustScheduledTask
-    extends NativeFinalize
-    implements ScheduledTask
-{
+public class InfrarustScheduledTask extends NativeFinalize implements ScheduledTask {
 
     protected final long task_handle;
     protected final long scheduler_handle;
@@ -17,11 +14,7 @@ public class InfrarustScheduledTask
 
     private TaskStatus status;
 
-    public InfrarustScheduledTask(
-        long taskHandle,
-        long schedulerHandle,
-        Object plugin
-    ) {
+    public InfrarustScheduledTask(long taskHandle, long schedulerHandle, Object plugin) {
         task_handle = taskHandle;
         scheduler_handle = schedulerHandle;
         this.plugin = plugin;

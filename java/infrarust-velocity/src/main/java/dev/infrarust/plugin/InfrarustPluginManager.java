@@ -1,5 +1,8 @@
 package dev.infrarust.plugin;
 
+import java.nio.file.Path;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.google.common.base.Joiner;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
@@ -11,15 +14,10 @@ import com.velocitypowered.proxy.plugin.VelocityPluginManager;
 import com.velocitypowered.proxy.plugin.loader.VelocityPluginContainer;
 import com.velocitypowered.proxy.plugin.loader.java.JavaPluginLoader;
 import dev.infrarust.proxy.InfrarustServer;
-import java.nio.file.Path;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class InfrarustPluginManager extends VelocityPluginManager {
 
-    private static final Logger logger = LogManager.getLogger(
-        InfrarustPluginManager.class
-    );
+    private static final Logger logger = LogManager.getLogger(InfrarustPluginManager.class);
     private final ProxyServer server;
 
     public InfrarustPluginManager(InfrarustServer server) {
@@ -39,12 +37,8 @@ public class InfrarustPluginManager extends VelocityPluginManager {
 
         for (PluginDependency dependency : candidate.getDependencies()) {
             if (!dependency.isOptional() && this.isLoaded(dependency.getId())) {
-                logger.error(
-                    "Missing required dependency {} to load {} at {}",
-                    dependency.getId(),
-                    candidate.getId(),
-                    source
-                );
+                logger.error("Missing required dependency {} to load {} at {}", dependency.getId(),
+                        candidate.getId(), source);
                 return null;
             }
         }
@@ -56,11 +50,7 @@ public class InfrarustPluginManager extends VelocityPluginManager {
             container = new VelocityPluginContainer(description);
             module = loader.createModule(container);
         } catch (Throwable e) {
-            logger.error(
-                "Can't create module for plugin {}",
-                candidate.getId(),
-                e
-            );
+            logger.error("Can't create module for plugin {}", candidate.getId(), e);
             return null;
         }
 
@@ -73,18 +63,13 @@ public class InfrarustPluginManager extends VelocityPluginManager {
             return null;
         }
 
-        logger.info(
-            "Loaded plugin {} {} by {}",
-            description.getId(),
-            description.getVersion().orElse("<UNKNOWN>"),
-            Joiner.on(", ").join(description.getAuthors())
-        );
+        logger.info("Loaded plugin {} {} by {}", description.getId(),
+                description.getVersion().orElse("<UNKNOWN>"),
+                Joiner.on(", ").join(description.getAuthors()));
         this.registerPlugin(container);
 
         var plugin_instance = container.getInstance().get();
-        this.server
-            .getEventManager()
-            .register(plugin_instance, plugin_instance);
+        this.server.getEventManager().register(plugin_instance, plugin_instance);
         return container;
     }
 }

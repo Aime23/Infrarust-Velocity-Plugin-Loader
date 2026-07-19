@@ -6,12 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to skip generation of bindings for a Java class, constructor,
- * method, or field.
+ * Annotation to skip generation of bindings for a Java class, constructor, method, or field.
  *
  * <p>
- * This annotation tells jbindgen to completely skip the annotated element
- * during binding
+ * This annotation tells jbindgen to completely skip the annotated element during binding
  * generation. This is useful for:
  * <ul>
  * <li>Excluding deprecated or internal APIs</li>
@@ -54,14 +52,13 @@ import java.lang.annotation.Target;
  * </pre>
  *
  * <p>
- * <b>Note:</b> When applied to a class, the entire class and all its members
- * will be skipped.
- * When applied to individual members, only those members are skipped.
+ * <b>Note:</b> When applied to a class, the entire class and all its members will be skipped. When
+ * applied to individual members, only those members are skipped.
  *
  * @see io.github.jni_rs.jbindgen.RustName
  * @since 1.0
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD })
+@Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD})
 public @interface RustSkip {
 }

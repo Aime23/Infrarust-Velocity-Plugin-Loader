@@ -1,7 +1,5 @@
 package dev.infrarust;
 
-import io.github.jni_rs.jbindgen.RustSkip;
-
 import java.lang.ref.Cleaner;
 
 public abstract class NativeFinalize implements AutoCloseable {

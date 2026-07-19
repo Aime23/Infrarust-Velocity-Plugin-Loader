@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.plugin.PluginManager;
@@ -19,7 +18,6 @@ import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import com.velocitypowered.api.scheduler.Scheduler;
 import com.velocitypowered.api.util.ProxyVersion;
-
 import dev.infrarust.NativeFinalize;
 import dev.infrarust.event.InfrarustEventManager;
 import dev.infrarust.plugin.InfrarustPluginManager;
@@ -36,7 +34,8 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
     protected final InfrarustScheduler scheduler;
     protected final InfrarustPluginManager pluginManager;
 
-    public InfrarustServer(@RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle) {
+    public InfrarustServer(
+            @RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle) {
         this.plugin_context_handle = plugin_context_handle;
         this.pluginManager = new InfrarustPluginManager(this);
         this.eventManager = native_get_event_manager(plugin_context_handle, this.pluginManager);
@@ -45,16 +44,27 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
 
     public native void native_finalize();
 
-    public static native InfrarustEventManager native_get_event_manager(@RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle, InfrarustPluginManager pluginManager);
-    public static native InfrarustScheduler native_get_scheduler(@RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle);
+    public static native InfrarustEventManager native_get_event_manager(
+            @RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle,
+            InfrarustPluginManager pluginManager);
+
+    public static native InfrarustScheduler native_get_scheduler(
+            @RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle);
 
     public native Optional<Player> native_get_player_by_uuid(long uuid_1, long uuid_2);
+
     public native Optional<Player> native_get_player_by_name(String name);
+
     public native InfrarustPlayer[] native_get_all_players();
+
     public native InfrarustPlayer[] native_match_player(String name);
+
     public native int native_get_player_count();
+
     public native Optional<RegisteredServer> native_get_server(String server_name);
+
     public native InfrarustRegisteredServer[] native_get_all_servers();
+
     public native InfrarustRegisteredServer[] native_match_server(String name);
 
 
@@ -88,7 +98,8 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
 
     @Override
     public Optional<Player> getPlayer(UUID uuid) {
-        return this.native_get_player_by_uuid(uuid.getMostSignificantBits(), uuid.getLeastSignificantBits());
+        return this.native_get_player_by_uuid(uuid.getMostSignificantBits(),
+                uuid.getLeastSignificantBits());
     }
 
     @Override

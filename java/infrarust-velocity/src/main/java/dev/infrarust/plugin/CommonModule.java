@@ -24,8 +24,7 @@ public class CommonModule extends AbstractModule {
         bind(EventManager.class).toInstance(server.getEventManager());
         // TODO: Uncomment when implemented
         // bind(CommandManager.class).toInstance(server.getCommandManager());
-        bind(PluginContainer.class)
-            .annotatedWith(Names.named(container.getDescription().getId()))
-            .toInstance(container);
+        bind(PluginContainer.class).annotatedWith(Names.named(container.getDescription().getId()))
+                .toInstance(container);
     }
 }

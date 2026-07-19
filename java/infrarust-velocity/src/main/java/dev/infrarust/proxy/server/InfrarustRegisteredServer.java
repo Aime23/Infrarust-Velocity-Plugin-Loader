@@ -3,9 +3,7 @@ package dev.infrarust.proxy.server;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-
 import org.jetbrains.annotations.NotNull;
-
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.messages.ChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.PluginMessageEncoder;
@@ -13,15 +11,11 @@ import com.velocitypowered.api.proxy.server.PingOptions;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import com.velocitypowered.api.proxy.server.ServerPing;
-
 import dev.infrarust.NativeFinalize;
 import dev.infrarust.proxy.InfrarustPlayer;
 import io.github.jni_rs.jbindgen.RustPrimitive;
 
-public class InfrarustRegisteredServer
-    extends NativeFinalize
-    implements RegisteredServer
-{
+public class InfrarustRegisteredServer extends NativeFinalize implements RegisteredServer {
 
     @RustPrimitive("crate::java::handle::PlayerRegistryHandle")
     protected final long player_registry_handle;
@@ -32,14 +26,9 @@ public class InfrarustRegisteredServer
     protected final String server_id;
 
     public InfrarustRegisteredServer(
-        @RustPrimitive(
-            "crate::java::handle::PlayerRegistryHandle"
-        ) long playerRegistryHandle,
-        @RustPrimitive(
-            "crate::java::handle::ConfigServiceHandle"
-        ) long configServiceHandle,
-        String serverId
-    ) {
+            @RustPrimitive("crate::java::handle::PlayerRegistryHandle") long playerRegistryHandle,
+            @RustPrimitive("crate::java::handle::ConfigServiceHandle") long configServiceHandle,
+            String serverId) {
         player_registry_handle = playerRegistryHandle;
         config_service_handle = configServiceHandle;
         server_id = serverId;
@@ -51,9 +40,7 @@ public class InfrarustRegisteredServer
 
     private native InfrarustPlayer[] native_get_players_connected();
 
-    private native CompletableFuture<ServerPing> native_ping(
-        PingOptions pingOptions
-    );
+    private native CompletableFuture<ServerPing> native_ping(PingOptions pingOptions);
 
     @Override
     public ServerInfo getServerInfo() {
@@ -76,18 +63,13 @@ public class InfrarustRegisteredServer
     }
 
     @Override
-    public boolean sendPluginMessage(
-        @NotNull ChannelIdentifier identifier,
-        byte @NotNull [] data
-    ) {
+    public boolean sendPluginMessage(@NotNull ChannelIdentifier identifier, byte @NotNull [] data) {
         return false;
     }
 
     @Override
-    public boolean sendPluginMessage(
-        @NotNull ChannelIdentifier identifier,
-        @NotNull PluginMessageEncoder dataEncoder
-    ) {
+    public boolean sendPluginMessage(@NotNull ChannelIdentifier identifier,
+            @NotNull PluginMessageEncoder dataEncoder) {
         return false;
     }
 }
