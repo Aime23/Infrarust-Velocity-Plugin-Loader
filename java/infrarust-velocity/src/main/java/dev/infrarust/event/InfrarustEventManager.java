@@ -186,9 +186,10 @@ public class InfrarustEventManager
     public void register(final Object plugin, final Object listener) {
         requireNonNull(listener);
         PluginContainer container = pluginManager.ensurePluginContainer(plugin);
-        if (plugin == listener) throw new IllegalArgumentException(
-            "Main plugin class is automaticaly registered"
-        );
+        // if (plugin == listener) return;
+        // throw new IllegalArgumentException(
+        // "Main plugin class is automaticaly registered"
+        // );
 
         this.registerInternally(container, listener);
     }
