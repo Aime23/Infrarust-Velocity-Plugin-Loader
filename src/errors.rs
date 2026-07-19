@@ -6,6 +6,8 @@ pub struct CustomError {
 
 impl From<jni::errors::Error> for CustomError {
     fn from(value: jni::errors::Error) -> Self {
-        unreachable!()
+        CustomError {
+            reason: value.to_string(),
+        }
     }
 }
