@@ -9,18 +9,31 @@ import com.velocitypowered.api.event.EventTask;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.plugin.PluginContainer;
+import com.velocitypowered.api.plugin.PluginDescription;
 import com.velocitypowered.api.plugin.PluginManager;
 import dev.infrarust.NativeFinalize;
 import io.github.jni_rs.jbindgen.RustPrimitive;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class InfrarustEventManager
     extends NativeFinalize
@@ -31,6 +44,10 @@ public class InfrarustEventManager
     protected final long plugin_context_handle;
 
     private final PluginManager pluginManager;
+
+    private static final Logger logger = LogManager.getLogger(
+        InfrarustEventManager.class
+    );
 
     // Start of lock
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
@@ -443,5 +460,210 @@ public class InfrarustEventManager
                 eventHandlingMethod.priority
             );
         }
+    }
+
+    // From velocity-proxy
+    // VelocityEventManager.java#566
+    // The ContinuationTask is doing some memory optimization by using VarHandles to access the
+    // state and resumed fields.
+    // They are doing atomic CAS (Compare And Swap) by using VarHandle#compareAndSet.
+    // They could have achived the same by using AtomicInteger and AtomicBoolean.
+    // However this way thay can save at least 32 bytes per instances, based on my calculation
+    // ╔═══════════════╦══════════════╗
+    // ║ Type ║ Size (bytes) ║
+    // ╠═══════════════╬══════════════╣
+    // ║ bool ║ 4 ║
+    // ║ int ║ 4 ║
+    // ║ AtomicBoolean ║ 16 ║
+    // ║ AtomicInt ║ 16 ║
+    // ╚═══════════════╩══════════════╝
+    // So that way we get with the Atomic version : (ref) 8 + (AtomicInteger) 16 + (AtomicBoolean)
+    // 16 = 40 bytes
+    // And with the VarHandle version : (int) 4 + (bool) 4 = 8 bytes
+    private static final int TASK_STATE_DEFAULT = 0;
+    private static final int TASK_STATE_EXECUTING = 1;
+    private static final int TASK_STATE_CONTINUE_IMMEDIATELY = 2;
+
+    private static final VarHandle CONTINUATION_TASK_RESUMED;
+    private static final VarHandle CONTINUATION_TASK_STATE;
+
+    static {
+        try {
+            CONTINUATION_TASK_RESUMED = MethodHandles.lookup().findVarHandle(
+                ContinuationTask.class,
+                "resumed",
+                boolean.class
+            );
+            CONTINUATION_TASK_STATE = MethodHandles.lookup().findVarHandle(
+                ContinuationTask.class,
+                "state",
+                int.class
+            );
+        } catch (final ReflectiveOperationException e) {
+            throw new IllegalStateException();
+        }
+    }
+
+    final class ContinuationTask<E> implements Continuation, Runnable {
+
+        private final EventTask task;
+        private final int index;
+        private final RegisteredEventHandler[] registrations;
+        private final @Nullable CompletableFuture<E> future;
+        private final boolean currentlyAsync;
+        private final E event;
+        private final Thread firedOnThread;
+
+        // This field is modified via a VarHandle, so this field is used and cannot be final.
+        @SuppressWarnings({
+            "UnusedVariable",
+            "FieldMayBeFinal",
+            "FieldCanBeLocal",
+        })
+        private volatile int state = TASK_STATE_DEFAULT;
+
+        // This field is modified via a VarHandle, so this field is used and cannot be final.
+        @SuppressWarnings({ "UnusedVariable", "FieldMayBeFinal" })
+        private volatile boolean resumed = false;
+
+        private ContinuationTask(
+            final EventTask task,
+            final RegisteredEventHandler[] registrations,
+            final @Nullable CompletableFuture<E> future,
+            final E event,
+            final int index,
+            final boolean currentlyAsync
+        ) {
+            this.task = task;
+            this.registrations = registrations;
+            this.future = future;
+            this.event = event;
+            this.index = index;
+            this.currentlyAsync = currentlyAsync;
+            this.firedOnThread = Thread.currentThread();
+        }
+
+        @Override
+        public void run() {
+            if (execute()) {
+                callEventHandlers(
+                    event,
+                    future,
+                    index + 1,
+                    currentlyAsync,
+                    registrations
+                );
+            }
+        }
+
+        /**
+         * Executes the task and returns whether the next handler should be executed immediately
+         * after this one, without additional scheduling.
+         */
+        boolean execute() {
+            state = TASK_STATE_EXECUTING;
+            try {
+                task.execute(this);
+            } catch (final Throwable t) {
+                // validateOnlyOnce false here so don't get an exception if the
+                // continuation was resumed before
+                resume(t, false);
+            }
+            return !CONTINUATION_TASK_STATE.compareAndSet(
+                this,
+                TASK_STATE_EXECUTING,
+                TASK_STATE_DEFAULT
+            );
+        }
+
+        @Override
+        public void resume() {
+            resume(null, true);
+        }
+
+        void resume(
+            final @Nullable Throwable exception,
+            final boolean validateOnlyOnce
+        ) {
+            final boolean changed = CONTINUATION_TASK_RESUMED.compareAndSet(
+                this,
+                false,
+                true
+            );
+            // Only allow the continuation to be resumed once
+            if (!changed && validateOnlyOnce) {
+                throw new IllegalStateException(
+                    "The continuation can only be resumed once."
+                );
+            }
+            final RegisteredEventHandler registration = registrations[index];
+            if (exception != null) {
+                logHandlerException(registration, exception);
+            }
+            if (!changed) {
+                return;
+            }
+            if (index + 1 == registrations.length) {
+                // Optimization: don't schedule a task just to complete the future
+                if (future != null) {
+                    future.complete(event);
+                }
+                return;
+            }
+            if (
+                !CONTINUATION_TASK_STATE.compareAndSet(
+                    this,
+                    TASK_STATE_EXECUTING,
+                    TASK_STATE_CONTINUE_IMMEDIATELY
+                )
+            ) {
+                // We established earlier that registrations[index + 1] is a valid index.
+                // If we are remaining in the same thread for the next handler, fire
+                // the next event immediately, else fire it within the executor service
+                // of the plugin with the next handler.
+                final RegisteredEventHandler next = registrations[index + 1];
+                final Thread currentThread = Thread.currentThread();
+                if (
+                    currentThread == firedOnThread &&
+                    next.asyncType != AsyncLevel.Full
+                ) {
+                    callEventHandlers(
+                        event,
+                        future,
+                        index + 1,
+                        currentlyAsync,
+                        registrations
+                    );
+                } else {
+                    next.plugin
+                        .getExecutorService()
+                        .execute(() ->
+                            fire(future, event, index + 1, true, registrations)
+                        );
+                }
+            }
+        }
+
+        @Override
+        public void resumeWithException(final Throwable exception) {
+            resume(requireNonNull(exception, "exception"), true);
+        }
+    }
+
+    // Copied from velocity-proxy
+    // VelocityEventManager.java#702
+    private static void logHandlerException(
+        final RegisteredEventHandler registration,
+        final Throwable t
+    ) {
+        final PluginDescription pluginDescription =
+            registration.pluginContainer.getDescription();
+        logger.error(
+            "Couldn't pass {} to {} {}",
+            registration.eventType.getSimpleName(),
+            pluginDescription.getId(),
+            pluginDescription.getVersion().orElse(""),
+            t
+        );
     }
 }
