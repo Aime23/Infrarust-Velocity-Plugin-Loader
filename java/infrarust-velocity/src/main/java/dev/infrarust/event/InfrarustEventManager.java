@@ -55,13 +55,12 @@ public class InfrarustEventManager
     ) {
         this.plugin_context_handle = plugin_context_handle;
         this.pluginManager = pluginManager;
+        this.native_initialize();
     }
 
     private native void native_finalize();
 
-    private native void native_register_event_handler(
-        RegisteredEventHandler registeredEventHandler
-    );
+    private native void native_initialize();
 
     /**
      * Extract all method with the Subscribe annotation in the given class.
