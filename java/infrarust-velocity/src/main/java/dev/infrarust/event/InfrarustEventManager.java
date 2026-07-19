@@ -198,7 +198,7 @@ public class InfrarustEventManager
         RegisteredEventHandler rehm = new RegisteredEventHandler(
             pluginContainer,
             eventClass,
-            handler,
+            (EventHandler<Object>) handler,
             AsyncLevel.Full,
             priority
         );
@@ -390,14 +390,14 @@ public class InfrarustEventManager
 
         private PluginContainer pluginContainer;
         private final Class<?> eventClass;
-        private final EventHandler<?> eventHandler;
+        private final EventHandler<Object> eventHandler;
         private final AsyncLevel asyncType;
         private final short priority;
 
         public RegisteredEventHandler(
             final PluginContainer pluginContainer,
             final Class<?> eventClass,
-            final EventHandler<?> eventHandler,
+            final EventHandler<Object> eventHandler,
             final AsyncLevel asyncType,
             final short priority
         ) {
@@ -438,7 +438,7 @@ public class InfrarustEventManager
             return new RegisteredEventHandler(
                 pluginContainer,
                 eventHandlingMethod.eventClass,
-                eventHandler,
+                (EventHandler<Object>) eventHandler,
                 eventHandlingMethod.asyncType,
                 eventHandlingMethod.priority
             );
