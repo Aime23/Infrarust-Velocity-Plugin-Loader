@@ -32,8 +32,20 @@ public class InfrarustEventManager
 
     private final PluginManager pluginManager;
 
+    // Start of lock
+    private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+    private final WriteLock writeLock = lock.writeLock();
+    private final ReadLock readLock = lock.readLock();
+
     private final List<RegisteredEventHandler> registeredEventHandlers =
-        new ArrayList<RegisteredEventHandler>();
+        new ArrayList<>();
+
+    private final Map<
+        Class<?>,
+        List<RegisteredEventHandler>
+    > mappedEventHandlers = new HashMap<>();
+
+    // End of lock
 
     public InfrarustEventManager(
         @RustPrimitive(
@@ -132,8 +144,24 @@ public class InfrarustEventManager
     }
 
     private void registerEventHandler(RegisteredEventHandler eventHandler) {
-        this.registeredEventHandlers.add(eventHandler);
-        this.native_register_event_handler(eventHandler);
+        try {
+            writeLock.lock();
+            this.registeredEventHandlers.add(eventHandler);
+
+            if (
+                !this.mappedEventHandlers.containsKey(eventHandler.eventClass)
+            ) {
+                this.mappedEventHandlers.put(
+                    eventHandler.eventClass,
+                    new ArrayList<>()
+                );
+            }
+            this.mappedEventHandlers
+                .get(eventHandler.eventClass)
+                .add(eventHandler);
+        } finally {
+            writeLock.unlock();
+        }
     }
 
     @Override
@@ -215,18 +243,33 @@ public class InfrarustEventManager
     private void unregisterIf(
         final Predicate<RegisteredEventHandler> predicate
     ) {
-        final List<RegisteredEventHandler> removed = new ArrayList<>();
         try {
+            writeLock.lock();
+            ListMultimap<Class<?>, RegisteredEventHandler> removedHandlers =
+                ArrayListMultimap.create();
             final Iterator<RegisteredEventHandler> it =
                 registeredEventHandlers.iterator();
             while (it.hasNext()) {
-                final RegisteredEventHandler registration = it.next();
-                if (predicate.test(registration)) {
+                final RegisteredEventHandler handler = it.next();
+                if (predicate.test(handler)) {
                     it.remove();
-                    removed.add(registration);
+                    removedHandlers.put(handler.eventClass, handler);
                 }
             }
+            for (Entry<
+                Class<?>,
+                Collection<RegisteredEventHandler>
+            > removedHandler : removedHandlers.asMap().entrySet()) {
+                this.mappedEventHandlers.computeIfPresent(
+                    removedHandler.getKey(),
+                    (arg0, arg1) -> {
+                        arg1.removeAll(removedHandler.getValue());
+                        return arg1;
+                    }
+                );
+            }
         } finally {
+            writeLock.unlock();
         }
     }
 
