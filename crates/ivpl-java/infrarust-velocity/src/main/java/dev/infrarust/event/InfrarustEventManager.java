@@ -519,8 +519,8 @@ public class InfrarustEventManager extends NativeFinalize implements EventManage
                 if (currentThread == firedOnThread && next.asyncType != AsyncLevel.Full) {
                     callEventHandlers(event, future, index + 1, currentlyAsync, registrations);
                 } else {
-                    next.plugin.getExecutorService()
-                            .execute(() -> fire(future, event, index + 1, true, registrations));
+                    next.pluginContainer.getExecutorService().execute(
+                            () -> callEventHandlers(event, future, index + 1, true, registrations));
                 }
             }
         }
@@ -536,7 +536,7 @@ public class InfrarustEventManager extends NativeFinalize implements EventManage
     private static void logHandlerException(final RegisteredEventHandler registration,
             final Throwable t) {
         final PluginDescription pluginDescription = registration.pluginContainer.getDescription();
-        logger.error("Couldn't pass {} to {} {}", registration.eventType.getSimpleName(),
+        logger.error("Couldn't pass {} to {} {}", registration.eventClass.getSimpleName(),
                 pluginDescription.getId(), pluginDescription.getVersion().orElse(""), t);
     }
 }

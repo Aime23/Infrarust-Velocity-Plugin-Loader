@@ -7,17 +7,6 @@
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.1.0</version>
@@ -67,10 +56,10 @@
               <executable>mvn</executable>
               <arguments>
                 <argument>org.apache.maven.plugins:maven-install-plugin:2.3.1:install-file</argument>
-                <argument>-Dfile=velocity/source/proxy/build/libs/velocity-proxy-3.5.0-SNAPSHOT-all.jar</argument>
+                <argument>-Dfile=velocity/source/proxy/build/libs/velocity-proxy-3.5.1-all.jar</argument>
                 <argument>-DgroupId=com.velocitypowered</argument>
                 <argument>-DartifactId=velocity-proxy</argument>
-                <argument>-Dversion=3.5.0-SNAPSHOT</argument>
+                <argument>-Dversion=3.5.1</argument>
                 <argument>-Dpackaging=jar</argument>
                 <argument>-DlocalRepositoryPath=velocity/repository</argument>
               </arguments>
@@ -89,7 +78,17 @@
             </goals>
           </execution>
         </executions>
-        <configuration />
+      </plugin>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -107,7 +106,7 @@
     <dependency>
       <groupId>com.velocitypowered</groupId>
       <artifactId>velocity-api</artifactId>
-      <version>3.5.0-SNAPSHOT</version>
+      <version>3.5.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
