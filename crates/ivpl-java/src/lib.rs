@@ -1,7 +1,5 @@
-use std::range::Range;
-
 use jni::{
-    objects::{JByteArray, JClassLoader, JPrimitiveArray, JString},
+    objects::{JByteArray, JClassLoader},
     strings::JNIString,
 };
 
@@ -14,7 +12,7 @@ pub const JAR_BYTES: &[i8] =
 
 pub const CLASS_EXT: &str = ".class";
 
-fn load_jar(env: &mut jni::Env) -> jni::errors::Result<()> {
+pub fn load_jar(env: &mut jni::Env) -> jni::errors::Result<()> {
     let byte_array = JByteArray::new(env, JAR_BYTES.len())?;
     byte_array.set_region(env, 0, JAR_BYTES as &[i8])?;
     let bais = ByteArrayInputStream::new(env, byte_array)?;
