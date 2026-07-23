@@ -1,6 +1,5 @@
 use jni::{objects::{JObject, JObjectArray}, refs::Reference};
 
-pub mod io;
 pub mod net;
 pub mod nio;
 pub mod util;
