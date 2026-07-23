@@ -1,7 +1,8 @@
-[submodule "java/infrarust-velocity/velocity/source"]
-	path = java/infrarust-velocity/velocity/source
-	url = https://github.com/PaperMC/Velocity.git
 [submodule "vendor/jni-rs"]
 	path = vendor/jni-rs
 	url = git@github.com:Aime23/jni-rs.git
 	branch = feat/unsafe_alias_to_custom_types
+[submodule "crates/ivpl-java/infrarust-velocity/velocity/source"]
+	path = crates/ivpl-java/infrarust-velocity/velocity/source
+	url = https://github.com/PaperMC/Velocity.git
+	branch = rel/3.0.0
