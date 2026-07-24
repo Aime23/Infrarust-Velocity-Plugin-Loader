@@ -3,6 +3,7 @@ use jni::{objects::{JObject, JObjectArray}, refs::Reference};
 pub mod net;
 pub mod nio;
 pub mod util;
+pub mod io;
 
 pub trait TryFromJni<'local, T>: Sized {
     fn try_from_jni(env: &mut ::jni::Env<'local>, value: T) -> Result<Self, jni::errors::Error>;
