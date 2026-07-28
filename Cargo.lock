@@ -391,6 +391,7 @@ version = "0.1.0"
 dependencies = [
  "derive_more",
  "infrarust-api",
+ "ivpl-java-binding",
  "jni",
  "serde",
  "serde_json",

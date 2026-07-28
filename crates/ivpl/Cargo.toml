@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+ivpl-java-binding.workspace = true
 derive_more.workspace = true
 infrarust-api = { git = "https://github.com/Shadowner/Infrarust.git", tag = "v2.0.0-beta.1" }
 jni.workspace = true
