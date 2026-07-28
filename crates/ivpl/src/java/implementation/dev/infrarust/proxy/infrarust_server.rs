@@ -1,6 +1,7 @@
 use std::{ops::Deref, sync::Arc};
 
 use infrarust_api::{plugin::PluginContext, prelude::EventBusExt};
+use ivpl_java_binding::util::optional::Optional;
 use jni::{
     bind_java_type,
     objects::{JCollection, JObject, JObjectArray, JString, JValue},
@@ -22,7 +23,7 @@ use crate::{
         },
         handle::{ConfigServiceHandle, NewTypeHandle, PlayerRegistryHandle, PluginContextHandle},
         implementation::{
-            dev::infrarust::event::infrarust_event_manager, java::util::optional::Optional,
+            dev::infrarust::event::infrarust_event_manager,
         },
     },
 };

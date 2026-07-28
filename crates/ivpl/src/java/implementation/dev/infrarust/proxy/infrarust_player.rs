@@ -1,6 +1,7 @@
 use std::sync::Arc;
 
 use infrarust_api::types::Component;
+use ivpl_java_binding::util::{optional::Optional, uuid::UUID};
 use jni::{bind_java_type, objects::JString};
 
 use crate::{
@@ -11,7 +12,6 @@ use crate::{
             InfrarustPlayer, InfrarustPlayerAPI, InfrarustPlayerNativeInterface,
         },
         handle::{NewTypeHandle, PlayerHandle},
-        implementation::java::util::{optional::Optional, uuid::UUID},
     },
 };
 
@@ -29,10 +29,7 @@ impl InfrarustPlayerNativeInterface for InfrarustPlayerAPI {
     fn native_get_current_server<'local>(
         env: &mut ::jni::Env<'local>,
         this: InfrarustPlayer<'local>,
-    ) -> ::std::result::Result<
-        crate::java::implementation::java::util::optional::Optional<'local>,
-        Self::Error,
-    > {
+    ) -> ::std::result::Result<Optional<'local>, Self::Error> {
         let player = this.player_handle(env)?.into_instance();
         return player.current_server().map(|v| v.to_string()).to_jni(env);
     }

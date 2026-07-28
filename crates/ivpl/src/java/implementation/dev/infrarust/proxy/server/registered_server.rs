@@ -2,13 +2,12 @@ use infrarust_api::{
     prelude::{ConfigService, PlayerRegistry},
     types::ServerId,
 };
+use ivpl_java_binding::net::inet_socket_address::InetSocketAddress;
 use jni::objects::JString;
 
 use crate::{
-    handle::Handle,
-    java::{
-        ToJni,
-        generated::{
+    handle::Handle, java::{
+        ToJni, generated::{
             com::velocitypowered::api::proxy::server::ServerInfo,
             dev::infrarust::proxy::{
                 InfrarustPlayer,
@@ -17,9 +16,7 @@ use crate::{
                     InfrarustRegisteredServerNativeInterface,
                 },
             },
-        },
-        handle::NewTypeHandle,
-        implementation::java::net::inet_socket_address::InetSocketAddress,
+        }, handle::NewTypeHandle,
     },
 };
 
