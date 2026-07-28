@@ -3,6 +3,36 @@
 use jni::bind_java_type;
 
 bind_java_type! {
+    pub InfrarustEventManagerContinuationTask => "dev.infrarust.event.InfrarustEventManager$ContinuationTask",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::event::Continuation => "com.velocitypowered.api.event.Continuation",
+        crate::java::generated::com::velocitypowered::api::event::EventTask => "com.velocitypowered.api.event.EventTask",
+        crate::java::generated::dev::infrarust::event::InfrarustEventManager => "dev.infrarust.event.InfrarustEventManager",
+        crate::java::generated::dev::infrarust::event::InfrarustEventManagerRegisteredEventHandler => "dev.infrarust.event.InfrarustEventManager$RegisteredEventHandler",
+    },
+    constructors {
+        fn new(arg0: crate::java::generated::dev::infrarust::event::InfrarustEventManager, arg1: crate::java::generated::com::velocitypowered::api::event::EventTask, arg2: crate::java::generated::dev::infrarust::event::InfrarustEventManagerRegisteredEventHandler[], arg3: "java.util.concurrent.CompletableFuture", arg4: JObject, arg5: jint, arg6: jboolean),
+    },
+    methods {
+        fn execute() -> jboolean,
+        fn resume {
+            name = "resume",
+            sig = (),
+        },
+        #[allow(non_snake_case)]
+        fn resume2 {
+            name = "resume",
+            sig = (arg0: JThrowable, arg1: jboolean),
+        },
+        fn resume_with_exception(arg0: JThrowable),
+        fn run(),
+    },
+    is_instance_of = {
+        crate::java::generated::com::velocitypowered::api::event::Continuation,
+    },
+}
+
+bind_java_type! {
     pub InfrarustEventManagerEventHandlingMethod => "dev.infrarust.event.InfrarustEventManager$EventHandlingMethod",
     type_map = {
         crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel => "dev.infrarust.event.InfrarustEventManager$AsyncLevel",
@@ -48,6 +78,10 @@ bind_java_type! {
 }
 
 bind_java_type! {
+    pub InfrarustEventManager1 => "dev.infrarust.event.InfrarustEventManager$1",
+}
+
+bind_java_type! {
     pub InfrarustEventManager => "dev.infrarust.event.InfrarustEventManager",
     type_map = {
         crate::java::generated::com::velocitypowered::api::event::EventHandler => "com.velocitypowered.api.event.EventHandler",
@@ -70,7 +104,7 @@ bind_java_type! {
         },
     },
     methods {
-        fn call_event_handlers(arg0: JObject, arg1: "java.util.concurrent.CompletableFuture", arg2: jboolean, arg3: JList),
+        fn call_event_handlers(arg0: JObject, arg1: "java.util.concurrent.CompletableFuture", arg2: jint, arg3: jboolean, arg4: crate::java::generated::dev::infrarust::event::InfrarustEventManagerRegisteredEventHandler[]),
         fn extract_event_handling_method {
             name = "extractEventHandlingMethod",
             sig = (arg0: JClass) -> JMap,
@@ -81,6 +115,7 @@ bind_java_type! {
             sig = (arg0: JClass, arg1: JMap) -> JMap,
         },
         fn fire(arg0: JObject) -> "java.util.concurrent.CompletableFuture",
+        static fn log_handler_exception(arg0: crate::java::generated::dev::infrarust::event::InfrarustEventManagerRegisteredEventHandler, arg1: JThrowable),
         static fn map_order(arg0: crate::java::generated::com::velocitypowered::api::event::PostOrder) -> jshort,
         fn register {
             name = "register",
@@ -163,8 +198,10 @@ bind_java_type! {
 /// * `env` - The JNI environment
 /// * `loader` - The LoaderContext to use for loading classes
 pub fn jni_init(env: &::jni::Env, loader: &::jni::refs::LoaderContext) -> ::jni::errors::Result<()> {
+    let _ = InfrarustEventManagerContinuationTaskAPI::get(env, loader)?;
     let _ = InfrarustEventManagerEventHandlingMethodAPI::get(env, loader)?;
     let _ = InfrarustEventManagerAsyncLevelAPI::get(env, loader)?;
+    let _ = InfrarustEventManager1API::get(env, loader)?;
     let _ = InfrarustEventManagerAPI::get(env, loader)?;
     let _ = InfrarustEventManagerRegisteredEventHandlerAPI::get(env, loader)?;
     let _ = EventHandlerBuilderAPI::get(env, loader)?;

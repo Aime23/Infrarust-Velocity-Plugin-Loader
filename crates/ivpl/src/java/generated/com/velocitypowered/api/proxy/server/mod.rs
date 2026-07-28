@@ -6,10 +6,10 @@ bind_java_type! {
     pub ServerInfo => "com.velocitypowered.api.proxy.server.ServerInfo",
     type_map = {
         crate::java::generated::com::velocitypowered::api::proxy::server::ServerInfo => "com.velocitypowered.api.proxy.server.ServerInfo",
-        crate::java::implementation::java::net::inet_socket_address::InetSocketAddress => "java.net.InetSocketAddress",
+        ivpl_java_binding::net::inet_socket_address::InetSocketAddress => "java.net.InetSocketAddress",
     },
     constructors {
-        fn new(arg0: JString, arg1: crate::java::implementation::java::net::inet_socket_address::InetSocketAddress),
+        fn new(arg0: JString, arg1: ivpl_java_binding::net::inet_socket_address::InetSocketAddress),
     },
     methods {
         fn compare_to_server_info {
@@ -21,7 +21,7 @@ bind_java_type! {
             sig = (arg0: JObject) -> jint,
         },
         fn equals(arg0: JObject) -> jboolean,
-        fn get_address() -> crate::java::implementation::java::net::inet_socket_address::InetSocketAddress,
+        fn get_address() -> ivpl_java_binding::net::inet_socket_address::InetSocketAddress,
         fn get_name() -> JString,
         fn hash_code() -> jint,
         fn to_string() -> JString,

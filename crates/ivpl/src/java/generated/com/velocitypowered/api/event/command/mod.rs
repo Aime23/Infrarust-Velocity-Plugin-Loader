@@ -7,7 +7,7 @@ bind_java_type! {
     type_map = {
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::command::CommandExecuteEventCommandResult => "com.velocitypowered.api.event.command.CommandExecuteEvent$CommandResult",
-        crate::java::implementation::java::util::optional::Optional => "java.util.Optional",
+        ivpl_java_binding::util::optional::Optional => "java.util.Optional",
     },
     constructors {
         fn new(arg0: jboolean, arg1: jboolean, arg2: JString),
@@ -24,7 +24,7 @@ bind_java_type! {
             name = "forwardToServer",
             sig = (arg0: JString) -> crate::java::generated::com::velocitypowered::api::event::command::CommandExecuteEventCommandResult,
         },
-        fn get_command() -> crate::java::implementation::java::util::optional::Optional,
+        fn get_command() -> ivpl_java_binding::util::optional::Optional,
         fn is_allowed() -> jboolean,
         fn is_forward_to_server() -> jboolean,
         fn to_string() -> JString,

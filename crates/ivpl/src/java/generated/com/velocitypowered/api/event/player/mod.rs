@@ -291,7 +291,7 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::ResultedEvent => "com.velocitypowered.api.event.ResultedEvent",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::player::KickedFromServerEventServerKickResult => "com.velocitypowered.api.event.player.KickedFromServerEvent$ServerKickResult",
-        crate::java::implementation::java::util::optional::Optional => "java.util.Optional",
+        ivpl_java_binding::util::optional::Optional => "java.util.Optional",
         crate::java::generated::net::kyori::adventure::text::Component => "net.kyori.adventure.text.Component",
     },
     constructors {
@@ -309,7 +309,7 @@ bind_java_type! {
             sig = () -> crate::java::generated::com::velocitypowered::api::event::player::KickedFromServerEventServerKickResult,
         },
         fn get_server() -> "com.velocitypowered.api.proxy.server.RegisteredServer",
-        fn get_server_kick_reason() -> crate::java::implementation::java::util::optional::Optional,
+        fn get_server_kick_reason() -> ivpl_java_binding::util::optional::Optional,
         fn kicked_during_login() -> jboolean,
         fn kicked_during_server_connect() -> jboolean,
         fn set_result_resulted_event_result {
@@ -355,7 +355,7 @@ bind_java_type! {
     type_map = {
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::player::PlayerChatEventChatResult => "com.velocitypowered.api.event.player.PlayerChatEvent$ChatResult",
-        crate::java::implementation::java::util::optional::Optional => "java.util.Optional",
+        ivpl_java_binding::util::optional::Optional => "java.util.Optional",
     },
     constructors {
         fn new(arg0: jboolean, arg1: JString),
@@ -363,7 +363,7 @@ bind_java_type! {
     methods {
         static fn allowed() -> crate::java::generated::com::velocitypowered::api::event::player::PlayerChatEventChatResult,
         static fn denied() -> crate::java::generated::com::velocitypowered::api::event::player::PlayerChatEventChatResult,
-        fn get_message() -> crate::java::implementation::java::util::optional::Optional,
+        fn get_message() -> ivpl_java_binding::util::optional::Optional,
         fn is_allowed() -> jboolean,
         static fn message(arg0: JString) -> crate::java::generated::com::velocitypowered::api::event::player::PlayerChatEventChatResult,
         fn to_string() -> JString,
@@ -413,13 +413,13 @@ bind_java_type! {
 bind_java_type! {
     pub PlayerChooseInitialServerEvent => "com.velocitypowered.api.event.player.PlayerChooseInitialServerEvent",
     type_map = {
-        crate::java::implementation::java::util::optional::Optional => "java.util.Optional",
+        ivpl_java_binding::util::optional::Optional => "java.util.Optional",
     },
     constructors {
         fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.velocitypowered.api.proxy.server.RegisteredServer"),
     },
     methods {
-        fn get_initial_server() -> crate::java::implementation::java::util::optional::Optional,
+        fn get_initial_server() -> ivpl_java_binding::util::optional::Optional,
         fn get_player() -> "com.velocitypowered.api.proxy.Player",
         fn set_initial_server(arg0: "com.velocitypowered.api.proxy.server.RegisteredServer"),
         fn to_string() -> JString,
@@ -511,17 +511,17 @@ bind_java_type! {
     pub PlayerResourcePackStatusEvent => "com.velocitypowered.api.event.player.PlayerResourcePackStatusEvent",
     type_map = {
         crate::java::generated::com::velocitypowered::api::event::player::PlayerResourcePackStatusEventStatus => "com.velocitypowered.api.event.player.PlayerResourcePackStatusEvent$Status",
-        crate::java::implementation::java::util::uuid::UUID => "java.util.UUID",
+        ivpl_java_binding::util::uuid::UUID => "java.util.UUID",
     },
     constructors {
         fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: crate::java::generated::com::velocitypowered::api::event::player::PlayerResourcePackStatusEventStatus),
         #[allow(non_snake_case)]
         fn new3(arg0: "com.velocitypowered.api.proxy.Player", arg1: crate::java::generated::com::velocitypowered::api::event::player::PlayerResourcePackStatusEventStatus, arg2: "com.velocitypowered.api.proxy.player.ResourcePackInfo"),
         #[allow(non_snake_case)]
-        fn new4(arg0: "com.velocitypowered.api.proxy.Player", arg1: crate::java::implementation::java::util::uuid::UUID, arg2: crate::java::generated::com::velocitypowered::api::event::player::PlayerResourcePackStatusEventStatus, arg3: "com.velocitypowered.api.proxy.player.ResourcePackInfo"),
+        fn new4(arg0: "com.velocitypowered.api.proxy.Player", arg1: ivpl_java_binding::util::uuid::UUID, arg2: crate::java::generated::com::velocitypowered::api::event::player::PlayerResourcePackStatusEventStatus, arg3: "com.velocitypowered.api.proxy.player.ResourcePackInfo"),
     },
     methods {
-        fn get_pack_id() -> crate::java::implementation::java::util::uuid::UUID,
+        fn get_pack_id() -> ivpl_java_binding::util::uuid::UUID,
         fn get_pack_info() -> "com.velocitypowered.api.proxy.player.ResourcePackInfo",
         fn get_player() -> "com.velocitypowered.api.proxy.Player",
         fn get_status() -> crate::java::generated::com::velocitypowered::api::event::player::PlayerResourcePackStatusEventStatus,
@@ -546,14 +546,14 @@ bind_java_type! {
 bind_java_type! {
     pub ServerConnectedEvent => "com.velocitypowered.api.event.player.ServerConnectedEvent",
     type_map = {
-        crate::java::implementation::java::util::optional::Optional => "java.util.Optional",
+        ivpl_java_binding::util::optional::Optional => "java.util.Optional",
     },
     constructors {
         fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.velocitypowered.api.proxy.server.RegisteredServer", arg2: "com.velocitypowered.api.proxy.server.RegisteredServer"),
     },
     methods {
         fn get_player() -> "com.velocitypowered.api.proxy.Player",
-        fn get_previous_server() -> crate::java::implementation::java::util::optional::Optional,
+        fn get_previous_server() -> ivpl_java_binding::util::optional::Optional,
         fn get_server() -> "com.velocitypowered.api.proxy.server.RegisteredServer",
         fn to_string() -> JString,
     },
@@ -640,7 +640,7 @@ bind_java_type! {
     type_map = {
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::player::ServerPreConnectEventServerResult => "com.velocitypowered.api.event.player.ServerPreConnectEvent$ServerResult",
-        crate::java::implementation::java::util::optional::Optional => "java.util.Optional",
+        ivpl_java_binding::util::optional::Optional => "java.util.Optional",
     },
     constructors {
         fn new(arg0: "com.velocitypowered.api.proxy.server.RegisteredServer"),
@@ -648,7 +648,7 @@ bind_java_type! {
     methods {
         static fn allowed(arg0: "com.velocitypowered.api.proxy.server.RegisteredServer") -> crate::java::generated::com::velocitypowered::api::event::player::ServerPreConnectEventServerResult,
         static fn denied() -> crate::java::generated::com::velocitypowered::api::event::player::ServerPreConnectEventServerResult,
-        fn get_server() -> crate::java::implementation::java::util::optional::Optional,
+        fn get_server() -> ivpl_java_binding::util::optional::Optional,
         fn is_allowed() -> jboolean,
         fn to_string() -> JString,
     },
@@ -703,13 +703,13 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::ResultedEvent => "com.velocitypowered.api.event.ResultedEvent",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventGenericResult => "com.velocitypowered.api.event.ResultedEvent$GenericResult",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
-        crate::java::implementation::java::util::uuid::UUID => "java.util.UUID",
+        ivpl_java_binding::util::uuid::UUID => "java.util.UUID",
     },
     constructors {
-        fn new(arg0: crate::java::implementation::java::util::uuid::UUID, arg1: "com.velocitypowered.api.proxy.ServerConnection"),
+        fn new(arg0: ivpl_java_binding::util::uuid::UUID, arg1: "com.velocitypowered.api.proxy.ServerConnection"),
     },
     methods {
-        fn get_pack_id() -> crate::java::implementation::java::util::uuid::UUID,
+        fn get_pack_id() -> ivpl_java_binding::util::uuid::UUID,
         fn get_result {
             name = "getResult",
             sig = () -> crate::java::generated::com::velocitypowered::api::event::ResultedEventGenericResult,

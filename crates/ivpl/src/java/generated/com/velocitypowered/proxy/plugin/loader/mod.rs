@@ -6,7 +6,7 @@ bind_java_type! {
     pub VelocityPluginContainer => "com.velocitypowered.proxy.plugin.loader.VelocityPluginContainer",
     type_map = {
         crate::java::generated::com::velocitypowered::api::plugin::PluginContainer => "com.velocitypowered.api.plugin.PluginContainer",
-        crate::java::implementation::java::util::optional::Optional => "java.util.Optional",
+        ivpl_java_binding::util::optional::Optional => "java.util.Optional",
     },
     constructors {
         fn new(arg0: "com.velocitypowered.api.plugin.PluginDescription"),
@@ -14,7 +14,7 @@ bind_java_type! {
     methods {
         fn get_description() -> "com.velocitypowered.api.plugin.PluginDescription",
         fn get_executor_service() -> "java.util.concurrent.ExecutorService",
-        fn get_instance() -> crate::java::implementation::java::util::optional::Optional,
+        fn get_instance() -> ivpl_java_binding::util::optional::Optional,
         fn has_executor_service() -> jboolean,
         fn set_instance(arg0: JObject),
     },

@@ -7,13 +7,13 @@ bind_java_type! {
     type_map = {
         crate::java::generated::com::velocitypowered::api::plugin::PluginContainer => "com.velocitypowered.api.plugin.PluginContainer",
         crate::java::generated::dev::infrarust::proxy::InfrarustServer => "dev.infrarust.proxy.InfrarustServer",
-        crate::java::implementation::java::nio::file::path::Path => "java.nio.file.Path",
+        ivpl_java_binding::nio::file::path::Path => "java.nio.file.Path",
     },
     constructors {
         fn new(arg0: crate::java::generated::dev::infrarust::proxy::InfrarustServer),
     },
     methods {
-        fn load_plugin(arg0: crate::java::implementation::java::nio::file::path::Path, arg1: crate::java::implementation::java::nio::file::path::Path) -> crate::java::generated::com::velocitypowered::api::plugin::PluginContainer,
+        fn load_plugin(arg0: ivpl_java_binding::nio::file::path::Path, arg1: ivpl_java_binding::nio::file::path::Path) -> crate::java::generated::com::velocitypowered::api::plugin::PluginContainer,
     },
 }
 

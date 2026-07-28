@@ -5,12 +5,12 @@ use jni::bind_java_type;
 bind_java_type! {
     pub PluginContainer => "com.velocitypowered.api.plugin.PluginContainer",
     type_map = {
-        crate::java::implementation::java::util::optional::Optional => "java.util.Optional",
+        ivpl_java_binding::util::optional::Optional => "java.util.Optional",
     },
     methods {
         fn get_description() -> "com.velocitypowered.api.plugin.PluginDescription",
         fn get_executor_service() -> "java.util.concurrent.ExecutorService",
-        fn get_instance() -> crate::java::implementation::java::util::optional::Optional,
+        fn get_instance() -> ivpl_java_binding::util::optional::Optional,
     },
 }
 

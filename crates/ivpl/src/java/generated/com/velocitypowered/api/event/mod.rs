@@ -183,7 +183,7 @@ bind_java_type! {
     type_map = {
         crate::java::generated::com::velocitypowered::api::event::ResultedEventComponentResult => "com.velocitypowered.api.event.ResultedEvent$ComponentResult",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
-        crate::java::implementation::java::util::optional::Optional => "java.util.Optional",
+        ivpl_java_binding::util::optional::Optional => "java.util.Optional",
         crate::java::generated::net::kyori::adventure::text::Component => "net.kyori.adventure.text.Component",
     },
     constructors {
@@ -192,7 +192,7 @@ bind_java_type! {
     methods {
         static fn allowed() -> crate::java::generated::com::velocitypowered::api::event::ResultedEventComponentResult,
         static fn denied(arg0: crate::java::generated::net::kyori::adventure::text::Component) -> crate::java::generated::com::velocitypowered::api::event::ResultedEventComponentResult,
-        fn get_reason_component() -> crate::java::implementation::java::util::optional::Optional,
+        fn get_reason_component() -> ivpl_java_binding::util::optional::Optional,
         fn is_allowed() -> jboolean,
         fn to_string() -> JString,
     },

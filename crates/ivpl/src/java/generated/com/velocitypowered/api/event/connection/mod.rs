@@ -230,7 +230,7 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::connection::PreLoginEventPreLoginComponentResult => "com.velocitypowered.api.event.connection.PreLoginEvent$PreLoginComponentResult",
         crate::java::generated::com::velocitypowered::api::event::connection::PreLoginEventPreLoginComponentResultResult => "com.velocitypowered.api.event.connection.PreLoginEvent$PreLoginComponentResult$Result",
-        crate::java::implementation::java::util::optional::Optional => "java.util.Optional",
+        ivpl_java_binding::util::optional::Optional => "java.util.Optional",
         crate::java::generated::net::kyori::adventure::text::Component => "net.kyori.adventure.text.Component",
     },
     constructors {
@@ -241,7 +241,7 @@ bind_java_type! {
         static fn denied(arg0: crate::java::generated::net::kyori::adventure::text::Component) -> crate::java::generated::com::velocitypowered::api::event::connection::PreLoginEventPreLoginComponentResult,
         static fn force_offline_mode() -> crate::java::generated::com::velocitypowered::api::event::connection::PreLoginEventPreLoginComponentResult,
         static fn force_online_mode() -> crate::java::generated::com::velocitypowered::api::event::connection::PreLoginEventPreLoginComponentResult,
-        fn get_reason_component() -> crate::java::implementation::java::util::optional::Optional,
+        fn get_reason_component() -> ivpl_java_binding::util::optional::Optional,
         fn is_allowed() -> jboolean,
         fn is_force_offline_mode() -> jboolean,
         fn is_online_mode_allowed() -> jboolean,
@@ -258,12 +258,12 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::ResultedEvent => "com.velocitypowered.api.event.ResultedEvent",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::connection::PreLoginEventPreLoginComponentResult => "com.velocitypowered.api.event.connection.PreLoginEvent$PreLoginComponentResult",
-        crate::java::implementation::java::util::uuid::UUID => "java.util.UUID",
+        ivpl_java_binding::util::uuid::UUID => "java.util.UUID",
     },
     constructors {
         fn new(arg0: "com.velocitypowered.api.proxy.InboundConnection", arg1: JString),
         #[allow(non_snake_case)]
-        fn new3(arg0: "com.velocitypowered.api.proxy.InboundConnection", arg1: JString, arg2: crate::java::implementation::java::util::uuid::UUID),
+        fn new3(arg0: "com.velocitypowered.api.proxy.InboundConnection", arg1: JString, arg2: ivpl_java_binding::util::uuid::UUID),
     },
     methods {
         fn get_connection() -> "com.velocitypowered.api.proxy.InboundConnection",
@@ -276,7 +276,7 @@ bind_java_type! {
             name = "getResult",
             sig = () -> crate::java::generated::com::velocitypowered::api::event::connection::PreLoginEventPreLoginComponentResult,
         },
-        fn get_unique_id() -> crate::java::implementation::java::util::uuid::UUID,
+        fn get_unique_id() -> ivpl_java_binding::util::uuid::UUID,
         fn get_username() -> JString,
         fn set_result_resulted_event_result {
             name = "setResult",
@@ -298,17 +298,17 @@ bind_java_type! {
     type_map = {
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::connection::PreTransferEventTransferResult => "com.velocitypowered.api.event.connection.PreTransferEvent$TransferResult",
-        crate::java::implementation::java::net::inet_socket_address::InetSocketAddress => "java.net.InetSocketAddress",
+        ivpl_java_binding::net::inet_socket_address::InetSocketAddress => "java.net.InetSocketAddress",
     },
     constructors {
-        fn new(arg0: jboolean, arg1: crate::java::implementation::java::net::inet_socket_address::InetSocketAddress),
+        fn new(arg0: jboolean, arg1: ivpl_java_binding::net::inet_socket_address::InetSocketAddress),
     },
     methods {
-        fn address() -> crate::java::implementation::java::net::inet_socket_address::InetSocketAddress,
+        fn address() -> ivpl_java_binding::net::inet_socket_address::InetSocketAddress,
         static fn allowed() -> crate::java::generated::com::velocitypowered::api::event::connection::PreTransferEventTransferResult,
         static fn denied() -> crate::java::generated::com::velocitypowered::api::event::connection::PreTransferEventTransferResult,
         fn is_allowed() -> jboolean,
-        static fn transfer_to(arg0: crate::java::implementation::java::net::inet_socket_address::InetSocketAddress) -> crate::java::generated::com::velocitypowered::api::event::connection::PreTransferEventTransferResult,
+        static fn transfer_to(arg0: ivpl_java_binding::net::inet_socket_address::InetSocketAddress) -> crate::java::generated::com::velocitypowered::api::event::connection::PreTransferEventTransferResult,
     },
     is_instance_of = {
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult,
@@ -321,10 +321,10 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::ResultedEvent => "com.velocitypowered.api.event.ResultedEvent",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::connection::PreTransferEventTransferResult => "com.velocitypowered.api.event.connection.PreTransferEvent$TransferResult",
-        crate::java::implementation::java::net::inet_socket_address::InetSocketAddress => "java.net.InetSocketAddress",
+        ivpl_java_binding::net::inet_socket_address::InetSocketAddress => "java.net.InetSocketAddress",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: crate::java::implementation::java::net::inet_socket_address::InetSocketAddress),
+        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: ivpl_java_binding::net::inet_socket_address::InetSocketAddress),
     },
     methods {
         fn get_result {
@@ -336,7 +336,7 @@ bind_java_type! {
             name = "getResult",
             sig = () -> crate::java::generated::com::velocitypowered::api::event::connection::PreTransferEventTransferResult,
         },
-        fn original_address() -> crate::java::implementation::java::net::inet_socket_address::InetSocketAddress,
+        fn original_address() -> ivpl_java_binding::net::inet_socket_address::InetSocketAddress,
         fn player() -> "com.velocitypowered.api.proxy.Player",
         fn set_result_resulted_event_result {
             name = "setResult",
