@@ -9,19 +9,15 @@ use jni::{
     vm::JavaVM,
 };
 
-use crate::{
-    errors::CustomError,
-    java::{
-        generated::{
-            com::velocitypowered::api::event::player::ServerConnectedEvent,
-            dev::infrarust::event::{
-                InfrarustEventManager, InfrarustEventManagerAPI,
-                InfrarustEventManagerNativeInterface,
-            },
+use crate::java::{
+    generated::{
+        com::velocitypowered::api::event::player::ServerConnectedEvent,
+        dev::infrarust::event::{
+            InfrarustEventManager, InfrarustEventManagerAPI, InfrarustEventManagerNativeInterface,
         },
-        handle::NewTypeHandle,
-        implementation::dev::infrarust::events::TryFromInfrarustEvent,
     },
+    handle::NewTypeHandle,
+    implementation::dev::infrarust::events::TryFromInfrarustEvent,
 };
 
 impl InfrarustEventManagerNativeInterface for InfrarustEventManagerAPI {

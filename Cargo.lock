@@ -397,7 +397,6 @@ dependencies = [
  "serde_json",
  "serial_test",
  "uuid",
- "zip",
 ]
 
 [[package]]
@@ -414,6 +413,19 @@ version = "0.1.0"
 dependencies = [
  "jni",
  "uuid",
+]
+
+[[package]]
+name = "ivpl-loader"
+version = "0.1.0"
+dependencies = [
+ "infrarust-api",
+ "ivpl",
+ "ivpl-java",
+ "jni",
+ "serde",
+ "serde_json",
+ "zip",
 ]
 
 [[package]]

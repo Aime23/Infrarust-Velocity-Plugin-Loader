@@ -11,8 +11,9 @@ license = "AGPL-3"
 authors = ["Aime23"]
 
 [workspace.dependencies]
-ivpl-java-binding = { version = "0.1.0", path = "./crates/ivpl-java-binding"}
+ivpl = { version = "0.1.0", path = "./crates/ivpl"}
 ivpl-java = { version = "0.1.0", path = "./crates/ivpl-java"}
+ivpl-java-binding = { version = "0.1.0", path = "./crates/ivpl-java-binding"}
 
 jni = { version = "0.22.4", features = ["invocation"], path = "./vendor/jni-rs/crates/jni" }
 derive_more = { version = "2.1.1", features = ["into", "from"] }

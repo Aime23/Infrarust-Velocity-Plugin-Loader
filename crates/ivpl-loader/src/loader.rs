@@ -1,3 +1,8 @@
+use crate::{
+    errors::CustomError,
+    plugin::{plugin_candidate::PluginCandidate, velocity_plugin::VelocityPlugin},
+};
+
 use std::{
     collections::HashMap,
     sync::{Arc, Mutex},
@@ -14,18 +19,12 @@ use jni::{
     vm::{InitArgsBuilder, JavaVM},
 };
 
-use crate::{
-    errors::CustomError,
-    handle::Handle,
-    java::{
-        ToJni, TryFromJni, TryFromJniNullable,
-        generated::{
-            com::velocitypowered::api::plugin::PluginContainer,
-            dev::infrarust::proxy::InfrarustServer,
-        },
-        handle::{NewTypeHandle, PluginContextHandle},
+use ivpl::java::{
+    ToJni, TryFromJniNullable,
+    generated::{
+        com::velocitypowered::api::plugin::PluginContainer, dev::infrarust::proxy::InfrarustServer,
     },
-    plugin::{plugin_candidate::PluginCandidate, velocity_plugin::VelocityPlugin},
+    handle::{NewTypeHandle, PluginContextHandle},
 };
 
 pub struct PluginLoaderVelocity {

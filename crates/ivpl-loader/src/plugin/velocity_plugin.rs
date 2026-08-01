@@ -3,12 +3,11 @@ use std::sync::Mutex;
 use infrarust_api::{error::PluginError, plugin::Plugin};
 use jni::{refs::Global, vm::JavaVM};
 
-use crate::{
-    java::generated::com::velocitypowered::{
-        api::plugin::PluginContainer, proxy::plugin::loader::VelocityPluginContainer,
-    },
-    plugin::plugin_candidate::PluginCandidate,
+use ivpl::java::generated::com::velocitypowered::{
+    api::plugin::PluginContainer, proxy::plugin::loader::VelocityPluginContainer,
 };
+
+use crate::plugin::plugin_candidate::PluginCandidate;
 
 pub struct VelocityPlugin {
     candidate: PluginCandidate,
