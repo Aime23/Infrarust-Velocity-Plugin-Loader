@@ -78,6 +78,9 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <finalName>shaded</finalName>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
