@@ -4,10 +4,6 @@ use jni::{
     objects::{JByteArray, JClassLoader},
 };
 
-use ivpl_java_binding::{
-    io::byte_array_input_stream::ByteArrayInputStream, util::jar::jar_input_stream::JarInputStream,
-};
-
 pub const JAR_BYTES: &[i8] =
     unsafe { std::mem::transmute::<&[u8], &[i8]>(include_bytes!(env!("JAR_PATH"))) };
 
