@@ -211,7 +211,7 @@ impl PluginLoaderVelocity {
             .map_err(|err| LoaderError::LoadFailed {
                 plugin_id: "".to_owned(),
                 reason: err.to_string(),
-                source: None,
+                source: Some(Box::new(err)),
             })?;
         Ok(())
     }
