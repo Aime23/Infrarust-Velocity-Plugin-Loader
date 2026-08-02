@@ -1,3 +1,6 @@
-bindgen:
+bindgen-java-build:
+	cd crates/ivpl-java/infrarust-velocity && mvn package
+bindgen-generate:
 	mkdir -p crates/ivpl/src/java/generated
-	jbindgen classfile crates/ivpl-java/infrarust-velocity/target/infrarust-velocity-1.0-SNAPSHOT.jar --output-dir crates/ivpl/src/java/generated --type-map crates/ivpl/src/java/implementation/type_map --output-type-map crates/ivpl/src/java/generated/type_map --pattern="dev.*" --pattern="com.velocitypowered.api.proxy.server.ServerInfo" --pattern="com.velocitypowered.api.proxy.server.ServerInfo" --pattern="com.velocitypowered.proxy.plugin.loader.VelocityPluginContainer" --pattern="com.velocitypowered.api.plugin.PluginContainer" --pattern="com.velocitypowered.api.event" --pattern="net.kyori.adventure.text.Component" --root crate::java::generated
+	jbindgen classfile crates/ivpl-java/infrarust-velocity/target/shaded.jar --output-dir crates/ivpl/src/java/generated --type-map crates/ivpl/src/java/implementation/type_map --output-type-map crates/ivpl/src/java/generated/type_map --pattern="dev.*" --pattern="com.velocitypowered.api.proxy.server.ServerInfo" --pattern="com.velocitypowered.api.proxy.server.ServerInfo" --pattern="com.velocitypowered.proxy.plugin.loader.VelocityPluginContainer" --pattern="com.velocitypowered.api.plugin.PluginContainer" --pattern="com.velocitypowered.api.event" --pattern="net.kyori.adventure.text.Component" --root crate::java::generated
+bindgen: bindgen-java-build bindgen-generate
