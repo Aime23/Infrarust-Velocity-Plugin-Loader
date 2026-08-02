@@ -80,10 +80,10 @@ impl PluginLoader for PluginLoaderVelocity {
     ) -> BoxFuture<'a, Result<Box<dyn Plugin>, LoaderError>> {
         // TODO: Propagate error
         return Box::pin(async move {
-            let jvm = self.jvm.lock().map_err(|err| LoaderError::LoadFailed {
+            let jvm = self.jvm.lock().map_err(|_err| LoaderError::LoadFailed {
                 plugin_id: plugin_id.to_owned(),
                 reason: "Unable to acquire read lock for JVM".to_owned(),
-                source: Some(Box::(err)),
+                source: None,
             })?;
 
             let jvm = jvm.as_ref().ok_or(LoaderError::LoadFailed {
@@ -91,10 +91,10 @@ impl PluginLoader for PluginLoaderVelocity {
                 reason: "JVM not initialized".to_owned(),
                 source: None,
             })?;
-            let server = self.server.lock().map_err(|err| LoaderError::LoadFailed {
+            let server = self.server.lock().map_err(|_err| LoaderError::LoadFailed {
                 plugin_id: plugin_id.to_owned(),
                 reason: "Unable to acquire read lock for InfrarustServer".to_owned(),
-                source: Some(Box::new(err)),
+                source: None,
             })?;
             let server = server.as_ref().ok_or(LoaderError::LoadFailed {
                 plugin_id: plugin_id.to_owned(),
