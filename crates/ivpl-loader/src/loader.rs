@@ -76,14 +76,14 @@ impl PluginLoader for PluginLoaderVelocity {
     fn load<'a>(
         &'a self,
         plugin_id: &'a str,
-        context_factory: &'a dyn PluginContextFactory,
+        _context_factory: &'a dyn PluginContextFactory,
     ) -> BoxFuture<'a, Result<Box<dyn Plugin>, LoaderError>> {
         // TODO: Propagate error
         return Box::pin(async move {
             let jvm = self.jvm.lock().map_err(|err| LoaderError::LoadFailed {
                 plugin_id: plugin_id.to_owned(),
                 reason: "Unable to acquire read lock for JVM".to_owned(),
-                source: None,
+                source: Some(Box::(err)),
             })?;
 
             let jvm = jvm.as_ref().ok_or(LoaderError::LoadFailed {
@@ -94,7 +94,7 @@ impl PluginLoader for PluginLoaderVelocity {
             let server = self.server.lock().map_err(|err| LoaderError::LoadFailed {
                 plugin_id: plugin_id.to_owned(),
                 reason: "Unable to acquire read lock for InfrarustServer".to_owned(),
-                source: None,
+                source: Some(Box::new(err)),
             })?;
             let server = server.as_ref().ok_or(LoaderError::LoadFailed {
                 plugin_id: plugin_id.to_owned(),
@@ -104,7 +104,7 @@ impl PluginLoader for PluginLoaderVelocity {
             let index_lock = self
                 .plugin_index
                 .lock()
-                .map_err(|err| LoaderError::LoadFailed {
+                .map_err(|_err| LoaderError::LoadFailed {
                     plugin_id: plugin_id.to_owned(),
                     reason: "Unable to acquire read lock for plugin_index".to_owned(),
                     source: None,
@@ -139,7 +139,7 @@ impl PluginLoader for PluginLoaderVelocity {
         });
     }
 
-    fn unload<'a>(&'a self, plugin_id: &'a str) -> BoxFuture<'a, Result<(), LoaderError>> {
+    fn unload<'a>(&'a self, _plugin_id: &'a str) -> BoxFuture<'a, Result<(), LoaderError>> {
         todo!()
     }
 
@@ -172,7 +172,7 @@ impl PluginLoaderVelocity {
             reason: "Unable to initilialize JVM".to_owned(),
             source: Some(err.into()),
         })?;
-        let mut lock = self.jvm.lock().map_err(|err| LoaderError::LoadFailed {
+        let mut lock = self.jvm.lock().map_err(|_err| LoaderError::LoadFailed {
             plugin_id: "VelocityLoader".to_owned(),
             reason: "Unable to acquire JVM write lock".to_owned(),
             source: None,
@@ -185,13 +185,13 @@ impl PluginLoaderVelocity {
         &self,
         context: Arc<dyn PluginContext>,
     ) -> Result<(), LoaderError> {
-        let jvm_lock = self.jvm.lock().map_err(|err| LoaderError::LoadFailed {
+        let jvm_lock = self.jvm.lock().map_err(|_err| LoaderError::LoadFailed {
             plugin_id: "VelocityLoader".to_owned(),
             reason: "Unable to acquire JVM read lock".to_owned(),
             source: None,
         })?;
 
-        let mut server_lock = self.server.lock().map_err(|err| LoaderError::LoadFailed {
+        let mut server_lock = self.server.lock().map_err(|_err| LoaderError::LoadFailed {
             plugin_id: "VelocityLoader".to_owned(),
             reason: "Unable to acquire server write lock".to_owned(),
             source: None,

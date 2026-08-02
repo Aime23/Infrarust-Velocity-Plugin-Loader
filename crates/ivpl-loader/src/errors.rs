@@ -1,4 +1,3 @@
-use infrarust_api::loader::LoaderError;
 
 pub struct CustomError {
     pub reason: String,

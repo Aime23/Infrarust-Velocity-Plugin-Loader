@@ -1,11 +1,9 @@
 use std::sync::Mutex;
 
-use infrarust_api::{error::PluginError, plugin::Plugin};
+use infrarust_api::plugin::Plugin;
 use jni::{refs::Global, vm::JavaVM};
 
-use ivpl::java::generated::com::velocitypowered::{
-    api::plugin::PluginContainer, proxy::plugin::loader::VelocityPluginContainer,
-};
+use ivpl::java::generated::com::velocitypowered::api::plugin::PluginContainer;
 
 use crate::plugin::plugin_candidate::PluginCandidate;
 
@@ -22,7 +20,7 @@ impl Plugin for VelocityPlugin {
 
     fn on_enable<'a>(
         &'a self,
-        ctx: &'a dyn infrarust_api::prelude::PluginContext,
+        _ctx: &'a dyn infrarust_api::prelude::PluginContext,
     ) -> infrarust_api::prelude::BoxFuture<'a, Result<(), infrarust_api::prelude::PluginError>>
     {
         return Box::pin(async move {
