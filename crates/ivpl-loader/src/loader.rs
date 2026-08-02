@@ -161,7 +161,6 @@ impl PluginLoaderVelocity {
         let args = InitArgsBuilder::new()
             .version(JNIVersion::V1_8)
             .option("-Xcheck:jni")
-            .option("-Djava.class.path=./java/")
             .build()
             .map_err(|err| LoaderError::LoadFailed {
                 plugin_id: "VelocityLoader".to_owned(),
@@ -202,6 +201,10 @@ impl PluginLoaderVelocity {
             .as_ref()
             .unwrap()
             .attach_current_thread(|env| -> jni::errors::Result<()> {
+                let loader = ivpl_java::setup_class_loader(env)?;
+                let loader = loader.as_class_loader();
+                ivpl::java::generated::jni_init(env, &jni::refs::LoaderContext::Loader(&loader))?;
+
                 let handle = PluginContextHandle::from_instance(Box::new(context));
                 let server = InfrarustServer::new(env, handle)?;
                 let server = env.new_global_ref(server)?;
