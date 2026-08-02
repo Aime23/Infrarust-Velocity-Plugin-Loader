@@ -11,8 +11,14 @@ fn main() {
     }
 
     println!("cargo:rerun-if-changed={}", java_dir.join("src").display());
-    println!("cargo:rerun-if-changed={}", java_dir.join("velocity").display());
-    println!("cargo:rerun-if-changed={}", java_dir.join("pom.xml").display());
+    println!(
+        "cargo:rerun-if-changed={}",
+        java_dir.join("velocity/source/proxy").display()
+    );
+    println!(
+        "cargo:rerun-if-changed={}",
+        java_dir.join("pom.xml").display()
+    );
 
     let mvn_output = Command::new("mvn")
         .args(["package"])
@@ -20,8 +26,8 @@ fn main() {
         .output()
         .expect("Failed to run `mvn package`; ensure Maven is installed and the project builds");
     if !mvn_output.status.success() {
-        eprintln!(
-            "Maven build failed:\n{}\n{}",
+        println!(
+            "cargo::error=Maven build failed:\n{}\n{}",
             String::from_utf8_lossy(&mvn_output.stderr),
             String::from_utf8_lossy(&mvn_output.stdout)
         );
@@ -29,22 +35,20 @@ fn main() {
     }
 
     let target_dir = java_dir.join("target");
-    let jar_file = target_dir
-        .read_dir()
-        .expect("Cannot read target dir")
-        .into_iter()
-        .filter_map(|e| e.ok())
-        .find(|e| {
-            e.path()
-                .extension()
-                .map(|ext| ext == "jar")
-                .unwrap_or(false)
-        })
-        .expect("No .jar file found in target/; check pom.xml and build output");
+    let jar_name = env::var_os("JAVA_ARTIFACT_NAME").unwrap_or("shaded.jar".into());
+    let jar_file = target_dir.join(&jar_name);
+
+    if !jar_file.exists() {
+        println!(
+            "cargo::error={} not found int target folder",
+            jar_name.to_string_lossy()
+        );
+        panic!("Output artefact not found")
+    }
 
     let out_dir = PathBuf::from(env::var_os("OUT_DIR").unwrap_or("./".into()));
     let dest = out_dir.join("lib.jar");
-    fs::copy(jar_file.path(), &dest).expect("Failed to copy JAR to OUT_DIR");
+    fs::copy(jar_file, &dest).expect("Failed to copy JAR to OUT_DIR");
 
     println!("cargo:rustc-env=JAR_PATH={}", dest.display());
 }
