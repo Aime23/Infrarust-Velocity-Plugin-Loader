@@ -404,6 +404,7 @@ name = "ivpl-java"
 version = "0.1.0"
 dependencies = [
  "ivpl-java-binding",
+ "ivpl-java-classloader",
  "jni",
 ]
 
@@ -413,6 +414,14 @@ version = "0.1.0"
 dependencies = [
  "jni",
  "uuid",
+]
+
+[[package]]
+name = "ivpl-java-classloader"
+version = "0.1.0"
+dependencies = [
+ "javac",
+ "jni",
 ]
 
 [[package]]
@@ -435,6 +444,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "09c46c1fe465c59b1474e665e85e1256c3893dd00927b8d55f63b09044c1e64f"
 dependencies = [
  "glob",
+]
+
+[[package]]
+name = "javac"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "75a8efab869ad90ab3a84f7995f712e8808e0d9ba6f84bebaaa602a434d54e26"
+dependencies = [
+ "thiserror",
+ "which",
 ]
 
 [[package]]
@@ -1051,6 +1070,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dc1b4cb0cc549fcf58d7dfc081778139b3d283a081644e833e84682ad71cea24"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "which"
+version = "8.0.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8f3ef584124b911bcc3875c2f1472e80f24361ceb789bd1c62b3e9a3df9ff43c"
+dependencies = [
+ "libc",
 ]
 
 [[package]]

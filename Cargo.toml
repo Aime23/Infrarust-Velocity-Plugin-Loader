@@ -14,6 +14,7 @@ authors = ["Aime23"]
 ivpl = { version = "0.1.0", path = "./crates/ivpl"}
 ivpl-java = { version = "0.1.0", path = "./crates/ivpl-java"}
 ivpl-java-binding = { version = "0.1.0", path = "./crates/ivpl-java-binding"}
+ivpl-java-classloader = { version = "0.1.0", path = "./crates/ivpl-java-classloader"}
 
 jni = { version = "0.22.4", features = ["invocation"], path = "./vendor/jni-rs/crates/jni" }
 derive_more = { version = "2.1.1", features = ["into", "from"] }
