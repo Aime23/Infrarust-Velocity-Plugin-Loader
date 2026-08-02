@@ -65,7 +65,7 @@ impl TryFrom<&Path> for PluginCandidate {
 
 #[cfg(test)]
 mod tests {
-    use crate::types::velocity_plugin_metadata::VelocityPluginDependency;
+    use crate::plugin::velocity_plugin_metadata::VelocityPluginDependency;
 
     use super::*;
     use std::path::PathBuf;
