@@ -6,3 +6,6 @@
 	path = crates/ivpl-java/infrarust-velocity/velocity/source
 	url = https://github.com/PaperMC/Velocity.git
 	branch = rel/3.0.0
+[submodule "vendor/jbindgen"]
+	path = vendor/jbindgen
+	url = https://github.com/Aime23/jbindgen.git
