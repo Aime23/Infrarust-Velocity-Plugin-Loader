@@ -2,12 +2,16 @@ use infrarust_api::{
     prelude::{ConfigService, PlayerRegistry},
     types::ServerId,
 };
-use ivpl_java_binding::net::inet_socket_address::InetSocketAddress;
+use ivpl_java_binding::{
+    net::inet_socket_address::InetSocketAddress, util::concurrent::CompletableFuture,
+};
 use jni::objects::JString;
 
 use crate::{
-    handle::Handle, java::{
-        ToJni, generated::{
+    handle::Handle,
+    java::{
+        ToJni,
+        generated::{
             com::velocitypowered::api::proxy::server::ServerInfo,
             dev::infrarust::proxy::{
                 InfrarustPlayer,
@@ -16,7 +20,8 @@ use crate::{
                     InfrarustRegisteredServerNativeInterface,
                 },
             },
-        }, handle::NewTypeHandle,
+        },
+        handle::NewTypeHandle,
     },
 };
 
@@ -57,7 +62,7 @@ impl InfrarustRegisteredServerNativeInterface for InfrarustRegisteredServerAPI {
         env: &mut ::jni::Env<'local>,
         this: InfrarustRegisteredServer<'local>,
         ping_options: ::jni::objects::JObject<'local>,
-    ) -> ::std::result::Result<::jni::objects::JObject<'local>, Self::Error> {
+    ) -> Result<CompletableFuture<'local>, jni::errors::Error> {
         todo!()
     }
 
