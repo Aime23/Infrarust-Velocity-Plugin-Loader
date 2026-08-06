@@ -1,11 +1,12 @@
-use std::mem::ManuallyDrop;
+use std::{mem::ManuallyDrop, net::SocketAddr};
 
 use ivpl_java_binding::{
+    net::{inet_address::InetAddress, inet_socket_address::InetSocketAddress},
     nio::file::path::{Path, Paths},
     util::{optional::Optional, uuid::UUID},
 };
 use jni::{
-    objects::{JObject, JObjectArray, JString},
+    objects::{JByteArray, JObject, JObjectArray, JString},
     refs::Reference,
     sys::jlong,
 };
@@ -121,5 +122,28 @@ impl<'local> ToJni<'local> for &std::path::Path {
         let path = JString::from_str(env, self.to_str().unwrap())?;
         let more = JObjectArray::<JString>::new(env, 0, JString::null())?;
         return Paths::get(env, path, more);
+    }
+}
+
+// InetSocketAddr
+
+impl<'local> ToJni<'local> for SocketAddr {
+    type Kind = InetSocketAddress<'local>;
+
+    fn to_jni(self, env: &mut jni::Env<'local>) -> Result<Self::Kind, jni::errors::Error> {
+        let (address_octets, port) = match self {
+            SocketAddr::V4(socket_addr_v4) => (socket_addr_v4.ip().octets().to_vec(), socket_addr_v4.port()),
+            SocketAddr::V6(socket_addr_v6) => (socket_addr_v6.ip().octets().to_vec(), socket_addr_v6.port()),
+        };
+        let address = JByteArray::new(env, address_octets.len())?;
+        let address_octets: Vec<i8> = address_octets.into_iter().map(|i| i8::from_ne_bytes(i.to_ne_bytes())).collect();
+        address.set_region(
+            env,
+            0,
+            &address_octets,
+        )?;
+        let hostname = InetAddress::get_by_address(env, &address)?;
+        return InetSocketAddress::new2(env, &hostname, port.into());
+        todo!()
     }
 }
