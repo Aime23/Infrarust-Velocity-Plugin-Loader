@@ -9,9 +9,10 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::EventTask => "com.velocitypowered.api.event.EventTask",
         crate::java::generated::dev::infrarust::event::InfrarustEventManager => "dev.infrarust.event.InfrarustEventManager",
         crate::java::generated::dev::infrarust::event::InfrarustEventManagerRegisteredEventHandler => "dev.infrarust.event.InfrarustEventManager$RegisteredEventHandler",
+        ivpl_java_binding::util::concurrent::CompletableFuture => "java.util.concurrent.CompletableFuture",
     },
     constructors {
-        fn new(arg0: crate::java::generated::dev::infrarust::event::InfrarustEventManager, arg1: crate::java::generated::com::velocitypowered::api::event::EventTask, arg2: crate::java::generated::dev::infrarust::event::InfrarustEventManagerRegisteredEventHandler[], arg3: "java.util.concurrent.CompletableFuture", arg4: JObject, arg5: jint, arg6: jboolean),
+        fn new(arg0: crate::java::generated::dev::infrarust::event::InfrarustEventManager, arg1: crate::java::generated::com::velocitypowered::api::event::EventTask, arg2: crate::java::generated::dev::infrarust::event::InfrarustEventManagerRegisteredEventHandler[], arg3: ivpl_java_binding::util::concurrent::CompletableFuture, arg4: JObject, arg5: jint, arg6: jboolean),
     },
     methods {
         fn execute() -> jboolean,
@@ -91,6 +92,7 @@ bind_java_type! {
         crate::java::generated::dev::infrarust::NativeFinalize => "dev.infrarust.NativeFinalize",
         crate::java::generated::dev::infrarust::event::InfrarustEventManagerEventHandlingMethod => "dev.infrarust.event.InfrarustEventManager$EventHandlingMethod",
         crate::java::generated::dev::infrarust::event::InfrarustEventManagerRegisteredEventHandler => "dev.infrarust.event.InfrarustEventManager$RegisteredEventHandler",
+        ivpl_java_binding::util::concurrent::CompletableFuture => "java.util.concurrent.CompletableFuture",
         unsafe crate::java::handle::PluginContextHandle => long,
     },
     constructors {
@@ -104,7 +106,7 @@ bind_java_type! {
         },
     },
     methods {
-        fn call_event_handlers(arg0: JObject, arg1: "java.util.concurrent.CompletableFuture", arg2: jint, arg3: jboolean, arg4: crate::java::generated::dev::infrarust::event::InfrarustEventManagerRegisteredEventHandler[]),
+        fn call_event_handlers(arg0: JObject, arg1: ivpl_java_binding::util::concurrent::CompletableFuture, arg2: jint, arg3: jboolean, arg4: crate::java::generated::dev::infrarust::event::InfrarustEventManagerRegisteredEventHandler[]),
         fn extract_event_handling_method {
             name = "extractEventHandlingMethod",
             sig = (arg0: JClass) -> JMap,
@@ -114,7 +116,7 @@ bind_java_type! {
             name = "extractEventHandlingMethod",
             sig = (arg0: JClass, arg1: JMap) -> JMap,
         },
-        fn fire(arg0: JObject) -> "java.util.concurrent.CompletableFuture",
+        fn fire(arg0: JObject) -> ivpl_java_binding::util::concurrent::CompletableFuture,
         static fn log_handler_exception(arg0: crate::java::generated::dev::infrarust::event::InfrarustEventManagerRegisteredEventHandler, arg1: JThrowable),
         static fn map_order(arg0: crate::java::generated::com::velocitypowered::api::event::PostOrder) -> jshort,
         fn register {

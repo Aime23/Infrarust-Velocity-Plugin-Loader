@@ -2,6 +2,119 @@
 
 pub mod server;
 
+use jni::bind_java_type;
+
+bind_java_type! {
+    pub InboundConnection => "com.velocitypowered.api.proxy.InboundConnection",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::network::HandshakeIntent => "com.velocitypowered.api.network.HandshakeIntent",
+        crate::java::generated::com::velocitypowered::api::network::ProtocolState => "com.velocitypowered.api.network.ProtocolState",
+        crate::java::generated::com::velocitypowered::api::network::ProtocolVersion => "com.velocitypowered.api.network.ProtocolVersion",
+        ivpl_java_binding::net::inet_socket_address::InetSocketAddress => "java.net.InetSocketAddress",
+        ivpl_java_binding::util::optional::Optional => "java.util.Optional",
+    },
+    methods {
+        fn get_handshake_intent() -> crate::java::generated::com::velocitypowered::api::network::HandshakeIntent,
+        fn get_protocol_state() -> crate::java::generated::com::velocitypowered::api::network::ProtocolState,
+        fn get_protocol_version() -> crate::java::generated::com::velocitypowered::api::network::ProtocolVersion,
+        fn get_raw_virtual_host() -> ivpl_java_binding::util::optional::Optional,
+        fn get_remote_address() -> ivpl_java_binding::net::inet_socket_address::InetSocketAddress,
+        fn get_virtual_host() -> ivpl_java_binding::util::optional::Optional,
+        fn is_active() -> jboolean,
+    },
+}
+
+bind_java_type! {
+    pub Player => "com.velocitypowered.api.proxy.Player",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::InboundConnection => "com.velocitypowered.api.proxy.InboundConnection",
+        crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer",
+        ivpl_java_binding::net::inet_socket_address::InetSocketAddress => "java.net.InetSocketAddress",
+        ivpl_java_binding::util::optional::Optional => "java.util.Optional",
+        ivpl_java_binding::util::uuid::UUID => "java.util.UUID",
+        crate::java::generated::net::kyori::adventure::text::Component => "net.kyori.adventure.text.Component",
+    },
+    methods {
+        fn add_custom_chat_completions(arg0: JCollection),
+        fn apply_skin_to_player_head_contents(arg0: "net.kyori.adventure.text.object.PlayerHeadObjectContents$Builder"),
+        fn as_hover_event(arg0: "java.util.function.UnaryOperator") -> "net.kyori.adventure.text.event.HoverEvent",
+        fn clear_header_and_footer(),
+        fn clear_player_list_header_and_footer(),
+        fn close_dialog(),
+        fn create_connection_request(arg0: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer) -> "com.velocitypowered.api.proxy.ConnectionRequestBuilder",
+        fn disconnect(arg0: crate::java::generated::net::kyori::adventure::text::Component),
+        fn get_applied_resource_pack() -> "com.velocitypowered.api.proxy.player.ResourcePackInfo",
+        fn get_applied_resource_packs() -> JCollection,
+        fn get_client_brand() -> JString,
+        fn get_current_server() -> ivpl_java_binding::util::optional::Optional,
+        fn get_effective_locale() -> "java.util.Locale",
+        fn get_game_profile() -> "com.velocitypowered.api.util.GameProfile",
+        fn get_game_profile_properties() -> JList,
+        fn get_mod_info() -> ivpl_java_binding::util::optional::Optional,
+        fn get_pending_resource_pack() -> "com.velocitypowered.api.proxy.player.ResourcePackInfo",
+        fn get_pending_resource_packs() -> JCollection,
+        fn get_ping() -> jlong,
+        fn get_player_list_footer() -> crate::java::generated::net::kyori::adventure::text::Component,
+        fn get_player_list_header() -> crate::java::generated::net::kyori::adventure::text::Component,
+        fn get_player_settings() -> "com.velocitypowered.api.proxy.player.PlayerSettings",
+        fn get_tab_list() -> "com.velocitypowered.api.proxy.player.TabList",
+        fn get_unique_id() -> ivpl_java_binding::util::uuid::UUID,
+        fn get_username() -> JString,
+        fn has_sent_player_settings() -> jboolean,
+        fn is_online_mode() -> jboolean,
+        fn key() -> "net.kyori.adventure.key.Key",
+        fn open_book(arg0: "net.kyori.adventure.inventory.Book"),
+        fn play_sound {
+            name = "playSound",
+            sig = (arg0: "net.kyori.adventure.sound.Sound"),
+        },
+        #[allow(non_snake_case)]
+        fn play_sound2 {
+            name = "playSound",
+            sig = (arg0: "net.kyori.adventure.sound.Sound", arg1: "net.kyori.adventure.sound.Sound$Emitter"),
+        },
+        #[allow(non_snake_case)]
+        fn play_sound4 {
+            name = "playSound",
+            sig = (arg0: "net.kyori.adventure.sound.Sound", arg1: jdouble, arg2: jdouble, arg3: jdouble),
+        },
+        fn remove_custom_chat_completions(arg0: JCollection),
+        fn request_cookie(arg0: "net.kyori.adventure.key.Key"),
+        #[allow(non_snake_case)]
+        fn send_plugin_message2_byte_1d {
+            name = "sendPluginMessage",
+            sig = (arg0: "com.velocitypowered.api.proxy.messages.ChannelIdentifier", arg1: jbyte[]) -> jboolean,
+        },
+        #[allow(non_snake_case)]
+        fn send_plugin_message2_plugin_message_encoder {
+            name = "sendPluginMessage",
+            sig = (arg0: "com.velocitypowered.api.proxy.messages.ChannelIdentifier", arg1: "com.velocitypowered.api.proxy.messages.PluginMessageEncoder") -> jboolean,
+        },
+        fn send_resource_pack {
+            name = "sendResourcePack",
+            sig = (arg0: JString),
+        },
+        #[allow(non_snake_case)]
+        fn send_resource_pack2 {
+            name = "sendResourcePack",
+            sig = (arg0: JString, arg1: jbyte[]),
+        },
+        fn send_resource_pack_offer(arg0: "com.velocitypowered.api.proxy.player.ResourcePackInfo"),
+        fn set_custom_chat_completions(arg0: JCollection),
+        fn set_effective_locale(arg0: "java.util.Locale"),
+        fn set_game_profile_properties(arg0: JList),
+        fn set_server_links(arg0: JList),
+        fn show_dialog(arg0: "net.kyori.adventure.dialog.DialogLike"),
+        fn spoof_chat_input(arg0: JString),
+        fn stop_sound(arg0: "net.kyori.adventure.sound.SoundStop"),
+        fn store_cookie(arg0: "net.kyori.adventure.key.Key", arg1: jbyte[]),
+        fn transfer_to_host(arg0: ivpl_java_binding::net::inet_socket_address::InetSocketAddress),
+    },
+    is_instance_of = {
+        crate::java::generated::com::velocitypowered::api::proxy::InboundConnection,
+    },
+}
+
 
 /// Initialize all Java bindings in this module.
 ///
@@ -13,6 +126,8 @@ pub mod server;
 /// * `env` - The JNI environment
 /// * `loader` - The LoaderContext to use for loading classes
 pub fn jni_init(env: &::jni::Env, loader: &::jni::refs::LoaderContext) -> ::jni::errors::Result<()> {
+    let _ = InboundConnectionAPI::get(env, loader)?;
+    let _ = PlayerAPI::get(env, loader)?;
     server::jni_init(env, loader)?;
     Ok(())
 }

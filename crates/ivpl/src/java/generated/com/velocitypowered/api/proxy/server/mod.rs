@@ -3,6 +3,26 @@
 use jni::bind_java_type;
 
 bind_java_type! {
+    pub RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::server::ServerInfo => "com.velocitypowered.api.proxy.server.ServerInfo",
+        ivpl_java_binding::util::concurrent::CompletableFuture => "java.util.concurrent.CompletableFuture",
+    },
+    methods {
+        fn get_players_connected() -> JCollection,
+        fn get_server_info() -> crate::java::generated::com::velocitypowered::api::proxy::server::ServerInfo,
+        fn ping {
+            name = "ping",
+            sig = () -> ivpl_java_binding::util::concurrent::CompletableFuture,
+        },
+        fn ping_ping_options {
+            name = "ping",
+            sig = (arg0: "com.velocitypowered.api.proxy.server.PingOptions") -> ivpl_java_binding::util::concurrent::CompletableFuture,
+        },
+    },
+}
+
+bind_java_type! {
     pub ServerInfo => "com.velocitypowered.api.proxy.server.ServerInfo",
     type_map = {
         crate::java::generated::com::velocitypowered::api::proxy::server::ServerInfo => "com.velocitypowered.api.proxy.server.ServerInfo",
@@ -39,6 +59,7 @@ bind_java_type! {
 /// * `env` - The JNI environment
 /// * `loader` - The LoaderContext to use for loading classes
 pub fn jni_init(env: &::jni::Env, loader: &::jni::refs::LoaderContext) -> ::jni::errors::Result<()> {
+    let _ = RegisteredServerAPI::get(env, loader)?;
     let _ = ServerInfoAPI::get(env, loader)?;
     Ok(())
 }

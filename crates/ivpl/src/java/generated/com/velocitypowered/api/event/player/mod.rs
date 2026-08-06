@@ -34,14 +34,15 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::ResultedEvent => "com.velocitypowered.api.event.ResultedEvent",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::player::CookieReceiveEventForwardResult => "com.velocitypowered.api.event.player.CookieReceiveEvent$ForwardResult",
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "net.kyori.adventure.key.Key", arg2: jbyte[]),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: "net.kyori.adventure.key.Key", arg2: jbyte[]),
     },
     methods {
         fn get_original_data() -> jbyte[],
         fn get_original_key() -> "net.kyori.adventure.key.Key",
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn get_result {
             name = "getResult",
             sig = () -> crate::java::generated::com::velocitypowered::api::event::ResultedEventResult,
@@ -94,13 +95,14 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::ResultedEvent => "com.velocitypowered.api.event.ResultedEvent",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::player::CookieRequestEventForwardResult => "com.velocitypowered.api.event.player.CookieRequestEvent$ForwardResult",
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "net.kyori.adventure.key.Key"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: "net.kyori.adventure.key.Key"),
     },
     methods {
         fn get_original_key() -> "net.kyori.adventure.key.Key",
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn get_result {
             name = "getResult",
             sig = () -> crate::java::generated::com::velocitypowered::api::event::ResultedEventResult,
@@ -155,14 +157,15 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::ResultedEvent => "com.velocitypowered.api.event.ResultedEvent",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::player::CookieStoreEventForwardResult => "com.velocitypowered.api.event.player.CookieStoreEvent$ForwardResult",
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "net.kyori.adventure.key.Key", arg2: jbyte[]),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: "net.kyori.adventure.key.Key", arg2: jbyte[]),
     },
     methods {
         fn get_original_data() -> jbyte[],
         fn get_original_key() -> "net.kyori.adventure.key.Key",
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn get_result {
             name = "getResult",
             sig = () -> crate::java::generated::com::velocitypowered::api::event::ResultedEventResult,
@@ -189,11 +192,14 @@ bind_java_type! {
 
 bind_java_type! {
     pub GameProfileRequestEvent => "com.velocitypowered.api.event.player.GameProfileRequestEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::InboundConnection => "com.velocitypowered.api.proxy.InboundConnection",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.InboundConnection", arg1: "com.velocitypowered.api.util.GameProfile", arg2: jboolean),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::InboundConnection, arg1: "com.velocitypowered.api.util.GameProfile", arg2: jboolean),
     },
     methods {
-        fn get_connection() -> "com.velocitypowered.api.proxy.InboundConnection",
+        fn get_connection() -> crate::java::generated::com::velocitypowered::api::proxy::InboundConnection,
         fn get_game_profile() -> "com.velocitypowered.api.util.GameProfile",
         fn get_original_profile() -> "com.velocitypowered.api.util.GameProfile",
         fn get_username() -> JString,
@@ -250,23 +256,24 @@ bind_java_type! {
     type_map = {
         crate::java::generated::com::velocitypowered::api::event::player::KickedFromServerEventRedirectPlayer => "com.velocitypowered.api.event.player.KickedFromServerEvent$RedirectPlayer",
         crate::java::generated::com::velocitypowered::api::event::player::KickedFromServerEventServerKickResult => "com.velocitypowered.api.event.player.KickedFromServerEvent$ServerKickResult",
+        crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer",
         crate::java::generated::net::kyori::adventure::text::Component => "net.kyori.adventure.text.Component",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.server.RegisteredServer", arg1: crate::java::generated::net::kyori::adventure::text::Component),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer, arg1: crate::java::generated::net::kyori::adventure::text::Component),
     },
     methods {
         static fn create {
             name = "create",
-            sig = (arg0: "com.velocitypowered.api.proxy.server.RegisteredServer") -> crate::java::generated::com::velocitypowered::api::event::player::KickedFromServerEventServerKickResult,
+            sig = (arg0: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer) -> crate::java::generated::com::velocitypowered::api::event::player::KickedFromServerEventServerKickResult,
         },
         #[allow(non_snake_case)]
         static fn create2 {
             name = "create",
-            sig = (arg0: "com.velocitypowered.api.proxy.server.RegisteredServer", arg1: crate::java::generated::net::kyori::adventure::text::Component) -> crate::java::generated::com::velocitypowered::api::event::player::KickedFromServerEventRedirectPlayer,
+            sig = (arg0: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer, arg1: crate::java::generated::net::kyori::adventure::text::Component) -> crate::java::generated::com::velocitypowered::api::event::player::KickedFromServerEventRedirectPlayer,
         },
         fn get_message_component() -> crate::java::generated::net::kyori::adventure::text::Component,
-        fn get_server() -> "com.velocitypowered.api.proxy.server.RegisteredServer",
+        fn get_server() -> crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer,
         fn is_allowed() -> jboolean,
         fn to_string() -> JString,
     },
@@ -291,14 +298,16 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::ResultedEvent => "com.velocitypowered.api.event.ResultedEvent",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::player::KickedFromServerEventServerKickResult => "com.velocitypowered.api.event.player.KickedFromServerEvent$ServerKickResult",
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+        crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer",
         ivpl_java_binding::util::optional::Optional => "java.util.Optional",
         crate::java::generated::net::kyori::adventure::text::Component => "net.kyori.adventure.text.Component",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.velocitypowered.api.proxy.server.RegisteredServer", arg2: crate::java::generated::net::kyori::adventure::text::Component, arg3: jboolean, arg4: crate::java::generated::com::velocitypowered::api::event::player::KickedFromServerEventServerKickResult),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer, arg2: crate::java::generated::net::kyori::adventure::text::Component, arg3: jboolean, arg4: crate::java::generated::com::velocitypowered::api::event::player::KickedFromServerEventServerKickResult),
     },
     methods {
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn get_result {
             name = "getResult",
             sig = () -> crate::java::generated::com::velocitypowered::api::event::ResultedEventResult,
@@ -308,7 +317,7 @@ bind_java_type! {
             name = "getResult",
             sig = () -> crate::java::generated::com::velocitypowered::api::event::player::KickedFromServerEventServerKickResult,
         },
-        fn get_server() -> "com.velocitypowered.api.proxy.server.RegisteredServer",
+        fn get_server() -> crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer,
         fn get_server_kick_reason() -> ivpl_java_binding::util::optional::Optional,
         fn kicked_during_login() -> jboolean,
         fn kicked_during_server_connect() -> jboolean,
@@ -328,24 +337,30 @@ bind_java_type! {
 
 bind_java_type! {
     pub PlayerChannelRegisterEvent => "com.velocitypowered.api.event.player.PlayerChannelRegisterEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: JList),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: JList),
     },
     methods {
         fn get_channels() -> JList,
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn to_string() -> JString,
     },
 }
 
 bind_java_type! {
     pub PlayerChannelUnregisterEvent => "com.velocitypowered.api.event.player.PlayerChannelUnregisterEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: JList),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: JList),
     },
     methods {
         fn get_channels() -> JList,
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn to_string() -> JString,
     },
 }
@@ -379,13 +394,14 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::ResultedEvent => "com.velocitypowered.api.event.ResultedEvent",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::player::PlayerChatEventChatResult => "com.velocitypowered.api.event.player.PlayerChatEvent$ChatResult",
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: JString),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: JString),
     },
     methods {
         fn get_message() -> JString,
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn get_result {
             name = "getResult",
             sig = () -> crate::java::generated::com::velocitypowered::api::event::ResultedEventResult,
@@ -413,39 +429,47 @@ bind_java_type! {
 bind_java_type! {
     pub PlayerChooseInitialServerEvent => "com.velocitypowered.api.event.player.PlayerChooseInitialServerEvent",
     type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+        crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer",
         ivpl_java_binding::util::optional::Optional => "java.util.Optional",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.velocitypowered.api.proxy.server.RegisteredServer"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer),
     },
     methods {
         fn get_initial_server() -> ivpl_java_binding::util::optional::Optional,
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
-        fn set_initial_server(arg0: "com.velocitypowered.api.proxy.server.RegisteredServer"),
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
+        fn set_initial_server(arg0: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer),
         fn to_string() -> JString,
     },
 }
 
 bind_java_type! {
     pub PlayerClientBrandEvent => "com.velocitypowered.api.event.player.PlayerClientBrandEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: JString),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: JString),
     },
     methods {
         fn get_brand() -> JString,
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn to_string() -> JString,
     },
 }
 
 bind_java_type! {
     pub PlayerModInfoEvent => "com.velocitypowered.api.event.player.PlayerModInfoEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.velocitypowered.api.util.ModInfo"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: "com.velocitypowered.api.util.ModInfo"),
     },
     methods {
         fn get_mod_info() -> "com.velocitypowered.api.util.ModInfo",
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn to_string() -> JString,
     },
 }
@@ -511,19 +535,20 @@ bind_java_type! {
     pub PlayerResourcePackStatusEvent => "com.velocitypowered.api.event.player.PlayerResourcePackStatusEvent",
     type_map = {
         crate::java::generated::com::velocitypowered::api::event::player::PlayerResourcePackStatusEventStatus => "com.velocitypowered.api.event.player.PlayerResourcePackStatusEvent$Status",
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
         ivpl_java_binding::util::uuid::UUID => "java.util.UUID",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: crate::java::generated::com::velocitypowered::api::event::player::PlayerResourcePackStatusEventStatus),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: crate::java::generated::com::velocitypowered::api::event::player::PlayerResourcePackStatusEventStatus),
         #[allow(non_snake_case)]
-        fn new3(arg0: "com.velocitypowered.api.proxy.Player", arg1: crate::java::generated::com::velocitypowered::api::event::player::PlayerResourcePackStatusEventStatus, arg2: "com.velocitypowered.api.proxy.player.ResourcePackInfo"),
+        fn new3(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: crate::java::generated::com::velocitypowered::api::event::player::PlayerResourcePackStatusEventStatus, arg2: "com.velocitypowered.api.proxy.player.ResourcePackInfo"),
         #[allow(non_snake_case)]
-        fn new4(arg0: "com.velocitypowered.api.proxy.Player", arg1: ivpl_java_binding::util::uuid::UUID, arg2: crate::java::generated::com::velocitypowered::api::event::player::PlayerResourcePackStatusEventStatus, arg3: "com.velocitypowered.api.proxy.player.ResourcePackInfo"),
+        fn new4(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: ivpl_java_binding::util::uuid::UUID, arg2: crate::java::generated::com::velocitypowered::api::event::player::PlayerResourcePackStatusEventStatus, arg3: "com.velocitypowered.api.proxy.player.ResourcePackInfo"),
     },
     methods {
         fn get_pack_id() -> ivpl_java_binding::util::uuid::UUID,
         fn get_pack_info() -> "com.velocitypowered.api.proxy.player.ResourcePackInfo",
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn get_status() -> crate::java::generated::com::velocitypowered::api::event::player::PlayerResourcePackStatusEventStatus,
         fn is_overwrite_kick() -> jboolean,
         fn set_overwrite_kick(arg0: jboolean),
@@ -533,11 +558,14 @@ bind_java_type! {
 
 bind_java_type! {
     pub PlayerSettingsChangedEvent => "com.velocitypowered.api.event.player.PlayerSettingsChangedEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.velocitypowered.api.proxy.player.PlayerSettings"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: "com.velocitypowered.api.proxy.player.PlayerSettings"),
     },
     methods {
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn get_player_settings() -> "com.velocitypowered.api.proxy.player.PlayerSettings",
         fn to_string() -> JString,
     },
@@ -546,15 +574,17 @@ bind_java_type! {
 bind_java_type! {
     pub ServerConnectedEvent => "com.velocitypowered.api.event.player.ServerConnectedEvent",
     type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+        crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer",
         ivpl_java_binding::util::optional::Optional => "java.util.Optional",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.velocitypowered.api.proxy.server.RegisteredServer", arg2: "com.velocitypowered.api.proxy.server.RegisteredServer"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer, arg2: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer),
     },
     methods {
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn get_previous_server() -> ivpl_java_binding::util::optional::Optional,
-        fn get_server() -> "com.velocitypowered.api.proxy.server.RegisteredServer",
+        fn get_server() -> crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer,
         fn to_string() -> JString,
     },
 }
@@ -625,12 +655,16 @@ bind_java_type! {
 
 bind_java_type! {
     pub ServerPostConnectEvent => "com.velocitypowered.api.event.player.ServerPostConnectEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+        crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.velocitypowered.api.proxy.server.RegisteredServer"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer),
     },
     methods {
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
-        fn get_previous_server() -> "com.velocitypowered.api.proxy.server.RegisteredServer",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
+        fn get_previous_server() -> crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer,
         fn to_string() -> JString,
     },
 }
@@ -640,13 +674,14 @@ bind_java_type! {
     type_map = {
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::player::ServerPreConnectEventServerResult => "com.velocitypowered.api.event.player.ServerPreConnectEvent$ServerResult",
+        crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer",
         ivpl_java_binding::util::optional::Optional => "java.util.Optional",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.server.RegisteredServer"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer),
     },
     methods {
-        static fn allowed(arg0: "com.velocitypowered.api.proxy.server.RegisteredServer") -> crate::java::generated::com::velocitypowered::api::event::player::ServerPreConnectEventServerResult,
+        static fn allowed(arg0: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer) -> crate::java::generated::com::velocitypowered::api::event::player::ServerPreConnectEventServerResult,
         static fn denied() -> crate::java::generated::com::velocitypowered::api::event::player::ServerPreConnectEventServerResult,
         fn get_server() -> ivpl_java_binding::util::optional::Optional,
         fn is_allowed() -> jboolean,
@@ -663,16 +698,18 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::ResultedEvent => "com.velocitypowered.api.event.ResultedEvent",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::player::ServerPreConnectEventServerResult => "com.velocitypowered.api.event.player.ServerPreConnectEvent$ServerResult",
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+        crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.velocitypowered.api.proxy.server.RegisteredServer"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer),
         #[allow(non_snake_case)]
-        fn new3(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.velocitypowered.api.proxy.server.RegisteredServer", arg2: "com.velocitypowered.api.proxy.server.RegisteredServer"),
+        fn new3(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer, arg2: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer),
     },
     methods {
-        fn get_original_server() -> "com.velocitypowered.api.proxy.server.RegisteredServer",
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
-        fn get_previous_server() -> "com.velocitypowered.api.proxy.server.RegisteredServer",
+        fn get_original_server() -> crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer,
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
+        fn get_previous_server() -> crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer,
         fn get_result {
             name = "getResult",
             sig = () -> crate::java::generated::com::velocitypowered::api::event::ResultedEventResult,
@@ -774,12 +811,15 @@ bind_java_type! {
 
 bind_java_type! {
     pub TabCompleteEvent => "com.velocitypowered.api.event.player.TabCompleteEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: JString, arg2: JList),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: JString, arg2: JList),
     },
     methods {
         fn get_partial_message() -> JString,
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn get_suggestions() -> JList,
         fn to_string() -> JString,
     },

@@ -11,6 +11,8 @@ bind_java_type! {
         crate::java::generated::net::kyori::adventure::text::ComponentIteratorFlag => "net.kyori.adventure.text.ComponentIteratorFlag",
         crate::java::generated::net::kyori::adventure::text::ComponentIteratorType => "net.kyori.adventure.text.ComponentIteratorType",
         crate::java::generated::net::kyori::adventure::text::ComponentLike => "net.kyori.adventure.text.ComponentLike",
+        crate::java::generated::net::kyori::adventure::text::TextComponent => "net.kyori.adventure.text.TextComponent",
+        crate::java::generated::net::kyori::adventure::text::TextComponentBuilder => "net.kyori.adventure.text.TextComponent$Builder",
     },
     fields {
         #[allow(non_snake_case)]
@@ -205,7 +207,7 @@ bind_java_type! {
             sig = (arg0: JMap) -> "net.kyori.adventure.text.format.StyleSetter",
         },
         fn detect_cycle(arg0: crate::java::generated::net::kyori::adventure::text::Component),
-        static fn empty() -> "net.kyori.adventure.text.TextComponent",
+        static fn empty() -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         static fn entity_nbt {
             name = "entityNBT",
             sig = () -> "net.kyori.adventure.text.EntityNBTComponent$Builder",
@@ -283,12 +285,12 @@ bind_java_type! {
         },
         static fn join_component_like_iterable {
             name = "join",
-            sig = (arg0: crate::java::generated::net::kyori::adventure::text::ComponentLike, arg1: "java.lang.Iterable") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: crate::java::generated::net::kyori::adventure::text::ComponentLike, arg1: "java.lang.Iterable") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         #[allow(non_snake_case)]
         static fn join_component_like_component_like_1d {
             name = "join",
-            sig = (arg0: crate::java::generated::net::kyori::adventure::text::ComponentLike, arg1: crate::java::generated::net::kyori::adventure::text::ComponentLike[]) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: crate::java::generated::net::kyori::adventure::text::ComponentLike, arg1: crate::java::generated::net::kyori::adventure::text::ComponentLike[]) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn join_join_configuration_builder_iterable {
             name = "join",
@@ -374,7 +376,7 @@ bind_java_type! {
             name = "mergeStyle",
             sig = (arg0: crate::java::generated::net::kyori::adventure::text::Component, arg1: "net.kyori.adventure.text.format.Style$Merge"[]) -> crate::java::generated::net::kyori::adventure::text::Component,
         },
-        static fn newline() -> "net.kyori.adventure.text.TextComponent",
+        static fn newline() -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         static fn object {
             name = "object",
             sig = () -> "net.kyori.adventure.text.ObjectComponent$Builder",
@@ -486,7 +488,7 @@ bind_java_type! {
             name = "shadowColorIfAbsent",
             sig = (arg0: "net.kyori.adventure.util.ARGBLike") -> "net.kyori.adventure.text.format.StyleSetter",
         },
-        static fn space() -> "net.kyori.adventure.text.TextComponent",
+        static fn space() -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         #[allow(non_snake_case)]
         fn spliterator2_set {
             name = "spliterator",
@@ -543,167 +545,167 @@ bind_java_type! {
         },
         static fn text {
             name = "text",
-            sig = () -> "net.kyori.adventure.text.TextComponent$Builder",
+            sig = () -> crate::java::generated::net::kyori::adventure::text::TextComponentBuilder,
         },
         static fn text_bool {
             name = "text",
-            sig = (arg0: jboolean) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jboolean) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_char {
             name = "text",
-            sig = (arg0: jchar) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jchar) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_double {
             name = "text",
-            sig = (arg0: jdouble) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jdouble) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_float {
             name = "text",
-            sig = (arg0: jfloat) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jfloat) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_int {
             name = "text",
-            sig = (arg0: jint) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jint) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_string {
             name = "text",
-            sig = (arg0: JString) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: JString) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_consumer {
             name = "text",
-            sig = (arg0: "java.util.function.Consumer") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: "java.util.function.Consumer") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_long {
             name = "text",
-            sig = (arg0: jlong) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jlong) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_bool_style {
             name = "text",
-            sig = (arg0: jboolean, arg1: "net.kyori.adventure.text.format.Style") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jboolean, arg1: "net.kyori.adventure.text.format.Style") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_bool_text_color {
             name = "text",
-            sig = (arg0: jboolean, arg1: "net.kyori.adventure.text.format.TextColor") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jboolean, arg1: "net.kyori.adventure.text.format.TextColor") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_char_style {
             name = "text",
-            sig = (arg0: jchar, arg1: "net.kyori.adventure.text.format.Style") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jchar, arg1: "net.kyori.adventure.text.format.Style") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_char_text_color {
             name = "text",
-            sig = (arg0: jchar, arg1: "net.kyori.adventure.text.format.TextColor") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jchar, arg1: "net.kyori.adventure.text.format.TextColor") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_double_style {
             name = "text",
-            sig = (arg0: jdouble, arg1: "net.kyori.adventure.text.format.Style") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jdouble, arg1: "net.kyori.adventure.text.format.Style") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_double_text_color {
             name = "text",
-            sig = (arg0: jdouble, arg1: "net.kyori.adventure.text.format.TextColor") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jdouble, arg1: "net.kyori.adventure.text.format.TextColor") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_float_style {
             name = "text",
-            sig = (arg0: jfloat, arg1: "net.kyori.adventure.text.format.Style") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jfloat, arg1: "net.kyori.adventure.text.format.Style") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_float_text_color {
             name = "text",
-            sig = (arg0: jfloat, arg1: "net.kyori.adventure.text.format.TextColor") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jfloat, arg1: "net.kyori.adventure.text.format.TextColor") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_int_style {
             name = "text",
-            sig = (arg0: jint, arg1: "net.kyori.adventure.text.format.Style") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jint, arg1: "net.kyori.adventure.text.format.Style") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_int_text_color {
             name = "text",
-            sig = (arg0: jint, arg1: "net.kyori.adventure.text.format.TextColor") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jint, arg1: "net.kyori.adventure.text.format.TextColor") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_string_style {
             name = "text",
-            sig = (arg0: JString, arg1: "net.kyori.adventure.text.format.Style") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: JString, arg1: "net.kyori.adventure.text.format.Style") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_string_text_color {
             name = "text",
-            sig = (arg0: JString, arg1: "net.kyori.adventure.text.format.TextColor") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: JString, arg1: "net.kyori.adventure.text.format.TextColor") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_long_style {
             name = "text",
-            sig = (arg0: jlong, arg1: "net.kyori.adventure.text.format.Style") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jlong, arg1: "net.kyori.adventure.text.format.Style") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         static fn text_long_text_color {
             name = "text",
-            sig = (arg0: jlong, arg1: "net.kyori.adventure.text.format.TextColor") -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jlong, arg1: "net.kyori.adventure.text.format.TextColor") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         #[allow(non_snake_case)]
         static fn text3_bool_set {
             name = "text",
-            sig = (arg0: jboolean, arg1: "net.kyori.adventure.text.format.TextColor", arg2: JSet) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jboolean, arg1: "net.kyori.adventure.text.format.TextColor", arg2: JSet) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         #[allow(non_snake_case)]
         static fn text3_bool_text_decoration_1d {
             name = "text",
-            sig = (arg0: jboolean, arg1: "net.kyori.adventure.text.format.TextColor", arg2: "net.kyori.adventure.text.format.TextDecoration"[]) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jboolean, arg1: "net.kyori.adventure.text.format.TextColor", arg2: "net.kyori.adventure.text.format.TextDecoration"[]) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         #[allow(non_snake_case)]
         static fn text3_char_set {
             name = "text",
-            sig = (arg0: jchar, arg1: "net.kyori.adventure.text.format.TextColor", arg2: JSet) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jchar, arg1: "net.kyori.adventure.text.format.TextColor", arg2: JSet) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         #[allow(non_snake_case)]
         static fn text3_char_text_decoration_1d {
             name = "text",
-            sig = (arg0: jchar, arg1: "net.kyori.adventure.text.format.TextColor", arg2: "net.kyori.adventure.text.format.TextDecoration"[]) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jchar, arg1: "net.kyori.adventure.text.format.TextColor", arg2: "net.kyori.adventure.text.format.TextDecoration"[]) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         #[allow(non_snake_case)]
         static fn text3_double_set {
             name = "text",
-            sig = (arg0: jdouble, arg1: "net.kyori.adventure.text.format.TextColor", arg2: JSet) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jdouble, arg1: "net.kyori.adventure.text.format.TextColor", arg2: JSet) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         #[allow(non_snake_case)]
         static fn text3_double_text_decoration_1d {
             name = "text",
-            sig = (arg0: jdouble, arg1: "net.kyori.adventure.text.format.TextColor", arg2: "net.kyori.adventure.text.format.TextDecoration"[]) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jdouble, arg1: "net.kyori.adventure.text.format.TextColor", arg2: "net.kyori.adventure.text.format.TextDecoration"[]) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         #[allow(non_snake_case)]
         static fn text3_float_set {
             name = "text",
-            sig = (arg0: jfloat, arg1: "net.kyori.adventure.text.format.TextColor", arg2: JSet) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jfloat, arg1: "net.kyori.adventure.text.format.TextColor", arg2: JSet) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         #[allow(non_snake_case)]
         static fn text3_float_text_decoration_1d {
             name = "text",
-            sig = (arg0: jfloat, arg1: "net.kyori.adventure.text.format.TextColor", arg2: "net.kyori.adventure.text.format.TextDecoration"[]) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jfloat, arg1: "net.kyori.adventure.text.format.TextColor", arg2: "net.kyori.adventure.text.format.TextDecoration"[]) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         #[allow(non_snake_case)]
         static fn text3_int_set {
             name = "text",
-            sig = (arg0: jint, arg1: "net.kyori.adventure.text.format.TextColor", arg2: JSet) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jint, arg1: "net.kyori.adventure.text.format.TextColor", arg2: JSet) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         #[allow(non_snake_case)]
         static fn text3_int_text_decoration_1d {
             name = "text",
-            sig = (arg0: jint, arg1: "net.kyori.adventure.text.format.TextColor", arg2: "net.kyori.adventure.text.format.TextDecoration"[]) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jint, arg1: "net.kyori.adventure.text.format.TextColor", arg2: "net.kyori.adventure.text.format.TextDecoration"[]) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         #[allow(non_snake_case)]
         static fn text3_string_set {
             name = "text",
-            sig = (arg0: JString, arg1: "net.kyori.adventure.text.format.TextColor", arg2: JSet) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: JString, arg1: "net.kyori.adventure.text.format.TextColor", arg2: JSet) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         #[allow(non_snake_case)]
         static fn text3_string_text_decoration_1d {
             name = "text",
-            sig = (arg0: JString, arg1: "net.kyori.adventure.text.format.TextColor", arg2: "net.kyori.adventure.text.format.TextDecoration"[]) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: JString, arg1: "net.kyori.adventure.text.format.TextColor", arg2: "net.kyori.adventure.text.format.TextDecoration"[]) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         #[allow(non_snake_case)]
         static fn text3_long_set {
             name = "text",
-            sig = (arg0: jlong, arg1: "net.kyori.adventure.text.format.TextColor", arg2: JSet) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jlong, arg1: "net.kyori.adventure.text.format.TextColor", arg2: JSet) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
         #[allow(non_snake_case)]
         static fn text3_long_text_decoration_1d {
             name = "text",
-            sig = (arg0: jlong, arg1: "net.kyori.adventure.text.format.TextColor", arg2: "net.kyori.adventure.text.format.TextDecoration"[]) -> "net.kyori.adventure.text.TextComponent",
+            sig = (arg0: jlong, arg1: "net.kyori.adventure.text.format.TextColor", arg2: "net.kyori.adventure.text.format.TextDecoration"[]) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         },
-        static fn text_of_children(arg0: crate::java::generated::net::kyori::adventure::text::ComponentLike[]) -> "net.kyori.adventure.text.TextComponent",
+        static fn text_of_children(arg0: crate::java::generated::net::kyori::adventure::text::ComponentLike[]) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         fn to_builder() -> crate::java::generated::net::kyori::adventure::text::ComponentBuilder,
         static fn to_component {
             name = "toComponent",
@@ -1177,6 +1179,7 @@ bind_java_type! {
     pub ComponentCompaction => "net.kyori.adventure.text.ComponentCompaction",
     type_map = {
         crate::java::generated::net::kyori::adventure::text::Component => "net.kyori.adventure.text.Component",
+        crate::java::generated::net::kyori::adventure::text::TextComponent => "net.kyori.adventure.text.TextComponent",
     },
     constructors {
         fn new(),
@@ -1192,7 +1195,7 @@ bind_java_type! {
         static fn compact(arg0: crate::java::generated::net::kyori::adventure::text::Component, arg1: "net.kyori.adventure.text.format.Style") -> crate::java::generated::net::kyori::adventure::text::Component,
         static fn is_blank(arg0: crate::java::generated::net::kyori::adventure::text::Component) -> jboolean,
         static fn is_text(arg0: crate::java::generated::net::kyori::adventure::text::Component) -> jboolean,
-        static fn join_text(arg0: "net.kyori.adventure.text.TextComponent", arg1: "net.kyori.adventure.text.TextComponent") -> "net.kyori.adventure.text.TextComponent",
+        static fn join_text(arg0: crate::java::generated::net::kyori::adventure::text::TextComponent, arg1: crate::java::generated::net::kyori::adventure::text::TextComponent) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
         static fn simplify_style_for_blank(arg0: "net.kyori.adventure.text.format.Style", arg1: "net.kyori.adventure.text.format.Style") -> "net.kyori.adventure.text.format.Style",
     },
 }
@@ -1309,6 +1312,175 @@ bind_java_type! {
     },
 }
 
+bind_java_type! {
+    pub TextComponentBuilder => "net.kyori.adventure.text.TextComponent$Builder",
+    type_map = {
+        crate::java::generated::net::kyori::adventure::text::ComponentBuilder => "net.kyori.adventure.text.ComponentBuilder",
+        crate::java::generated::net::kyori::adventure::text::TextComponentBuilder => "net.kyori.adventure.text.TextComponent$Builder",
+    },
+    methods {
+        fn content {
+            name = "content",
+            sig = () -> JString,
+        },
+        fn content_string {
+            name = "content",
+            sig = (arg0: JString) -> crate::java::generated::net::kyori::adventure::text::TextComponentBuilder,
+        },
+    },
+    is_instance_of = {
+        crate::java::generated::net::kyori::adventure::text::ComponentBuilder,
+    },
+}
+
+bind_java_type! {
+    pub TextComponent => "net.kyori.adventure.text.TextComponent",
+    type_map = {
+        crate::java::generated::net::kyori::adventure::text::ComponentLike => "net.kyori.adventure.text.ComponentLike",
+        crate::java::generated::net::kyori::adventure::text::TextComponent => "net.kyori.adventure.text.TextComponent",
+    },
+    methods {
+        fn content {
+            name = "content",
+            sig = () -> JString,
+        },
+        fn content_string {
+            name = "content",
+            sig = (arg0: JString) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
+        },
+        fn examinable_properties() -> "java.util.stream.Stream",
+        static fn of_children(arg0: crate::java::generated::net::kyori::adventure::text::ComponentLike[]) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
+    },
+}
+
+bind_java_type! {
+    pub TextComponentImplBuilderImpl => "net.kyori.adventure.text.TextComponentImpl$BuilderImpl",
+    type_map = {
+        crate::java::generated::net::kyori::adventure::text::TextComponent => "net.kyori.adventure.text.TextComponent",
+        crate::java::generated::net::kyori::adventure::text::TextComponentBuilder => "net.kyori.adventure.text.TextComponent$Builder",
+    },
+    constructors {
+        fn new(),
+        fn new_text_component(arg0: crate::java::generated::net::kyori::adventure::text::TextComponent),
+    },
+    methods {
+        fn build {
+            name = "build",
+            sig = () -> JObject,
+        },
+        #[allow(non_snake_case)]
+        fn build_1 {
+            name = "build",
+            sig = () -> "net.kyori.adventure.text.BuildableComponent",
+        },
+        #[allow(non_snake_case)]
+        fn build_2 {
+            name = "build",
+            sig = () -> crate::java::generated::net::kyori::adventure::text::TextComponent,
+        },
+        fn content {
+            name = "content",
+            sig = () -> JString,
+        },
+        fn content_string {
+            name = "content",
+            sig = (arg0: JString) -> crate::java::generated::net::kyori::adventure::text::TextComponentBuilder,
+        },
+        fn is_empty() -> jboolean,
+    },
+    is_instance_of = {
+        crate::java::generated::net::kyori::adventure::text::TextComponentBuilder,
+    },
+}
+
+bind_java_type! {
+    pub TextComponentImpl => "net.kyori.adventure.text.TextComponentImpl",
+    type_map = {
+        crate::java::generated::net::kyori::adventure::text::Component => "net.kyori.adventure.text.Component",
+        crate::java::generated::net::kyori::adventure::text::ComponentBuilder => "net.kyori.adventure.text.ComponentBuilder",
+        crate::java::generated::net::kyori::adventure::text::TextComponent => "net.kyori.adventure.text.TextComponent",
+        crate::java::generated::net::kyori::adventure::text::TextComponentBuilder => "net.kyori.adventure.text.TextComponent$Builder",
+    },
+    constructors {
+        fn new(arg0: JList, arg1: "net.kyori.adventure.text.format.Style", arg2: JString),
+    },
+    fields {
+        #[allow(non_snake_case)]
+        static SECTION_CHAR {
+            sig = jchar,
+            get = SECTION_CHAR,
+        },
+        #[allow(non_snake_case)]
+        static EMPTY {
+            sig = crate::java::generated::net::kyori::adventure::text::TextComponent,
+            get = EMPTY,
+        },
+        #[allow(non_snake_case)]
+        static NEWLINE {
+            sig = crate::java::generated::net::kyori::adventure::text::TextComponent,
+            get = NEWLINE,
+        },
+        #[allow(non_snake_case)]
+        static SPACE {
+            sig = crate::java::generated::net::kyori::adventure::text::TextComponent,
+            get = SPACE,
+        },
+    },
+    methods {
+        fn children_list {
+            name = "children",
+            sig = (arg0: JList) -> crate::java::generated::net::kyori::adventure::text::Component,
+        },
+        #[allow(non_snake_case)]
+        fn children_list_1 {
+            name = "children",
+            sig = (arg0: JList) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
+        },
+        fn content {
+            name = "content",
+            sig = () -> JString,
+        },
+        fn content_string {
+            name = "content",
+            sig = (arg0: JString) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
+        },
+        static fn create(arg0: JList, arg1: "net.kyori.adventure.text.format.Style", arg2: JString) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
+        #[allow(non_snake_case)]
+        fn create0(arg0: JList, arg1: "net.kyori.adventure.text.format.Style", arg2: JString) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
+        static fn create_direct(arg0: JString) -> crate::java::generated::net::kyori::adventure::text::TextComponent,
+        fn equals(arg0: JObject) -> jboolean,
+        fn hash_code() -> jint,
+        fn style_style {
+            name = "style",
+            sig = (arg0: "net.kyori.adventure.text.format.Style") -> crate::java::generated::net::kyori::adventure::text::Component,
+        },
+        #[allow(non_snake_case)]
+        fn style_style_1 {
+            name = "style",
+            sig = (arg0: "net.kyori.adventure.text.format.Style") -> crate::java::generated::net::kyori::adventure::text::TextComponent,
+        },
+        fn to_builder {
+            name = "toBuilder",
+            sig = () -> crate::java::generated::net::kyori::adventure::text::ComponentBuilder,
+        },
+        #[allow(non_snake_case)]
+        fn to_builder_1 {
+            name = "toBuilder",
+            sig = () -> crate::java::generated::net::kyori::adventure::text::TextComponentBuilder,
+        },
+        #[allow(non_snake_case)]
+        fn to_builder_2 {
+            name = "toBuilder",
+            sig = () -> "net.kyori.adventure.util.Buildable$Builder",
+        },
+        fn to_string() -> JString,
+        fn warn_when_legacy_formatting_detected() -> "net.kyori.adventure.text.LegacyFormattingDetected",
+    },
+    is_instance_of = {
+        crate::java::generated::net::kyori::adventure::text::TextComponent,
+    },
+}
+
 
 /// Initialize all Java bindings in this module.
 ///
@@ -1330,5 +1502,9 @@ pub fn jni_init(env: &::jni::Env, loader: &::jni::refs::LoaderContext) -> ::jni:
     let _ = ComponentIteratorFlagAPI::get(env, loader)?;
     let _ = ComponentIteratorTypeAPI::get(env, loader)?;
     let _ = ComponentLikeAPI::get(env, loader)?;
+    let _ = TextComponentBuilderAPI::get(env, loader)?;
+    let _ = TextComponentAPI::get(env, loader)?;
+    let _ = TextComponentImplBuilderImplAPI::get(env, loader)?;
+    let _ = TextComponentImplAPI::get(env, loader)?;
     Ok(())
 }

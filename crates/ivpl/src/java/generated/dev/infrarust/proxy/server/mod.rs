@@ -5,9 +5,11 @@ use jni::bind_java_type;
 bind_java_type! {
     pub InfrarustRegisteredServer => "dev.infrarust.proxy.server.InfrarustRegisteredServer",
     type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer",
         crate::java::generated::com::velocitypowered::api::proxy::server::ServerInfo => "com.velocitypowered.api.proxy.server.ServerInfo",
         crate::java::generated::dev::infrarust::NativeFinalize => "dev.infrarust.NativeFinalize",
         crate::java::generated::dev::infrarust::proxy::InfrarustPlayer => "dev.infrarust.proxy.InfrarustPlayer",
+        ivpl_java_binding::util::concurrent::CompletableFuture => "java.util.concurrent.CompletableFuture",
         unsafe crate::java::handle::ConfigServiceHandle => long,
         unsafe crate::java::handle::PlayerRegistryHandle => long,
     },
@@ -36,11 +38,11 @@ bind_java_type! {
         fn get_server_info() -> crate::java::generated::com::velocitypowered::api::proxy::server::ServerInfo,
         fn ping {
             name = "ping",
-            sig = () -> "java.util.concurrent.CompletableFuture",
+            sig = () -> ivpl_java_binding::util::concurrent::CompletableFuture,
         },
         fn ping_ping_options {
             name = "ping",
-            sig = (arg0: "com.velocitypowered.api.proxy.server.PingOptions") -> "java.util.concurrent.CompletableFuture",
+            sig = (arg0: "com.velocitypowered.api.proxy.server.PingOptions") -> ivpl_java_binding::util::concurrent::CompletableFuture,
         },
         #[allow(non_snake_case)]
         fn send_plugin_message2_byte_1d {
@@ -68,11 +70,12 @@ bind_java_type! {
         },
         fn native_ping {
             name = "native_ping",
-            sig = (arg0: "com.velocitypowered.api.proxy.server.PingOptions") -> "java.util.concurrent.CompletableFuture",
+            sig = (arg0: "com.velocitypowered.api.proxy.server.PingOptions") -> ivpl_java_binding::util::concurrent::CompletableFuture,
         },
     },
     is_instance_of = {
         crate::java::generated::dev::infrarust::NativeFinalize,
+        crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer,
     },
 }
 

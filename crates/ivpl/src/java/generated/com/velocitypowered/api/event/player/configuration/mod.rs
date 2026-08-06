@@ -4,13 +4,16 @@ use jni::bind_java_type;
 
 bind_java_type! {
     pub PlayerConfigurationEvent => "com.velocitypowered.api.event.player.configuration.PlayerConfigurationEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.velocitypowered.api.proxy.ServerConnection"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: "com.velocitypowered.api.proxy.ServerConnection"),
     },
     methods {
         fn equals(arg0: JObject) -> jboolean,
         fn hash_code() -> jint,
-        fn player() -> "com.velocitypowered.api.proxy.Player",
+        fn player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn server() -> "com.velocitypowered.api.proxy.ServerConnection",
         fn to_string() -> JString,
     },
@@ -18,13 +21,16 @@ bind_java_type! {
 
 bind_java_type! {
     pub PlayerEnterConfigurationEvent => "com.velocitypowered.api.event.player.configuration.PlayerEnterConfigurationEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.velocitypowered.api.proxy.ServerConnection"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: "com.velocitypowered.api.proxy.ServerConnection"),
     },
     methods {
         fn equals(arg0: JObject) -> jboolean,
         fn hash_code() -> jint,
-        fn player() -> "com.velocitypowered.api.proxy.Player",
+        fn player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn server() -> "com.velocitypowered.api.proxy.ServerConnection",
         fn to_string() -> JString,
     },
@@ -32,13 +38,16 @@ bind_java_type! {
 
 bind_java_type! {
     pub PlayerEnteredConfigurationEvent => "com.velocitypowered.api.event.player.configuration.PlayerEnteredConfigurationEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.velocitypowered.api.proxy.ServerConnection"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: "com.velocitypowered.api.proxy.ServerConnection"),
     },
     methods {
         fn equals(arg0: JObject) -> jboolean,
         fn hash_code() -> jint,
-        fn player() -> "com.velocitypowered.api.proxy.Player",
+        fn player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn server() -> "com.velocitypowered.api.proxy.ServerConnection",
         fn to_string() -> JString,
     },
@@ -46,13 +55,16 @@ bind_java_type! {
 
 bind_java_type! {
     pub PlayerFinishConfigurationEvent => "com.velocitypowered.api.event.player.configuration.PlayerFinishConfigurationEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.velocitypowered.api.proxy.ServerConnection"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: "com.velocitypowered.api.proxy.ServerConnection"),
     },
     methods {
         fn equals(arg0: JObject) -> jboolean,
         fn hash_code() -> jint,
-        fn player() -> "com.velocitypowered.api.proxy.Player",
+        fn player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn server() -> "com.velocitypowered.api.proxy.ServerConnection",
         fn to_string() -> JString,
     },
@@ -60,13 +72,16 @@ bind_java_type! {
 
 bind_java_type! {
     pub PlayerFinishedConfigurationEvent => "com.velocitypowered.api.event.player.configuration.PlayerFinishedConfigurationEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.velocitypowered.api.proxy.ServerConnection"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: "com.velocitypowered.api.proxy.ServerConnection"),
     },
     methods {
         fn equals(arg0: JObject) -> jboolean,
         fn hash_code() -> jint,
-        fn player() -> "com.velocitypowered.api.proxy.Player",
+        fn player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn server() -> "com.velocitypowered.api.proxy.ServerConnection",
         fn to_string() -> JString,
     },

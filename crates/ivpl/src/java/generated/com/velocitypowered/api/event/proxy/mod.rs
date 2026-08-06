@@ -7,14 +7,15 @@ use jni::bind_java_type;
 bind_java_type! {
     pub ListenerBoundEvent => "com.velocitypowered.api.event.proxy.ListenerBoundEvent",
     type_map = {
+        crate::java::generated::com::velocitypowered::api::network::ListenerType => "com.velocitypowered.api.network.ListenerType",
         ivpl_java_binding::net::inet_socket_address::InetSocketAddress => "java.net.InetSocketAddress",
     },
     constructors {
-        fn new(arg0: ivpl_java_binding::net::inet_socket_address::InetSocketAddress, arg1: "com.velocitypowered.api.network.ListenerType"),
+        fn new(arg0: ivpl_java_binding::net::inet_socket_address::InetSocketAddress, arg1: crate::java::generated::com::velocitypowered::api::network::ListenerType),
     },
     methods {
         fn get_address() -> ivpl_java_binding::net::inet_socket_address::InetSocketAddress,
-        fn get_listener_type() -> "com.velocitypowered.api.network.ListenerType",
+        fn get_listener_type() -> crate::java::generated::com::velocitypowered::api::network::ListenerType,
         fn to_string() -> JString,
     },
 }
@@ -22,14 +23,15 @@ bind_java_type! {
 bind_java_type! {
     pub ListenerCloseEvent => "com.velocitypowered.api.event.proxy.ListenerCloseEvent",
     type_map = {
+        crate::java::generated::com::velocitypowered::api::network::ListenerType => "com.velocitypowered.api.network.ListenerType",
         ivpl_java_binding::net::inet_socket_address::InetSocketAddress => "java.net.InetSocketAddress",
     },
     constructors {
-        fn new(arg0: ivpl_java_binding::net::inet_socket_address::InetSocketAddress, arg1: "com.velocitypowered.api.network.ListenerType"),
+        fn new(arg0: ivpl_java_binding::net::inet_socket_address::InetSocketAddress, arg1: crate::java::generated::com::velocitypowered::api::network::ListenerType),
     },
     methods {
         fn get_address() -> ivpl_java_binding::net::inet_socket_address::InetSocketAddress,
-        fn get_listener_type() -> "com.velocitypowered.api.network.ListenerType",
+        fn get_listener_type() -> crate::java::generated::com::velocitypowered::api::network::ListenerType,
         fn to_string() -> JString,
     },
 }
@@ -50,12 +52,13 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::ResultedEvent => "com.velocitypowered.api.event.ResultedEvent",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventGenericResult => "com.velocitypowered.api.event.ResultedEvent$GenericResult",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
+        crate::java::generated::com::velocitypowered::api::proxy::InboundConnection => "com.velocitypowered.api.proxy.InboundConnection",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.InboundConnection", arg1: "com.velocitypowered.api.proxy.server.ServerPing"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::InboundConnection, arg1: "com.velocitypowered.api.proxy.server.ServerPing"),
     },
     methods {
-        fn get_connection() -> "com.velocitypowered.api.proxy.InboundConnection",
+        fn get_connection() -> crate::java::generated::com::velocitypowered::api::proxy::InboundConnection,
         fn get_ping() -> "com.velocitypowered.api.proxy.server.ServerPing",
         fn get_result {
             name = "getResult",

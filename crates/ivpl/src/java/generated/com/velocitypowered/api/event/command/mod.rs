@@ -157,11 +157,14 @@ bind_java_type! {
 
 bind_java_type! {
     pub PlayerAvailableCommandsEvent => "com.velocitypowered.api.event.command.PlayerAvailableCommandsEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: "com.mojang.brigadier.tree.RootCommandNode"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: "com.mojang.brigadier.tree.RootCommandNode"),
     },
     methods {
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn get_root_node() -> "com.mojang.brigadier.tree.RootCommandNode",
     },
 }

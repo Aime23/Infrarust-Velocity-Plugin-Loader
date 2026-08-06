@@ -49,9 +49,10 @@ bind_java_type! {
     type_map = {
         crate::java::generated::com::velocitypowered::api::event::EventHandler => "com.velocitypowered.api.event.EventHandler",
         crate::java::generated::com::velocitypowered::api::event::PostOrder => "com.velocitypowered.api.event.PostOrder",
+        ivpl_java_binding::util::concurrent::CompletableFuture => "java.util.concurrent.CompletableFuture",
     },
     methods {
-        fn fire(arg0: JObject) -> "java.util.concurrent.CompletableFuture",
+        fn fire(arg0: JObject) -> ivpl_java_binding::util::concurrent::CompletableFuture,
         fn fire_and_forget(arg0: JObject),
         fn register {
             name = "register",
@@ -119,6 +120,7 @@ bind_java_type! {
     type_map = {
         crate::java::generated::com::velocitypowered::api::event::Continuation => "com.velocitypowered.api.event.Continuation",
         crate::java::generated::com::velocitypowered::api::event::EventTask => "com.velocitypowered.api.event.EventTask",
+        ivpl_java_binding::util::concurrent::CompletableFuture => "java.util.concurrent.CompletableFuture",
     },
     methods {
         static fn asynchronous {
@@ -127,7 +129,7 @@ bind_java_type! {
         },
         fn execute(arg0: crate::java::generated::com::velocitypowered::api::event::Continuation),
         fn requires_async() -> jboolean,
-        static fn resume_when_complete(arg0: "java.util.concurrent.CompletableFuture") -> crate::java::generated::com::velocitypowered::api::event::EventTask,
+        static fn resume_when_complete(arg0: ivpl_java_binding::util::concurrent::CompletableFuture) -> crate::java::generated::com::velocitypowered::api::event::EventTask,
         static fn with_continuation(arg0: "java.util.function.Consumer") -> crate::java::generated::com::velocitypowered::api::event::EventTask,
     },
 }

@@ -4,14 +4,18 @@ use jni::bind_java_type;
 
 bind_java_type! {
     pub ConnectionHandshakeEvent => "com.velocitypowered.api.event.connection.ConnectionHandshakeEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::network::HandshakeIntent => "com.velocitypowered.api.network.HandshakeIntent",
+        crate::java::generated::com::velocitypowered::api::proxy::InboundConnection => "com.velocitypowered.api.proxy.InboundConnection",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.InboundConnection"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::InboundConnection),
         #[allow(non_snake_case)]
-        fn new2(arg0: "com.velocitypowered.api.proxy.InboundConnection", arg1: "com.velocitypowered.api.network.HandshakeIntent"),
+        fn new2(arg0: crate::java::generated::com::velocitypowered::api::proxy::InboundConnection, arg1: crate::java::generated::com::velocitypowered::api::network::HandshakeIntent),
     },
     methods {
-        fn get_connection() -> "com.velocitypowered.api.proxy.InboundConnection",
-        fn get_intent() -> "com.velocitypowered.api.network.HandshakeIntent",
+        fn get_connection() -> crate::java::generated::com::velocitypowered::api::proxy::InboundConnection,
+        fn get_intent() -> crate::java::generated::com::velocitypowered::api::network::HandshakeIntent,
         fn to_string() -> JString,
     },
 }
@@ -66,13 +70,14 @@ bind_java_type! {
     pub DisconnectEvent => "com.velocitypowered.api.event.connection.DisconnectEvent",
     type_map = {
         crate::java::generated::com::velocitypowered::api::event::connection::DisconnectEventLoginStatus => "com.velocitypowered.api.event.connection.DisconnectEvent$LoginStatus",
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: crate::java::generated::com::velocitypowered::api::event::connection::DisconnectEventLoginStatus),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: crate::java::generated::com::velocitypowered::api::event::connection::DisconnectEventLoginStatus),
     },
     methods {
         fn get_login_status() -> crate::java::generated::com::velocitypowered::api::event::connection::DisconnectEventLoginStatus,
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn to_string() -> JString,
     },
 }
@@ -83,14 +88,15 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::ResultedEvent => "com.velocitypowered.api.event.ResultedEvent",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventComponentResult => "com.velocitypowered.api.event.ResultedEvent$ComponentResult",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player),
         #[allow(non_snake_case)]
-        fn new2(arg0: "com.velocitypowered.api.proxy.Player", arg1: JString),
+        fn new2(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: JString),
     },
     methods {
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn get_result {
             name = "getResult",
             sig = () -> crate::java::generated::com::velocitypowered::api::event::ResultedEventComponentResult,
@@ -179,11 +185,14 @@ bind_java_type! {
 
 bind_java_type! {
     pub PostLoginEvent => "com.velocitypowered.api.event.connection.PostLoginEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player),
     },
     methods {
-        fn get_player() -> "com.velocitypowered.api.proxy.Player",
+        fn get_player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn to_string() -> JString,
     },
 }
@@ -258,15 +267,16 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::ResultedEvent => "com.velocitypowered.api.event.ResultedEvent",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::connection::PreLoginEventPreLoginComponentResult => "com.velocitypowered.api.event.connection.PreLoginEvent$PreLoginComponentResult",
+        crate::java::generated::com::velocitypowered::api::proxy::InboundConnection => "com.velocitypowered.api.proxy.InboundConnection",
         ivpl_java_binding::util::uuid::UUID => "java.util.UUID",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.InboundConnection", arg1: JString),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::InboundConnection, arg1: JString),
         #[allow(non_snake_case)]
-        fn new3(arg0: "com.velocitypowered.api.proxy.InboundConnection", arg1: JString, arg2: ivpl_java_binding::util::uuid::UUID),
+        fn new3(arg0: crate::java::generated::com::velocitypowered::api::proxy::InboundConnection, arg1: JString, arg2: ivpl_java_binding::util::uuid::UUID),
     },
     methods {
-        fn get_connection() -> "com.velocitypowered.api.proxy.InboundConnection",
+        fn get_connection() -> crate::java::generated::com::velocitypowered::api::proxy::InboundConnection,
         fn get_result {
             name = "getResult",
             sig = () -> crate::java::generated::com::velocitypowered::api::event::ResultedEventResult,
@@ -321,10 +331,11 @@ bind_java_type! {
         crate::java::generated::com::velocitypowered::api::event::ResultedEvent => "com.velocitypowered.api.event.ResultedEvent",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::connection::PreTransferEventTransferResult => "com.velocitypowered.api.event.connection.PreTransferEvent$TransferResult",
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
         ivpl_java_binding::net::inet_socket_address::InetSocketAddress => "java.net.InetSocketAddress",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.Player", arg1: ivpl_java_binding::net::inet_socket_address::InetSocketAddress),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::Player, arg1: ivpl_java_binding::net::inet_socket_address::InetSocketAddress),
     },
     methods {
         fn get_result {
@@ -337,7 +348,7 @@ bind_java_type! {
             sig = () -> crate::java::generated::com::velocitypowered::api::event::connection::PreTransferEventTransferResult,
         },
         fn original_address() -> ivpl_java_binding::net::inet_socket_address::InetSocketAddress,
-        fn player() -> "com.velocitypowered.api.proxy.Player",
+        fn player() -> crate::java::generated::com::velocitypowered::api::proxy::Player,
         fn set_result_resulted_event_result {
             name = "setResult",
             sig = (arg0: crate::java::generated::com::velocitypowered::api::event::ResultedEventResult),

@@ -7,6 +7,11 @@ use jni::bind_java_type;
 bind_java_type! {
     pub InfrarustPlayer => "dev.infrarust.proxy.InfrarustPlayer",
     type_map = {
+        crate::java::generated::com::velocitypowered::api::network::HandshakeIntent => "com.velocitypowered.api.network.HandshakeIntent",
+        crate::java::generated::com::velocitypowered::api::network::ProtocolState => "com.velocitypowered.api.network.ProtocolState",
+        crate::java::generated::com::velocitypowered::api::network::ProtocolVersion => "com.velocitypowered.api.network.ProtocolVersion",
+        crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocitypowered.api.proxy.Player",
+        crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer",
         crate::java::generated::dev::infrarust::NativeFinalize => "dev.infrarust.NativeFinalize",
         ivpl_java_binding::net::inet_socket_address::InetSocketAddress => "java.net.InetSocketAddress",
         ivpl_java_binding::util::optional::Optional => "java.util.Optional",
@@ -27,7 +32,7 @@ bind_java_type! {
     methods {
         fn add_custom_chat_completions(arg0: JCollection),
         fn clear_player_list_header_and_footer(),
-        fn create_connection_request(arg0: "com.velocitypowered.api.proxy.server.RegisteredServer") -> "com.velocitypowered.api.proxy.ConnectionRequestBuilder",
+        fn create_connection_request(arg0: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer) -> "com.velocitypowered.api.proxy.ConnectionRequestBuilder",
         fn disconnect(arg0: crate::java::generated::net::kyori::adventure::text::Component),
         fn get_applied_resource_pack() -> "com.velocitypowered.api.proxy.player.ResourcePackInfo",
         fn get_applied_resource_packs() -> JCollection,
@@ -36,7 +41,7 @@ bind_java_type! {
         fn get_effective_locale() -> "java.util.Locale",
         fn get_game_profile() -> "com.velocitypowered.api.util.GameProfile",
         fn get_game_profile_properties() -> JList,
-        fn get_handshake_intent() -> "com.velocitypowered.api.network.HandshakeIntent",
+        fn get_handshake_intent() -> crate::java::generated::com::velocitypowered::api::network::HandshakeIntent,
         fn get_identified_key() -> "com.velocitypowered.api.proxy.crypto.IdentifiedKey",
         fn get_mod_info() -> ivpl_java_binding::util::optional::Optional,
         fn get_pending_resource_pack() -> "com.velocitypowered.api.proxy.player.ResourcePackInfo",
@@ -46,8 +51,8 @@ bind_java_type! {
         fn get_player_list_footer() -> crate::java::generated::net::kyori::adventure::text::Component,
         fn get_player_list_header() -> crate::java::generated::net::kyori::adventure::text::Component,
         fn get_player_settings() -> "com.velocitypowered.api.proxy.player.PlayerSettings",
-        fn get_protocol_state() -> "com.velocitypowered.api.network.ProtocolState",
-        fn get_protocol_version() -> "com.velocitypowered.api.network.ProtocolVersion",
+        fn get_protocol_state() -> crate::java::generated::com::velocitypowered::api::network::ProtocolState,
+        fn get_protocol_version() -> crate::java::generated::com::velocitypowered::api::network::ProtocolVersion,
         fn get_raw_virtual_host() -> ivpl_java_binding::util::optional::Optional,
         fn get_remote_address() -> ivpl_java_binding::net::inet_socket_address::InetSocketAddress,
         fn get_tab_list() -> "com.velocitypowered.api.proxy.player.TabList",
@@ -112,6 +117,7 @@ bind_java_type! {
     },
     is_instance_of = {
         crate::java::generated::dev::infrarust::NativeFinalize,
+        crate::java::generated::com::velocitypowered::api::proxy::Player,
     },
 }
 
@@ -119,6 +125,7 @@ bind_java_type! {
     pub InfrarustServer => "dev.infrarust.proxy.InfrarustServer",
     type_map = {
         crate::java::generated::com::velocitypowered::api::event::EventManager => "com.velocitypowered.api.event.EventManager",
+        crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer",
         crate::java::generated::com::velocitypowered::api::proxy::server::ServerInfo => "com.velocitypowered.api.proxy.server.ServerInfo",
         crate::java::generated::dev::infrarust::NativeFinalize => "dev.infrarust.NativeFinalize",
         crate::java::generated::dev::infrarust::event::InfrarustEventManager => "dev.infrarust.event.InfrarustEventManager",
@@ -156,7 +163,7 @@ bind_java_type! {
     },
     methods {
         fn close_listeners(),
-        fn create_raw_registered_server(arg0: crate::java::generated::com::velocitypowered::api::proxy::server::ServerInfo) -> "com.velocitypowered.api.proxy.server.RegisteredServer",
+        fn create_raw_registered_server(arg0: crate::java::generated::com::velocitypowered::api::proxy::server::ServerInfo) -> crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer,
         fn create_resource_pack_builder(arg0: JString) -> "com.velocitypowered.api.proxy.player.ResourcePackInfo$Builder",
         fn get_all_players() -> JCollection,
         fn get_all_servers() -> JCollection,
@@ -183,7 +190,7 @@ bind_java_type! {
         fn is_shutting_down() -> jboolean,
         fn match_player(arg0: JString) -> JCollection,
         fn match_server(arg0: JString) -> JCollection,
-        fn register_server(arg0: crate::java::generated::com::velocitypowered::api::proxy::server::ServerInfo) -> "com.velocitypowered.api.proxy.server.RegisteredServer",
+        fn register_server(arg0: crate::java::generated::com::velocitypowered::api::proxy::server::ServerInfo) -> crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer,
         fn shutdown {
             name = "shutdown",
             sig = (),
@@ -249,6 +256,35 @@ bind_java_type! {
     },
 }
 
+bind_java_type! {
+    pub InfrarustInboundConnection => "dev.infrarust.proxy.InfrarustInboundConnection",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::network::HandshakeIntent => "com.velocitypowered.api.network.HandshakeIntent",
+        crate::java::generated::com::velocitypowered::api::network::ProtocolState => "com.velocitypowered.api.network.ProtocolState",
+        crate::java::generated::com::velocitypowered::api::network::ProtocolVersion => "com.velocitypowered.api.network.ProtocolVersion",
+        crate::java::generated::com::velocitypowered::api::proxy::InboundConnection => "com.velocitypowered.api.proxy.InboundConnection",
+        ivpl_java_binding::net::inet_socket_address::InetSocketAddress => "java.net.InetSocketAddress",
+        ivpl_java_binding::util::optional::Optional => "java.util.Optional",
+    },
+    constructors {
+        fn new(arg0: ivpl_java_binding::net::inet_socket_address::InetSocketAddress, arg1: crate::java::generated::com::velocitypowered::api::network::ProtocolVersion, arg2: crate::java::generated::com::velocitypowered::api::network::ProtocolState, arg3: crate::java::generated::com::velocitypowered::api::network::HandshakeIntent),
+        #[allow(non_snake_case)]
+        fn new6(arg0: ivpl_java_binding::net::inet_socket_address::InetSocketAddress, arg1: ivpl_java_binding::net::inet_socket_address::InetSocketAddress, arg2: JString, arg3: crate::java::generated::com::velocitypowered::api::network::ProtocolVersion, arg4: crate::java::generated::com::velocitypowered::api::network::ProtocolState, arg5: crate::java::generated::com::velocitypowered::api::network::HandshakeIntent),
+    },
+    methods {
+        fn get_handshake_intent() -> crate::java::generated::com::velocitypowered::api::network::HandshakeIntent,
+        fn get_protocol_state() -> crate::java::generated::com::velocitypowered::api::network::ProtocolState,
+        fn get_protocol_version() -> crate::java::generated::com::velocitypowered::api::network::ProtocolVersion,
+        fn get_raw_virtual_host() -> ivpl_java_binding::util::optional::Optional,
+        fn get_remote_address() -> ivpl_java_binding::net::inet_socket_address::InetSocketAddress,
+        fn get_virtual_host() -> ivpl_java_binding::util::optional::Optional,
+        fn is_active() -> jboolean,
+    },
+    is_instance_of = {
+        crate::java::generated::com::velocitypowered::api::proxy::InboundConnection,
+    },
+}
+
 
 /// Initialize all Java bindings in this module.
 ///
@@ -262,6 +298,7 @@ bind_java_type! {
 pub fn jni_init(env: &::jni::Env, loader: &::jni::refs::LoaderContext) -> ::jni::errors::Result<()> {
     let _ = InfrarustPlayerAPI::get(env, loader)?;
     let _ = InfrarustServerAPI::get(env, loader)?;
+    let _ = InfrarustInboundConnectionAPI::get(env, loader)?;
     server::jni_init(env, loader)?;
     Ok(())
 }

@@ -4,27 +4,33 @@ use jni::bind_java_type;
 
 bind_java_type! {
     pub ServerRegisteredEvent => "com.velocitypowered.api.event.proxy.server.ServerRegisteredEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.server.RegisteredServer"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer),
     },
     methods {
         fn equals(arg0: JObject) -> jboolean,
         fn hash_code() -> jint,
-        fn registered_server() -> "com.velocitypowered.api.proxy.server.RegisteredServer",
+        fn registered_server() -> crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer,
         fn to_string() -> JString,
     },
 }
 
 bind_java_type! {
     pub ServerUnregisteredEvent => "com.velocitypowered.api.event.proxy.server.ServerUnregisteredEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.server.RegisteredServer"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer),
     },
     methods {
         fn equals(arg0: JObject) -> jboolean,
         fn hash_code() -> jint,
         fn to_string() -> JString,
-        fn unregistered_server() -> "com.velocitypowered.api.proxy.server.RegisteredServer",
+        fn unregistered_server() -> crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer,
     },
 }
 
