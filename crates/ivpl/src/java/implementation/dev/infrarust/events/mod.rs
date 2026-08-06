@@ -21,27 +21,10 @@ pub trait TryFromInfrarustEvent<'local, T>: Sized + AsRef<JObject<'local>> {
     ) -> Result<Self, TryFromInfrarustEventError>;
 }
 
-// pub trait TryIntoJavaEvent<'local, T>: Sized
-// where
-//     T: AsRef<JObject<'local>>,
-// {
-//     fn try_into_java_event(
-//         &self,
-//         env: &mut ::jni::Env<'local>,
-//         plugin_context_handle: PluginContextHandle,
-//     ) -> Result<T, TryFromInfrarustEventError>;
-// }
-
-// impl<'local, I, J> TryIntoJavaEvent<'local, J> for I
-// where
-//     J: TryFromInfrarustEvent<'local, I> + AsRef<JObject<'local>>,
-//     I: infrarust_api::event::Event,
-// {
-//     fn try_into_java_event(
-//         &self,
-//         env: &mut jni::Env<'local>,
-//         plugin_context_handle: PluginContextHandle,
-//     ) -> Result<J, TryFromInfrarustEventError> {
-//         J::try_from_infrarust_event(&self, env, plugin_context_handle)
-//     }
-// }
+pub trait ApplyEventResult<'local, T>: TryFromInfrarustEvent<'local, T> {
+    fn apply_event_result(
+        &self,
+        env: &mut ::jni::Env<'local>,
+        event: &mut T,
+    ) -> jni::errors::Result<()>;
+}
