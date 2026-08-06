@@ -2,6 +2,7 @@ ivpl_java_binding::net::inet_socket_address::InetSocketAddress => java.net.InetS
 ivpl_java_binding::util::array_list::ArrayList => java.util.ArrayList
 ivpl_java_binding::util::optional::Optional => java.util.Optional
 ivpl_java_binding::util::uuid::UUID => java.util.UUID
+ivpl_java_binding::util::concurrent::CompletableFuture => java.util.concurrent.CompletableFuture
 ivpl_java_binding::nio::file::path::Path => java.nio.file.Path
 unsafe crate::java::handle::PluginContextHandle => long
 unsafe crate::java::handle::PlayerRegistryHandle => long
