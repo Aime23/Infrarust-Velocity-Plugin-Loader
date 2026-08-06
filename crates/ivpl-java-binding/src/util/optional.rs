@@ -5,10 +5,11 @@ bind_java_type! {
     java_type = java.util.Optional,
 
     constructors {
-        fn of(value: JObject),
-        fn empty()
+
     },
     methods {
+        static fn of(value: JObject) -> Optional,
+        static fn empty() -> Optional,
         fn get() -> JObject
     },
     fields {
