@@ -23,6 +23,8 @@ pub trait ToJni<'local> {
     fn to_jni(self, env: &mut ::jni::Env<'local>) -> Result<Self::Kind, jni::errors::Error>;
 }
 
+// Vec
+
 impl<'local, T, I> ToJni<'local> for Vec<T>
 where
     T: ToJni<'local, Kind = I>,
