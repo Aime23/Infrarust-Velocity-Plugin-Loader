@@ -4,6 +4,7 @@ use jni::{objects::JObject, refs::Reference};
 use crate::java::handle::PluginContextHandle;
 
 pub mod connection;
+pub mod proxy;
 
 #[non_exhaustive]
 #[derive(Debug)]
