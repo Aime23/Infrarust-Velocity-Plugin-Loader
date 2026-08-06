@@ -27,10 +27,10 @@ impl<'local> TryFromInfrarustEvent<'local, infrarust_api::events::ServerConnecte
         let player = plugin_context
             .player_registry()
             .get_player_by_id(value.player_id)
-            .ok_or(TryFromInfrarustEventError::UNKNOWN)?;
+            .ok_or(TryFromInfrarustEventError::MissingPlayer(value.player_id))?;
         let player = player
             .to_jni(env)
-            .map_err(|_| TryFromInfrarustEventError::UNKNOWN)?;
+            .map_err(|err| TryFromInfrarustEventError::Java(err))?;
 
         let player_registry_handle =
             PlayerRegistryHandle::from_instance(Box::new(plugin_context.player_registry_handle()));
@@ -40,18 +40,22 @@ impl<'local> TryFromInfrarustEvent<'local, infrarust_api::events::ServerConnecte
             .server
             .to_string()
             .to_jni(env)
-            .map_err(|_| TryFromInfrarustEventError::UNKNOWN)?;
+            .map_err(|err| TryFromInfrarustEventError::Java(err))?;
         let registered_server = InfrarustRegisteredServer::new(
             env,
             player_registry_handle,
             config_service_handle,
             server_id,
         )
-        .map_err(|_| TryFromInfrarustEventError::UNKNOWN)?;
+        .map_err(|err| TryFromInfrarustEventError::Java(err))?;
 
-        let server_connected_event =
-            ServerConnectedEvent::new(env, player, registered_server, InfrarustServer::null())
-                .map_err(|_| TryFromInfrarustEventError::UNKNOWN)?;
+        let server_connected_event = ServerConnectedEvent::new(
+            env,
+            player,
+            registered_server,
+            InfrarustRegisteredServer::null(),
+        )
+        .map_err(|err| TryFromInfrarustEventError::Java(err))?;
         return Ok(server_connected_event);
     }
 }
