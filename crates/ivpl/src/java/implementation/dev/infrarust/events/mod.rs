@@ -1,4 +1,4 @@
-use infrarust_api::plugin::PluginContext;
+use infrarust_api::{plugin::PluginContext, types::PlayerId};
 use jni::{objects::JObject, refs::Reference};
 
 use crate::java::handle::PluginContextHandle;
@@ -8,7 +8,9 @@ pub mod connection;
 #[non_exhaustive]
 #[derive(Debug)]
 pub enum TryFromInfrarustEventError {
-    UNKNOWN,
+    Unknown,
+    MissingPlayer(PlayerId),
+    Java(jni::errors::Error),
 }
 
 pub trait TryFromInfrarustEvent<'local, T>: Sized + AsRef<JObject<'local>> {
