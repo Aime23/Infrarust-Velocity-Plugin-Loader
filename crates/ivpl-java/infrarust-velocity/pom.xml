@@ -41,6 +41,11 @@
             <version>4.1.1.4</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+          <groupId>net.kyori</groupId>
+          <artifactId>adventure-text-serializer-gson</artifactId>
+          <version>5.2.0</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
