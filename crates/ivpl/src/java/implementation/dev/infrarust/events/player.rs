@@ -107,15 +107,8 @@ impl<'local> TryFromInfrarustEvent<'local, infrarust_api::events::KickedFromServ
         .map_err(|err| TryFromInfrarustEventError::Java(err))?;
 
         let reason = value
-            .reason
-            .text
-            .clone()
+            .reason.clone()
             .to_jni(env)
-            .map_err(|err| TryFromInfrarustEventError::Java(err))?;
-        let reason = Component::text_string(env, reason)
-            .map_err(|err| TryFromInfrarustEventError::Java(err))?;
-
-        let reason = Component::cast_local(env, reason)
             .map_err(|err| TryFromInfrarustEventError::Java(err))?;
 
         let result = KickedFromServerEventDisconnectPlayer::create(env, &reason)
