@@ -141,11 +141,9 @@ impl<'local> ApplyEventResult<'local, infrarust_api::events::KickedFromServerEve
         if env.is_instance_of(&result, KickedFromServerEventDisconnectPlayer::class_name())? {
             let result = KickedFromServerEventDisconnectPlayer::cast_local(env, result)?;
             let reason = result.get_reason_component(env)?;
-
+            let reason = infrarust_api::types::Component::try_from_jni(env, reason)?;
             event.set_result(
-                infrarust_api::events::KickedFromServerResult::DisconnectPlayer {
-                    reason: infrarust_api::types::Component::default(),
-                },
+                infrarust_api::events::KickedFromServerResult::DisconnectPlayer { reason },
             );
         } else if env.is_instance_of(&result, KickedFromServerEventRedirectPlayer::class_name())? {
             let result = KickedFromServerEventRedirectPlayer::cast_local(env, result)?;

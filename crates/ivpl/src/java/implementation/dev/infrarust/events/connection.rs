@@ -193,9 +193,14 @@ impl<'local> ApplyEventResult<'local, infrarust_api::events::PreLoginEvent>
         let is_force_online_mode = result.is_online_mode_allowed(env)?;
 
         if is_disallowed {
-            // let reason = Option::<Component>::try_from_jni(env, result.get_reason_component(env)?)?;
-            // let reason: infrarust_api::types::Component = reason.map_or_default(|v| v.)
-            event.deny(infrarust_api::types::Component::default());
+            let reason = result.get_reason_component(env)?;
+            let reason = Option::<Component>::try_from_jni(env, reason)?;
+            let reason = if let Some(value) = reason {
+                infrarust_api::types::Component::try_from_jni(env, value)?
+            } else {
+                infrarust_api::types::Component::default()
+            };
+            event.deny(reason);
         } else if is_force_offline_mode {
             event.set_result(infrarust_api::events::PreLoginResult::ForceOffline);
         } else if is_force_online_mode {
