@@ -393,6 +393,7 @@ dependencies = [
  "infrarust-api",
  "ivpl-java-binding",
  "jni",
+ "log",
  "serde",
  "serde_json",
  "serial_test",
