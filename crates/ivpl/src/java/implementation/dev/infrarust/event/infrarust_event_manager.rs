@@ -20,6 +20,22 @@ use crate::java::{
     implementation::dev::infrarust::events::TryFromInfrarustEvent,
 };
 
+macro_rules! register_events {
+    ($env:expr, $global_ref:expr, $plugin_context:expr, $handler:tt, [ $( ($java_event:ty, $rust_event:ty) ),* ]) => {
+        $(
+            if let Some(global_ref) = $global_ref.clone_in_jvm($env)? {
+                $plugin_context.event_bus().subscribe(
+                    EventPriority::NORMAL,
+                    move |event: &mut $rust_event| {
+                        Self::$handler::<$java_event, $rust_event>(event, &global_ref);
+                        return;
+                    },
+                );
+            }
+        )*
+    };
+}
+
 impl InfrarustEventManagerNativeInterface for InfrarustEventManagerAPI {
     type Error = jni::errors::Error;
 
