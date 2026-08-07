@@ -8,6 +8,20 @@ pub mod scheduler;
 use jni::bind_java_type;
 
 bind_java_type! {
+    pub InfrarustUtils => "dev.infrarust.InfrarustUtils",
+    type_map = {
+        crate::java::generated::net::kyori::adventure::text::Component => "net.kyori.adventure.text.Component",
+    },
+    constructors {
+        fn new(),
+    },
+    methods {
+        static fn deserialize_component(arg0: JString) -> crate::java::generated::net::kyori::adventure::text::Component,
+        static fn serialize_component(arg0: crate::java::generated::net::kyori::adventure::text::Component) -> JString,
+    },
+}
+
+bind_java_type! {
     pub NativeFinalize => "dev.infrarust.NativeFinalize",
     constructors {
         fn new(),
@@ -34,6 +48,7 @@ bind_java_type! {
 /// * `env` - The JNI environment
 /// * `loader` - The LoaderContext to use for loading classes
 pub fn jni_init(env: &::jni::Env, loader: &::jni::refs::LoaderContext) -> ::jni::errors::Result<()> {
+    let _ = InfrarustUtilsAPI::get(env, loader)?;
     let _ = NativeFinalizeAPI::get(env, loader)?;
     event::jni_init(env, loader)?;
     plugin::jni_init(env, loader)?;

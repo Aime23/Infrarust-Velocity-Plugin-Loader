@@ -91,6 +91,7 @@ crate::java::generated::com::velocitypowered::api::proxy::Player => "com.velocit
 crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer"
 crate::java::generated::com::velocitypowered::api::proxy::server::ServerInfo => "com.velocitypowered.api.proxy.server.ServerInfo"
 crate::java::generated::com::velocitypowered::proxy::plugin::loader::VelocityPluginContainer => "com.velocitypowered.proxy.plugin.loader.VelocityPluginContainer"
+crate::java::generated::dev::infrarust::InfrarustUtils => "dev.infrarust.InfrarustUtils"
 crate::java::generated::dev::infrarust::NativeFinalize => "dev.infrarust.NativeFinalize"
 crate::java::generated::dev::infrarust::event::EventHandlerBuilder => "dev.infrarust.event.EventHandlerBuilder"
 crate::java::generated::dev::infrarust::event::InfrarustEventManager => "dev.infrarust.event.InfrarustEventManager"
