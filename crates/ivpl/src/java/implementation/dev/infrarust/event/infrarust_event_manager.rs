@@ -1,4 +1,7 @@
-use std::pin::Pin;
+use std::{
+    fmt::{Debug, Display},
+    pin::Pin,
+};
 
 use infrarust_api::event::{EventPriority, bus::EventBusExt};
 use jni::{
@@ -11,7 +14,11 @@ use jni::{
 
 use crate::java::{
     generated::{
-        com::velocitypowered::api::event::player::ServerConnectedEvent,
+        com::velocitypowered::api::event::{
+            connection::{DisconnectEvent, PostLoginEvent, PreLoginEvent},
+            player::{KickedFromServerEvent, PlayerChatEvent, ServerConnectedEvent},
+            proxy::ProxyInitializeEvent,
+        },
         dev::infrarust::event::{
             InfrarustEventManager, InfrarustEventManagerAPI, InfrarustEventManagerNativeInterface,
         },
@@ -54,15 +61,36 @@ impl InfrarustEventManagerNativeInterface for InfrarustEventManagerAPI {
     ) -> ::std::result::Result<(), Self::Error> {
         let plugin_context = this.plugin_context_handle(env)?.into_instance();
         let global_ref = env.new_weak_ref(this)?;
-        plugin_context.event_bus().subscribe(
-            EventPriority::NORMAL,
-            move |event: &mut infrarust_api::events::ServerConnectedEvent| {
-                Self::handle_event::<
+        register_events!(
+            env,
+            global_ref,
+            plugin_context,
+            handle_event,
+            [
+                (
+                    ProxyInitializeEvent,
+                    infrarust_api::events::ProxyInitializeEvent
+                ),
+                (
                     ServerConnectedEvent,
-                    infrarust_api::events::ServerConnectedEvent,
-                >(event, &global_ref);
-                return;
-            },
+                    infrarust_api::events::ServerConnectedEvent
+                ),
+                (DisconnectEvent, infrarust_api::events::DisconnectEvent) // (PostLoginEvent, infrarust_api::events::PostLoginEvent) // Infrarust has not yet registered the player when firing this event, however, Velocity needs Player
+            ]
+        );
+        register_events!(
+            env,
+            global_ref,
+            plugin_context,
+            handle_event_blocking,
+            [
+                (PreLoginEvent, infrarust_api::events::PreLoginEvent),
+                (PlayerChatEvent, infrarust_api::events::ChatMessageEvent),
+                (
+                    KickedFromServerEvent,
+                    infrarust_api::events::KickedFromServerEvent
+                )
+            ]
         );
         Ok(())
     }
