@@ -17,7 +17,7 @@ use crate::java::{
         },
     },
     handle::NewTypeHandle,
-    implementation::dev::infrarust::events::TryFromInfrarustEvent,
+    implementation::dev::infrarust::events::{ApplyEventResult, TryFromInfrarustEvent},
 };
 
 macro_rules! register_events {
@@ -80,17 +80,50 @@ impl InfrarustEventManagerAPI {
         let jvm = JavaVM::singleton()?;
 
         return jvm.attach_current_thread(|env| -> jni::errors::Result<()> {
-            //
+            // For some reason, the compiler thinks that env escapes the closure throught the java_event.
+            // Use an unsafe transmute to force a "longer" lifetime to work around this.
             let env: &mut Env<'local> = unsafe { std::mem::transmute(env) };
             let this = this
                 .upgrade_local(env)?
                 .ok_or(jni::errors::Error::ObjectFreed)?;
-            // Not cloning, but using the same handle as the event_manager because else I would need to redo every event to implements cleanup logic
+            // Not cloning, but using the same handle as the event_manager because else
+            // I would need to redo every event in java to implements cleanup logic.
+            // Since the EventManager lifetime is tied to the ProxyServer it will outlive every event, it's alright.
             let plugin_context_handle = this.plugin_context_handle(env)?;
-
             let java_event =
-                T::try_from_infrarust_event(event, env, plugin_context_handle).unwrap();
-            this.fire(env, java_event)?;
+                T::try_from_infrarust_event(event, env, plugin_context_handle).unwrap(); //TODO: Error handling
+            this.fire(env, &java_event)?;
+            Ok(())
+        });
+    }
+
+    fn handle_event_blocking<'local, T, E>(
+        event: &mut E,
+        this: &Weak<InfrarustEventManager<'static>>,
+    ) -> ::std::result::Result<(), jni::errors::Error>
+    where
+        E: infrarust_api::event::Event,
+        T: AsRef<JObject<'local>> + TryFromInfrarustEvent<'local, E> + ApplyEventResult<'local, E>,
+    {
+        let jvm = JavaVM::singleton()?;
+
+        return jvm.attach_current_thread(|env| -> jni::errors::Result<()> {
+            // For some reason, the compiler thinks that env escapes the closure throught the java_event.
+            // Use an unsafe transmute to force a "longer" lifetime to work around this.
+            let env: &mut Env<'local> = unsafe { std::mem::transmute(env) };
+            let this = this
+                .upgrade_local(env)?
+                .ok_or(jni::errors::Error::ObjectFreed)?;
+            // Not cloning, but using the same handle as the event_manager because else
+            // I would need to redo every event in java to implements cleanup logic.
+            // Since the EventManager lifetime is tied to the ProxyServer it will outlive every event, it's alright.
+            let plugin_context_handle = this.plugin_context_handle(env)?;
+            let java_event =
+                T::try_from_infrarust_event(event, env, plugin_context_handle).unwrap(); //TODO: Error handling
+            let future = this.fire(env, &java_event)?;
+            // Block the thread till fire is done
+            future.join(env)?;
+            T::apply_event_result(&java_event, env, event)?;
             Ok(())
         });
     }
