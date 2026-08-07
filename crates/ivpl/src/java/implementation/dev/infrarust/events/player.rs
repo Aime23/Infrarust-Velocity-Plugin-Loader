@@ -1,12 +1,13 @@
-use infrarust_api::event::ResultedEvent;
-use jni::objects::JString;
+use infrarust_api::{event::ResultedEvent, types::ServerId};
+use jni::{objects::JString, refs::Reference};
 
 use crate::java::{
     ToJni, TryFromJni,
     generated::{
         com::velocitypowered::api::event::player::{
             KickedFromServerEvent, KickedFromServerEventDisconnectPlayer,
-            KickedFromServerEventServerKickResult, PlayerChatEvent, PlayerChatEventChatResult,
+            KickedFromServerEventRedirectPlayer, KickedFromServerEventServerKickResult,
+            PlayerChatEvent, PlayerChatEventChatResult,
         },
         dev::infrarust::proxy::{InfrarustPlayer, server::InfrarustRegisteredServer},
         net::kyori::adventure::text::Component,
@@ -63,6 +64,98 @@ impl<'local> ApplyEventResult<'local, infrarust_api::events::ChatMessageEvent>
         }
         if !result.is_allowed(env)? {
             event.deny(infrarust_api::types::Component::default());
+        }
+        return Ok(());
+    }
+}
+
+// KickedFromServerEvent
+
+impl<'local> TryFromInfrarustEvent<'local, infrarust_api::events::KickedFromServerEvent>
+    for KickedFromServerEvent<'local>
+{
+    fn try_from_infrarust_event(
+        value: &infrarust_api::events::KickedFromServerEvent,
+        env: &mut ::jni::Env<'local>,
+        plugin_context_handle: PluginContextHandle,
+    ) -> Result<Self, TryFromInfrarustEventError> {
+        let plugin_context = plugin_context_handle.into_instance();
+        let player_registry_handle =
+            PlayerRegistryHandle::from_instance(Box::new(plugin_context.player_registry_handle()));
+        let config_service_handle =
+            ConfigServiceHandle::from_instance(Box::new(plugin_context.config_service_handle()));
+
+        let player = plugin_context
+            .player_registry()
+            .get_player_by_id(value.player_id)
+            .ok_or(TryFromInfrarustEventError::MissingPlayer(value.player_id))?;
+        let player = player
+            .to_jni(env)
+            .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+
+        let server_id = value
+            .server
+            .to_string()
+            .to_jni(env)
+            .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+        let registered_server = InfrarustRegisteredServer::new(
+            env,
+            player_registry_handle,
+            config_service_handle,
+            server_id,
+        )
+        .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+
+        let reason = value
+            .reason
+            .text
+            .clone()
+            .to_jni(env)
+            .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+        let reason = Component::text_string(env, reason)
+            .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+
+        let reason = Component::cast_local(env, reason)
+            .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+
+        let result = KickedFromServerEventDisconnectPlayer::create(env, &reason)
+            .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+
+        let event =
+            KickedFromServerEvent::new(env, &player, &registered_server, &reason, true, &result)
+                .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+        return Ok(event);
+    }
+}
+
+impl<'local> ApplyEventResult<'local, infrarust_api::events::KickedFromServerEvent>
+    for KickedFromServerEvent<'local>
+{
+    fn apply_event_result(
+        &self,
+        env: &mut ::jni::Env<'local>,
+        event: &mut infrarust_api::events::KickedFromServerEvent,
+    ) -> jni::errors::Result<()> {
+        let result = self.get_result_1(env)?;
+
+        if env.is_instance_of(&result, KickedFromServerEventDisconnectPlayer::class_name())? {
+            let result = KickedFromServerEventDisconnectPlayer::cast_local(env, result)?;
+            let reason = result.get_reason_component(env)?;
+
+            event.set_result(
+                infrarust_api::events::KickedFromServerResult::DisconnectPlayer {
+                    reason: infrarust_api::types::Component::default(),
+                },
+            );
+        } else if env.is_instance_of(&result, KickedFromServerEventRedirectPlayer::class_name())? {
+            let result = KickedFromServerEventRedirectPlayer::cast_local(env, result)?;
+            let server = result.get_server(env)?;
+            let server = InfrarustRegisteredServer::cast_local(env, server)?;
+            let server_id = server.server_id(env)?;
+            let server_id = ServerId::new(server_id.try_to_string(env)?);
+            event.set_result(infrarust_api::events::KickedFromServerResult::RedirectTo(
+                server_id,
+            ));
         }
         return Ok(());
     }
