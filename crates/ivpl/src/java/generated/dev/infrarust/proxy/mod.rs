@@ -214,6 +214,10 @@ bind_java_type! {
             name = "native_get_all_servers",
             sig = () -> crate::java::generated::dev::infrarust::proxy::server::InfrarustRegisteredServer[],
         },
+        fn native_get_bound_address {
+            name = "native_get_bound_address",
+            sig = () -> ivpl_java_binding::net::inet_socket_address::InetSocketAddress,
+        },
         pub static fn native_get_event_manager {
             name = "native_get_event_manager",
             sig = (arg0: crate::java::handle::PluginContextHandle, arg1: crate::java::generated::dev::infrarust::plugin::InfrarustPluginManager) -> crate::java::generated::dev::infrarust::event::InfrarustEventManager,

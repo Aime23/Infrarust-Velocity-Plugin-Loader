@@ -67,6 +67,7 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
 
     public native InfrarustRegisteredServer[] native_match_server(String name);
 
+    private native InetSocketAddress native_get_bound_address();
 
     public native void native_shutdown(Component component);
 
@@ -179,7 +180,7 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
 
     @Override
     public InetSocketAddress getBoundAddress() {
-        return null;
+        return this.native_get_bound_address();
     }
 
     @Override

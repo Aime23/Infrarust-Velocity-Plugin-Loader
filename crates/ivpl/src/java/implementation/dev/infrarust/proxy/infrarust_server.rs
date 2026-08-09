@@ -208,4 +208,9 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
     > {
         todo!()
     }
+
+    fn native_get_bound_address<'local>(env: &mut ::jni::Env<'local> ,this: InfrarustServer<'local>) ->  ::std::result::Result<ivpl_java_binding::net::inet_socket_address::InetSocketAddress<'local> ,Self::Error>  {
+        let plugin_context = this.plugin_context_handle(env)?.into_instance();
+        return plugin_context.proxy_info().bind.to_jni(env);
+    }
 }
