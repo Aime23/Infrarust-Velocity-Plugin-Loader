@@ -35,8 +35,6 @@ public class InfrarustScheduledTask extends NativeFinalize implements ScheduledT
 
     public native void native_finalize();
 
-    private native void native_cancel();
-
     @Override
     public @NotNull Object plugin() {
         return this.plugin;
