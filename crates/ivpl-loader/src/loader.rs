@@ -20,11 +20,9 @@ use jni::{
 };
 
 use ivpl::java::{
-    ToJni, TryFromJniNullable,
-    generated::{
+    ToJni, TryFromJniNullable, generated::{
         com::velocitypowered::api::plugin::PluginContainer, dev::infrarust::proxy::InfrarustServer,
-    },
-    handle::{NewTypeHandle, PluginContextHandle},
+    }, handle::{NewTypeHandle, PluginContextHandle, RuntimeHandle},
 };
 
 pub struct PluginLoaderVelocity {
@@ -172,6 +170,7 @@ impl PluginLoaderVelocity {
             reason: "Unable to initilialize JVM".to_owned(),
             source: Some(err.into()),
         })?;
+
         let mut lock = self.jvm.lock().map_err(|_err| LoaderError::LoadFailed {
             plugin_id: "VelocityLoader".to_owned(),
             reason: "Unable to acquire JVM write lock".to_owned(),
@@ -206,7 +205,9 @@ impl PluginLoaderVelocity {
                 ivpl::java::generated::jni_init(env, &jni::refs::LoaderContext::Loader(&loader))?;
 
                 let handle = PluginContextHandle::from_instance(Box::new(context));
-                let server = InfrarustServer::new(env, handle)?;
+                let tokio_handle = tokio::runtime::Handle::current();
+                let tokio_handle = RuntimeHandle::from_instance(Box::new(tokio_handle));
+                let server = InfrarustServer::new(env, handle, tokio_handle)?;
                 let server = env.new_global_ref(server)?;
                 *server_lock = Some(server);
                 Ok(())
