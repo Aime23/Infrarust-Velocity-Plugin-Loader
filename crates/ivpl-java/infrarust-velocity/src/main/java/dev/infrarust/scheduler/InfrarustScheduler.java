@@ -30,13 +30,13 @@ public class InfrarustScheduler extends NativeFinalize implements Scheduler {
 
     @Override
     public TaskBuilder buildTask(@NotNull Object plugin, @NotNull Runnable runnable) {
-        return new InfrarustTaskBuilder(this.clone_handle(), plugin, runnable);
+        return new InfrarustTaskBuilder(this.clone_handle(), this, plugin, runnable);
     }
 
     @Override
     public TaskBuilder buildTask(@NotNull Object plugin,
             @NotNull Consumer<ScheduledTask> consumer) {
-        return new InfrarustTaskBuilder(this.clone_handle(), plugin, consumer);
+        return new InfrarustTaskBuilder(this.clone_handle(), this, plugin, consumer);
     }
 
     @Override

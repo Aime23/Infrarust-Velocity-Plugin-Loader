@@ -13,21 +13,28 @@ public class InfrarustTaskBuilder extends NativeFinalize implements Scheduler.Ta
     @RustPrimitive("crate::java::handle::SchedulerServiceHandle")
     protected final long scheduler_handle;
 
+    private final InfrarustScheduler scheduler;
     private final Object plugin;
     private final Runnable runnable;
     private final Consumer<ScheduledTask> consumer;
     protected long delay_value;
     protected long repeat_value;
 
+    public InfrarustTaskBuilder(
             @RustPrimitive("crate::java::handle::SchedulerServiceHandle") long schedulerHandle,
+            InfrarustScheduler scheduler, Object plugin, Runnable runnable) {
         this.scheduler_handle = schedulerHandle;
+        this.scheduler = scheduler;
         this.plugin = plugin;
         this.runnable = runnable;
         this.consumer = null;
     }
 
+    public InfrarustTaskBuilder(
             @RustPrimitive("crate::java::handle::SchedulerServiceHandle") long schedulerHandle,
+            InfrarustScheduler scheduler, Object plugin, Consumer<ScheduledTask> consumer) {
         this.scheduler_handle = schedulerHandle;
+        this.scheduler = scheduler;
         this.plugin = plugin;
         this.runnable = null;
         this.consumer = consumer;
