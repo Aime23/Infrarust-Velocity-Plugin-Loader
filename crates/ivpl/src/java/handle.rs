@@ -43,3 +43,17 @@ impl NewTypeHandle<Box<Arc<dyn infrarust_api::player::Player>>> for PlayerHandle
 pub struct SchedulerServiceHandle(jlong);
 impl NewTypeHandle<Box<Arc<dyn infrarust_api::services::Scheduler>>> for SchedulerServiceHandle {}
 
+#[derive(Debug, Into, From)]
+pub struct TaskHandle(infrarust_api::services::TaskHandle);
+impl From<i64> for TaskHandle {
+    fn from(value: i64) -> Self {
+        Self(infrarust_api::services::TaskHandle::new(value as u64))
+    }
+}
+
+impl Into<i64> for TaskHandle {
+    fn into(self) -> i64 {
+        self.0.as_u64() as i64
+    }
+}
+
