@@ -7,9 +7,10 @@ import org.jetbrains.annotations.NotNull;
 import com.velocitypowered.api.scheduler.ScheduledTask;
 import com.velocitypowered.api.scheduler.Scheduler;
 import dev.infrarust.NativeFinalize;
+import io.github.jni_rs.jbindgen.RustPrimitive;
 
 public class InfrarustTaskBuilder extends NativeFinalize implements Scheduler.TaskBuilder {
-
+    @RustPrimitive("crate::java::handle::SchedulerServiceHandle")
     protected final long scheduler_handle;
 
     private final Object plugin;
@@ -18,15 +19,14 @@ public class InfrarustTaskBuilder extends NativeFinalize implements Scheduler.Ta
     protected long delay_value;
     protected long repeat_value;
 
-    public InfrarustTaskBuilder(long schedulerHandle, Object plugin, Runnable runnable) {
+            @RustPrimitive("crate::java::handle::SchedulerServiceHandle") long schedulerHandle,
         this.scheduler_handle = schedulerHandle;
         this.plugin = plugin;
         this.runnable = runnable;
         this.consumer = null;
     }
 
-    public InfrarustTaskBuilder(long schedulerHandle, Object plugin,
-            Consumer<ScheduledTask> consumer) {
+            @RustPrimitive("crate::java::handle::SchedulerServiceHandle") long schedulerHandle,
         this.scheduler_handle = schedulerHandle;
         this.plugin = plugin;
         this.runnable = null;
