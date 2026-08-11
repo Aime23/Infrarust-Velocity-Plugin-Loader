@@ -70,7 +70,12 @@ public class InfrarustTaskBuilder extends NativeFinalize implements Scheduler.Ta
 
     @Override
     public ScheduledTask schedule() {
-        // TODO: Do more things in Java
-        return new InfrarustScheduledTask(this.native_schedule(), this.clone_handle(), this.plugin);
+        Consumer<ScheduledTask> consumer = this.consumer;
+
+        if (consumer == null) {
+            consumer = arg0 -> this.runnable.run();
+        }
+
+        return this.scheduler.registerTask(plugin, consumer, delay_value, repeat_value);
     }
 }
