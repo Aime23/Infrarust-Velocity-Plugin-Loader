@@ -131,6 +131,7 @@ bind_java_type! {
         crate::java::generated::dev::infrarust::event::InfrarustEventManager => "dev.infrarust.event.InfrarustEventManager",
         crate::java::generated::dev::infrarust::plugin::InfrarustPluginManager => "dev.infrarust.plugin.InfrarustPluginManager",
         crate::java::generated::dev::infrarust::proxy::InfrarustPlayer => "dev.infrarust.proxy.InfrarustPlayer",
+        crate::java::generated::dev::infrarust::proxy::InfrarustServer => "dev.infrarust.proxy.InfrarustServer",
         crate::java::generated::dev::infrarust::proxy::server::InfrarustRegisteredServer => "dev.infrarust.proxy.server.InfrarustRegisteredServer",
         crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler => "dev.infrarust.scheduler.InfrarustScheduler",
         ivpl_java_binding::net::inet_socket_address::InetSocketAddress => "java.net.InetSocketAddress",
@@ -138,15 +139,21 @@ bind_java_type! {
         ivpl_java_binding::util::uuid::UUID => "java.util.UUID",
         crate::java::generated::net::kyori::adventure::text::Component => "net.kyori.adventure.text.Component",
         unsafe crate::java::handle::PluginContextHandle => long,
+        unsafe crate::java::handle::RuntimeHandle => long,
     },
     constructors {
-        fn new(arg0: crate::java::handle::PluginContextHandle),
+        fn new(arg0: crate::java::handle::PluginContextHandle, arg1: crate::java::handle::RuntimeHandle),
     },
     fields {
         plugin_context_handle {
             name = "plugin_context_handle",
             sig = crate::java::handle::PluginContextHandle,
             get = plugin_context_handle,
+        },
+        runtime_handle {
+            name = "runtime_handle",
+            sig = crate::java::handle::RuntimeHandle,
+            get = runtime_handle,
         },
         event_manager {
             sig = crate::java::generated::dev::infrarust::event::InfrarustEventManager,
@@ -236,7 +243,7 @@ bind_java_type! {
         },
         pub static fn native_get_scheduler {
             name = "native_get_scheduler",
-            sig = (arg0: crate::java::handle::PluginContextHandle) -> crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler,
+            sig = (arg0: crate::java::handle::PluginContextHandle, arg1: crate::java::generated::dev::infrarust::proxy::InfrarustServer) -> crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler,
         },
         pub fn native_get_server {
             name = "native_get_server",

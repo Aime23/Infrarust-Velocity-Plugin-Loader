@@ -6,26 +6,20 @@ bind_java_type! {
     pub InfrarustScheduledTask => "dev.infrarust.scheduler.InfrarustScheduledTask",
     type_map = {
         crate::java::generated::dev::infrarust::NativeFinalize => "dev.infrarust.NativeFinalize",
+        crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler => "dev.infrarust.scheduler.InfrarustScheduler",
+        ivpl_java_binding::util::uuid::UUID => "java.util.UUID",
+        unsafe crate::java::handle::TaskHandle => long,
     },
     constructors {
-        fn new(arg0: jlong, arg1: jlong, arg2: JObject),
-    },
-    fields {
-        task_handle {
-            name = "task_handle",
-            sig = jlong,
-            get = task_handle,
-        },
-        scheduler_handle {
-            name = "scheduler_handle",
-            sig = jlong,
-            get = scheduler_handle,
-        },
+        fn new(arg0: crate::java::handle::TaskHandle, arg1: ivpl_java_binding::util::uuid::UUID, arg2: crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler, arg3: JObject, arg4: "java.util.function.Consumer", arg5: jlong, arg6: jlong),
     },
     methods {
         fn cancel(),
+        fn handle() -> jlong,
         fn plugin() -> JObject,
+        fn run(),
         fn status() -> "com.velocitypowered.api.scheduler.TaskStatus",
+        fn uuid() -> ivpl_java_binding::util::uuid::UUID,
     },
     native_methods {
         fn native_cancel {
@@ -46,17 +40,19 @@ bind_java_type! {
     pub InfrarustTaskBuilder => "dev.infrarust.scheduler.InfrarustTaskBuilder",
     type_map = {
         crate::java::generated::dev::infrarust::NativeFinalize => "dev.infrarust.NativeFinalize",
+        crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler => "dev.infrarust.scheduler.InfrarustScheduler",
+        unsafe crate::java::handle::SchedulerServiceHandle => long,
     },
     constructors {
         #[allow(non_snake_case)]
-        fn new3_runnable(arg0: jlong, arg1: JObject, arg2: "java.lang.Runnable"),
+        fn new4_runnable(arg0: crate::java::handle::SchedulerServiceHandle, arg1: crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler, arg2: JObject, arg3: "java.lang.Runnable"),
         #[allow(non_snake_case)]
-        fn new3_consumer(arg0: jlong, arg1: JObject, arg2: "java.util.function.Consumer"),
+        fn new4_consumer(arg0: crate::java::handle::SchedulerServiceHandle, arg1: crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler, arg2: JObject, arg3: "java.util.function.Consumer"),
     },
     fields {
         scheduler_handle {
             name = "scheduler_handle",
-            sig = jlong,
+            sig = crate::java::handle::SchedulerServiceHandle,
             get = scheduler_handle,
         },
         delay_value {
@@ -84,10 +80,6 @@ bind_java_type! {
             name = "native_finalize",
             sig = (),
         },
-        fn native_schedule {
-            name = "native_schedule",
-            sig = () -> jlong,
-        },
     },
     is_instance_of = {
         crate::java::generated::dev::infrarust::NativeFinalize,
@@ -98,12 +90,16 @@ bind_java_type! {
     pub InfrarustScheduler => "dev.infrarust.scheduler.InfrarustScheduler",
     type_map = {
         crate::java::generated::dev::infrarust::NativeFinalize => "dev.infrarust.NativeFinalize",
+        crate::java::generated::dev::infrarust::proxy::InfrarustServer => "dev.infrarust.proxy.InfrarustServer",
+        crate::java::generated::dev::infrarust::scheduler::InfrarustScheduledTask => "dev.infrarust.scheduler.InfrarustScheduledTask",
+        ivpl_java_binding::util::uuid::UUID => "java.util.UUID",
         unsafe crate::java::handle::PluginContextHandle => long,
     },
     constructors {
-        fn new(arg0: crate::java::handle::PluginContextHandle),
+        fn new(arg0: crate::java::handle::PluginContextHandle, arg1: crate::java::generated::dev::infrarust::proxy::InfrarustServer),
     },
     fields {
+        server: crate::java::generated::dev::infrarust::proxy::InfrarustServer,
         plugin_context_handle {
             name = "plugin_context_handle",
             sig = crate::java::handle::PluginContextHandle,
@@ -121,7 +117,10 @@ bind_java_type! {
             name = "buildTask",
             sig = (arg0: JObject, arg1: "java.util.function.Consumer") -> "com.velocitypowered.api.scheduler.Scheduler$TaskBuilder",
         },
+        fn fire_task(arg0: ivpl_java_binding::util::uuid::UUID),
+        fn register_task(arg0: JObject, arg1: "java.util.function.Consumer", arg2: jlong, arg3: jlong) -> crate::java::generated::dev::infrarust::scheduler::InfrarustScheduledTask,
         fn tasks_by_plugin(arg0: JObject) -> JCollection,
+        fn unregister_task(arg0: crate::java::generated::dev::infrarust::scheduler::InfrarustScheduledTask),
     },
     native_methods {
         fn clone_handle {
@@ -131,6 +130,14 @@ bind_java_type! {
         pub fn native_finalize {
             name = "native_finalize",
             sig = (),
+        },
+        fn native_register_task {
+            name = "native_register_task",
+            sig = (arg0: ivpl_java_binding::util::uuid::UUID, arg1: jlong, arg2: jlong) -> jlong,
+        },
+        fn native_unregister_task {
+            name = "native_unregister_task",
+            sig = (arg0: jlong),
         },
     },
     is_instance_of = {
