@@ -43,7 +43,7 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
         this.runtime_handle = runtime_handle;
         this.pluginManager = new InfrarustPluginManager(this);
         this.eventManager = native_get_event_manager(plugin_context_handle, this.pluginManager);
-        this.scheduler = native_get_scheduler(plugin_context_handle);
+        this.scheduler = native_get_scheduler(plugin_context_handle, this);
     }
 
     public native void native_finalize();
@@ -53,7 +53,8 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
             InfrarustPluginManager pluginManager);
 
     public static native InfrarustScheduler native_get_scheduler(
-            @RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle);
+            @RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle,
+            InfrarustServer server);
 
     public native Optional<Player> native_get_player_by_uuid(long uuid_1, long uuid_2);
 

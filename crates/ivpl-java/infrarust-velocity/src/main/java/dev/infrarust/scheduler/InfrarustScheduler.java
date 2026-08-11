@@ -7,16 +7,21 @@ import org.jetbrains.annotations.NotNull;
 import com.velocitypowered.api.scheduler.ScheduledTask;
 import com.velocitypowered.api.scheduler.Scheduler;
 import dev.infrarust.NativeFinalize;
+import dev.infrarust.proxy.InfrarustServer;
 import io.github.jni_rs.jbindgen.RustPrimitive;
 
 public class InfrarustScheduler extends NativeFinalize implements Scheduler {
+
+    protected InfrarustServer server;
 
     @RustPrimitive("crate::java::handle::PluginContextHandle")
     protected final long plugin_context_handle;
 
     public InfrarustScheduler(
-            @RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle) {
+            @RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle,
+            InfrarustServer server) {
         this.plugin_context_handle = plugin_context_handle;
+        this.server = server;
     }
 
     public native void native_finalize();

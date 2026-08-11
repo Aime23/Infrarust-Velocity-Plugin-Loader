@@ -22,9 +22,7 @@ use crate::{
             scheduler::InfrarustScheduler,
         },
         handle::{ConfigServiceHandle, NewTypeHandle, PlayerRegistryHandle, PluginContextHandle},
-        implementation::{
-            dev::infrarust::event::infrarust_event_manager,
-        },
+        implementation::dev::infrarust::event::infrarust_event_manager,
     },
 };
 
@@ -184,13 +182,14 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
         env: &mut ::jni::Env<'local>,
         class: ::jni::objects::JClass<'local>,
         arg0: PluginContextHandle,
+        server: InfrarustServer<'local>,
     ) -> ::std::result::Result<
         crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler<'local>,
         Self::Error,
     > {
         let plugin_context_handle =
             PluginContextHandle::from_instance(arg0.into_instance().clone());
-        return InfrarustScheduler::new(env, plugin_context_handle);
+        return InfrarustScheduler::new(env, plugin_context_handle, server);
     }
 
     fn native_match_server<'local>(
@@ -209,7 +208,13 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
         todo!()
     }
 
-    fn native_get_bound_address<'local>(env: &mut ::jni::Env<'local> ,this: InfrarustServer<'local>) ->  ::std::result::Result<ivpl_java_binding::net::inet_socket_address::InetSocketAddress<'local> ,Self::Error>  {
+    fn native_get_bound_address<'local>(
+        env: &mut ::jni::Env<'local>,
+        this: InfrarustServer<'local>,
+    ) -> ::std::result::Result<
+        ivpl_java_binding::net::inet_socket_address::InetSocketAddress<'local>,
+        Self::Error,
+    > {
         let plugin_context = this.plugin_context_handle(env)?.into_instance();
         return plugin_context.proxy_info().bind.to_jni(env);
     }
