@@ -1,7 +1,10 @@
 use std::{mem::ManuallyDrop, sync::Arc};
 
 use derive_more::{From, Into};
-use infrarust_api::{plugin::PluginContext, prelude::{ConfigService, PlayerRegistry}};
+use infrarust_api::{
+    plugin::PluginContext,
+    prelude::{ConfigService, PlayerRegistry},
+};
 use jni::sys::jlong;
 
 use crate::handle::Handle;
@@ -57,3 +60,6 @@ impl Into<i64> for TaskHandle {
     }
 }
 
+#[derive(Debug, Into, From)]
+pub struct RuntimeHandle(jlong);
+impl NewTypeHandle<Box<tokio::runtime::Handle>> for RuntimeHandle {}

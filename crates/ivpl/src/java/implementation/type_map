@@ -10,3 +10,4 @@ unsafe crate::java::handle::ConfigServiceHandle => long
 unsafe crate::java::handle::PlayerHandle => long
 unsafe crate::java::handle::SchedulerServiceHandle => long
 unsafe crate::java::handle::TaskHandle => long
+unsafe crate::java::handle::RuntimeHandle => long
