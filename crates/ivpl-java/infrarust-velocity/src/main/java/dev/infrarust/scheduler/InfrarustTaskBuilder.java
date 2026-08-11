@@ -44,8 +44,6 @@ public class InfrarustTaskBuilder extends NativeFinalize implements Scheduler.Ta
 
     private native long clone_handle();
 
-    private native long native_schedule();
-
     @Override
     public Scheduler.TaskBuilder delay(@IntRange(from = 0L) long time, @NotNull TimeUnit unit) {
         this.delay_value = unit.toMillis(time);
