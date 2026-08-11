@@ -1,5 +1,8 @@
-use crate::java::generated::dev::infrarust::scheduler::{
+use crate::java::{
+generated::dev::infrarust::scheduler::{
     InfrarustTaskBuilder, InfrarustTaskBuilderAPI, InfrarustTaskBuilderNativeInterface,
+},
+    handle::{NewTypeHandle, PluginContextHandle, SchedulerServiceHandle},
 };
 
 impl InfrarustTaskBuilderNativeInterface for InfrarustTaskBuilderAPI {
@@ -9,14 +12,18 @@ impl InfrarustTaskBuilderNativeInterface for InfrarustTaskBuilderAPI {
         env: &mut ::jni::Env<'local>,
         this: InfrarustTaskBuilder<'local>,
     ) -> ::std::result::Result<::jni::sys::jlong, Self::Error> {
-        todo!()
+        let scheduler_service_handle = SchedulerServiceHandle::from_instance(
+            this.scheduler_handle(env)?.into_instance().clone(),
+        );
+        return Ok(scheduler_service_handle.into());
     }
 
     fn native_finalize<'local>(
         env: &mut ::jni::Env<'local>,
         this: InfrarustTaskBuilder<'local>,
     ) -> ::std::result::Result<(), Self::Error> {
-        todo!()
+        this.scheduler_handle(env)?.delete_handle();
+        return Ok(());
     }
 
     fn native_schedule<'local>(
