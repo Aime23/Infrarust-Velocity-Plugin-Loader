@@ -8,3 +8,4 @@ unsafe crate::java::handle::PluginContextHandle => long
 unsafe crate::java::handle::PlayerRegistryHandle => long
 unsafe crate::java::handle::ConfigServiceHandle => long
 unsafe crate::java::handle::PlayerHandle => long
+unsafe crate::java::handle::SchedulerServiceHandle => long

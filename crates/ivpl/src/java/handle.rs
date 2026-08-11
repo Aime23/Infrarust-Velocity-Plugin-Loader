@@ -27,7 +27,6 @@ where
 pub struct PluginContextHandle(jlong);
 impl NewTypeHandle<Box<Arc<dyn PluginContext>>> for PluginContextHandle {}
 
-
 #[derive(Debug, Into, From)]
 pub struct PlayerRegistryHandle(jlong);
 impl NewTypeHandle<Box<Arc<dyn PlayerRegistry>>> for PlayerRegistryHandle {}
@@ -36,7 +35,11 @@ impl NewTypeHandle<Box<Arc<dyn PlayerRegistry>>> for PlayerRegistryHandle {}
 pub struct ConfigServiceHandle(jlong);
 impl NewTypeHandle<Box<Arc<dyn ConfigService>>> for ConfigServiceHandle {}
 
-
 #[derive(Debug, Into, From)]
 pub struct PlayerHandle(jlong);
 impl NewTypeHandle<Box<Arc<dyn infrarust_api::player::Player>>> for PlayerHandle {}
+
+#[derive(Debug, Into, From)]
+pub struct SchedulerServiceHandle(jlong);
+impl NewTypeHandle<Box<Arc<dyn infrarust_api::services::Scheduler>>> for SchedulerServiceHandle {}
+
