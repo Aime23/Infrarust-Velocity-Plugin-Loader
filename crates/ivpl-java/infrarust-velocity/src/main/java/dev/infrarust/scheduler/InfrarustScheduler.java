@@ -32,6 +32,9 @@ public class InfrarustScheduler extends NativeFinalize implements Scheduler {
 
     private native long clone_handle();
 
+    private native long native_register_task(UUID uuid, long delay, long repeat);
+    private native void native_unregister_task(long taskHandle);
+
     @Override
     public TaskBuilder buildTask(@NotNull Object plugin, @NotNull Runnable runnable) {
         return new InfrarustTaskBuilder(this.clone_handle(), this, plugin, runnable);
@@ -48,5 +51,29 @@ public class InfrarustScheduler extends NativeFinalize implements Scheduler {
         return this.taskMap.values().stream().filter(arg0 -> arg0.plugin() == plugin)
                 .collect(Collectors.toList());
     }
+
+    private void fireTask(UUID uuid) {
+        var task = taskMap.get(uuid);
+        // Silently drop unknown task
+        if (task != null) {
+            task.run();
+        }
+    }
+
+    public InfrarustScheduledTask registerTask(Object plugin, Consumer<ScheduledTask> consumer,
+            long delay, long repeat) {
+        UUID uuid = UUID.randomUUID();
+
+        long taskHandle = this.native_register_task(uuid, delay, repeat);
+        InfrarustScheduledTask task =
+                new InfrarustScheduledTask(taskHandle, uuid, this, plugin, consumer, delay, repeat);
+        this.taskMap.put(uuid, task);
+        return task;
+
+    }
+
+    public void unregisterTask(InfrarustScheduledTask task) {
+        this.taskMap.remove(task.uuid());
+        this.native_unregister_task(task.handle());
     }
 }
