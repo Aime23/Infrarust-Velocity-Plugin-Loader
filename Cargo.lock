@@ -397,6 +397,7 @@ dependencies = [
  "serde",
  "serde_json",
  "serial_test",
+ "tokio",
  "uuid",
 ]
 
@@ -435,6 +436,7 @@ dependencies = [
  "jni",
  "serde",
  "serde_json",
+ "tokio",
  "zip",
 ]
 
