@@ -1,8 +1,11 @@
 package dev.infrarust.scheduler;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import com.velocitypowered.api.scheduler.ScheduledTask;
 import com.velocitypowered.api.scheduler.Scheduler;
@@ -13,6 +16,7 @@ import io.github.jni_rs.jbindgen.RustPrimitive;
 public class InfrarustScheduler extends NativeFinalize implements Scheduler {
 
     protected InfrarustServer server;
+    private Map<UUID, InfrarustScheduledTask> taskMap = new HashMap<>();
 
     @RustPrimitive("crate::java::handle::PluginContextHandle")
     protected final long plugin_context_handle;
@@ -41,6 +45,8 @@ public class InfrarustScheduler extends NativeFinalize implements Scheduler {
 
     @Override
     public @NotNull Collection<ScheduledTask> tasksByPlugin(@NotNull Object plugin) {
-        return List.of();
+        return this.taskMap.values().stream().filter(arg0 -> arg0.plugin() == plugin)
+                .collect(Collectors.toList());
+    }
     }
 }
