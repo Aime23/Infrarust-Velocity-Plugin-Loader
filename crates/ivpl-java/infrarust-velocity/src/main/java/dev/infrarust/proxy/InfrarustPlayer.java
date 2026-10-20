@@ -27,6 +27,7 @@ import com.velocitypowered.api.util.ModInfo;
 import com.velocitypowered.api.util.ServerLink;
 import dev.infrarust.NativeFinalize;
 import io.github.jni_rs.jbindgen.RustPrimitive;
+import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
@@ -283,5 +284,18 @@ public class InfrarustPlayer extends NativeFinalize implements Player {
     @Override
     public @NotNull Identity identity() {
         return null;
+    }
+
+    private native void native_send_message(final @NotNull Component message);
+
+    @Override
+    public void sendMessage(final @NotNull Component message) {
+        this.native_send_message(message);
+    }
+
+    @Override
+    public void sendMessage(final @NotNull Identity source, final @NotNull Component message,
+            final @NotNull MessageType type) {
+        this.native_send_message(message);
     }
 }
