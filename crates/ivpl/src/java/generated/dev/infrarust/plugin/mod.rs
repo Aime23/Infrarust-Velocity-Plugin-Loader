@@ -3,6 +3,19 @@
 use jni::bind_java_type;
 
 bind_java_type! {
+    pub CommonModule => "dev.infrarust.plugin.CommonModule",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::plugin::PluginContainer => "com.velocitypowered.api.plugin.PluginContainer",
+    },
+    constructors {
+        fn new(arg0: "com.velocitypowered.api.proxy.ProxyServer", arg1: crate::java::generated::com::velocitypowered::api::plugin::PluginContainer),
+    },
+    methods {
+        fn configure(),
+    },
+}
+
+bind_java_type! {
     pub InfrarustPluginManager => "dev.infrarust.plugin.InfrarustPluginManager",
     type_map = {
         crate::java::generated::com::velocitypowered::api::plugin::PluginContainer => "com.velocitypowered.api.plugin.PluginContainer",
@@ -17,20 +30,6 @@ bind_java_type! {
     },
 }
 
-bind_java_type! {
-    pub CommonModule => "dev.infrarust.plugin.CommonModule",
-    type_map = {
-        crate::java::generated::com::velocitypowered::api::plugin::PluginContainer => "com.velocitypowered.api.plugin.PluginContainer",
-    },
-    constructors {
-        fn new(arg0: "com.velocitypowered.api.proxy.ProxyServer", arg1: crate::java::generated::com::velocitypowered::api::plugin::PluginContainer),
-    },
-    methods {
-        fn configure(),
-    },
-}
-
-
 /// Initialize all Java bindings in this module.
 ///
 /// This loads and caches JClass references and method/field IDs for all
@@ -40,8 +39,11 @@ bind_java_type! {
 ///
 /// * `env` - The JNI environment
 /// * `loader` - The LoaderContext to use for loading classes
-pub fn jni_init(env: &::jni::Env, loader: &::jni::refs::LoaderContext) -> ::jni::errors::Result<()> {
-    let _ = InfrarustPluginManagerAPI::get(env, loader)?;
+pub fn jni_init(
+    env: &::jni::Env,
+    loader: &::jni::refs::LoaderContext,
+) -> ::jni::errors::Result<()> {
     let _ = CommonModuleAPI::get(env, loader)?;
+    let _ = InfrarustPluginManagerAPI::get(env, loader)?;
     Ok(())
 }

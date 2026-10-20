@@ -117,19 +117,20 @@ bind_java_type! {
 bind_java_type! {
     pub CommandExecuteEvent => "com.velocitypowered.api.event.command.CommandExecuteEvent",
     type_map = {
+        crate::java::generated::com::velocitypowered::api::command::CommandSource => "com.velocitypowered.api.command.CommandSource",
         crate::java::generated::com::velocitypowered::api::event::ResultedEvent => "com.velocitypowered.api.event.ResultedEvent",
         crate::java::generated::com::velocitypowered::api::event::ResultedEventResult => "com.velocitypowered.api.event.ResultedEvent$Result",
         crate::java::generated::com::velocitypowered::api::event::command::CommandExecuteEventCommandResult => "com.velocitypowered.api.event.command.CommandExecuteEvent$CommandResult",
         crate::java::generated::com::velocitypowered::api::event::command::CommandExecuteEventInvocationInfo => "com.velocitypowered.api.event.command.CommandExecuteEvent$InvocationInfo",
     },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.command.CommandSource", arg1: JString),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::command::CommandSource, arg1: JString),
         #[allow(non_snake_case)]
-        fn new3(arg0: "com.velocitypowered.api.command.CommandSource", arg1: JString, arg2: crate::java::generated::com::velocitypowered::api::event::command::CommandExecuteEventInvocationInfo),
+        fn new3(arg0: crate::java::generated::com::velocitypowered::api::command::CommandSource, arg1: JString, arg2: crate::java::generated::com::velocitypowered::api::event::command::CommandExecuteEventInvocationInfo),
     },
     methods {
         fn get_command() -> JString,
-        fn get_command_source() -> "com.velocitypowered.api.command.CommandSource",
+        fn get_command_source() -> crate::java::generated::com::velocitypowered::api::command::CommandSource,
         fn get_invocation_info() -> crate::java::generated::com::velocitypowered::api::event::command::CommandExecuteEventInvocationInfo,
         fn get_result {
             name = "getResult",
@@ -171,17 +172,20 @@ bind_java_type! {
 
 bind_java_type! {
     pub PostCommandInvocationEvent => "com.velocitypowered.api.event.command.PostCommandInvocationEvent",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::command::CommandResult => "com.velocitypowered.api.command.CommandResult",
+        crate::java::generated::com::velocitypowered::api::command::CommandSource => "com.velocitypowered.api.command.CommandSource",
+    },
     constructors {
-        fn new(arg0: "com.velocitypowered.api.command.CommandSource", arg1: JString, arg2: "com.velocitypowered.api.command.CommandResult"),
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::command::CommandSource, arg1: JString, arg2: crate::java::generated::com::velocitypowered::api::command::CommandResult),
     },
     methods {
         fn get_command() -> JString,
-        fn get_command_source() -> "com.velocitypowered.api.command.CommandSource",
-        fn get_result() -> "com.velocitypowered.api.command.CommandResult",
+        fn get_command_source() -> crate::java::generated::com::velocitypowered::api::command::CommandSource,
+        fn get_result() -> crate::java::generated::com::velocitypowered::api::command::CommandResult,
         fn to_string() -> JString,
     },
 }
-
 
 /// Initialize all Java bindings in this module.
 ///
@@ -192,7 +196,10 @@ bind_java_type! {
 ///
 /// * `env` - The JNI environment
 /// * `loader` - The LoaderContext to use for loading classes
-pub fn jni_init(env: &::jni::Env, loader: &::jni::refs::LoaderContext) -> ::jni::errors::Result<()> {
+pub fn jni_init(
+    env: &::jni::Env,
+    loader: &::jni::refs::LoaderContext,
+) -> ::jni::errors::Result<()> {
     let _ = CommandExecuteEventCommandResultAPI::get(env, loader)?;
     let _ = CommandExecuteEventInvocationInfoAPI::get(env, loader)?;
     let _ = CommandExecuteEventSignedStateAPI::get(env, loader)?;

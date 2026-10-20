@@ -5,6 +5,16 @@ pub mod server;
 use jni::bind_java_type;
 
 bind_java_type! {
+    pub ConsoleCommandSource => "com.velocitypowered.api.proxy.ConsoleCommandSource",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::command::CommandSource => "com.velocitypowered.api.command.CommandSource",
+    },
+    is_instance_of = {
+        crate::java::generated::com::velocitypowered::api::command::CommandSource,
+    },
+}
+
+bind_java_type! {
     pub InboundConnection => "com.velocitypowered.api.proxy.InboundConnection",
     type_map = {
         crate::java::generated::com::velocitypowered::api::network::HandshakeIntent => "com.velocitypowered.api.network.HandshakeIntent",
@@ -27,6 +37,7 @@ bind_java_type! {
 bind_java_type! {
     pub Player => "com.velocitypowered.api.proxy.Player",
     type_map = {
+        crate::java::generated::com::velocitypowered::api::command::CommandSource => "com.velocitypowered.api.command.CommandSource",
         crate::java::generated::com::velocitypowered::api::proxy::InboundConnection => "com.velocitypowered.api.proxy.InboundConnection",
         crate::java::generated::com::velocitypowered::api::proxy::server::RegisteredServer => "com.velocitypowered.api.proxy.server.RegisteredServer",
         ivpl_java_binding::net::inet_socket_address::InetSocketAddress => "java.net.InetSocketAddress",
@@ -111,10 +122,10 @@ bind_java_type! {
         fn transfer_to_host(arg0: ivpl_java_binding::net::inet_socket_address::InetSocketAddress),
     },
     is_instance_of = {
+        crate::java::generated::com::velocitypowered::api::command::CommandSource,
         crate::java::generated::com::velocitypowered::api::proxy::InboundConnection,
     },
 }
-
 
 /// Initialize all Java bindings in this module.
 ///
@@ -125,7 +136,11 @@ bind_java_type! {
 ///
 /// * `env` - The JNI environment
 /// * `loader` - The LoaderContext to use for loading classes
-pub fn jni_init(env: &::jni::Env, loader: &::jni::refs::LoaderContext) -> ::jni::errors::Result<()> {
+pub fn jni_init(
+    env: &::jni::Env,
+    loader: &::jni::refs::LoaderContext,
+) -> ::jni::errors::Result<()> {
+    let _ = ConsoleCommandSourceAPI::get(env, loader)?;
     let _ = InboundConnectionAPI::get(env, loader)?;
     let _ = PlayerAPI::get(env, loader)?;
     server::jni_init(env, loader)?;

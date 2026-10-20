@@ -22,60 +22,6 @@ bind_java_type! {
         fn uuid() -> ivpl_java_binding::util::uuid::UUID,
     },
     native_methods {
-        fn native_cancel {
-            name = "native_cancel",
-            sig = (),
-        },
-        pub fn native_finalize {
-            name = "native_finalize",
-            sig = (),
-        },
-    },
-    is_instance_of = {
-        crate::java::generated::dev::infrarust::NativeFinalize,
-    },
-}
-
-bind_java_type! {
-    pub InfrarustTaskBuilder => "dev.infrarust.scheduler.InfrarustTaskBuilder",
-    type_map = {
-        crate::java::generated::dev::infrarust::NativeFinalize => "dev.infrarust.NativeFinalize",
-        crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler => "dev.infrarust.scheduler.InfrarustScheduler",
-        unsafe crate::java::handle::SchedulerServiceHandle => long,
-    },
-    constructors {
-        #[allow(non_snake_case)]
-        fn new4_runnable(arg0: crate::java::handle::SchedulerServiceHandle, arg1: crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler, arg2: JObject, arg3: "java.lang.Runnable"),
-        #[allow(non_snake_case)]
-        fn new4_consumer(arg0: crate::java::handle::SchedulerServiceHandle, arg1: crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler, arg2: JObject, arg3: "java.util.function.Consumer"),
-    },
-    fields {
-        scheduler_handle {
-            name = "scheduler_handle",
-            sig = crate::java::handle::SchedulerServiceHandle,
-            get = scheduler_handle,
-        },
-        delay_value {
-            name = "delay_value",
-            sig = jlong,
-        },
-        repeat_value {
-            name = "repeat_value",
-            sig = jlong,
-        },
-    },
-    methods {
-        fn clear_delay() -> "com.velocitypowered.api.scheduler.Scheduler$TaskBuilder",
-        fn clear_repeat() -> "com.velocitypowered.api.scheduler.Scheduler$TaskBuilder",
-        fn delay(arg0: jlong, arg1: "java.util.concurrent.TimeUnit") -> "com.velocitypowered.api.scheduler.Scheduler$TaskBuilder",
-        fn repeat(arg0: jlong, arg1: "java.util.concurrent.TimeUnit") -> "com.velocitypowered.api.scheduler.Scheduler$TaskBuilder",
-        fn schedule() -> "com.velocitypowered.api.scheduler.ScheduledTask",
-    },
-    native_methods {
-        fn clone_handle {
-            name = "clone_handle",
-            sig = () -> jlong,
-        },
         pub fn native_finalize {
             name = "native_finalize",
             sig = (),
@@ -145,6 +91,55 @@ bind_java_type! {
     },
 }
 
+bind_java_type! {
+    pub InfrarustTaskBuilder => "dev.infrarust.scheduler.InfrarustTaskBuilder",
+    type_map = {
+        crate::java::generated::dev::infrarust::NativeFinalize => "dev.infrarust.NativeFinalize",
+        crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler => "dev.infrarust.scheduler.InfrarustScheduler",
+        unsafe crate::java::handle::SchedulerServiceHandle => long,
+    },
+    constructors {
+        #[allow(non_snake_case)]
+        fn new4_runnable(arg0: crate::java::handle::SchedulerServiceHandle, arg1: crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler, arg2: JObject, arg3: "java.lang.Runnable"),
+        #[allow(non_snake_case)]
+        fn new4_consumer(arg0: crate::java::handle::SchedulerServiceHandle, arg1: crate::java::generated::dev::infrarust::scheduler::InfrarustScheduler, arg2: JObject, arg3: "java.util.function.Consumer"),
+    },
+    fields {
+        scheduler_handle {
+            name = "scheduler_handle",
+            sig = crate::java::handle::SchedulerServiceHandle,
+            get = scheduler_handle,
+        },
+        delay_value {
+            name = "delay_value",
+            sig = jlong,
+        },
+        repeat_value {
+            name = "repeat_value",
+            sig = jlong,
+        },
+    },
+    methods {
+        fn clear_delay() -> "com.velocitypowered.api.scheduler.Scheduler$TaskBuilder",
+        fn clear_repeat() -> "com.velocitypowered.api.scheduler.Scheduler$TaskBuilder",
+        fn delay(arg0: jlong, arg1: "java.util.concurrent.TimeUnit") -> "com.velocitypowered.api.scheduler.Scheduler$TaskBuilder",
+        fn repeat(arg0: jlong, arg1: "java.util.concurrent.TimeUnit") -> "com.velocitypowered.api.scheduler.Scheduler$TaskBuilder",
+        fn schedule() -> "com.velocitypowered.api.scheduler.ScheduledTask",
+    },
+    native_methods {
+        fn clone_handle {
+            name = "clone_handle",
+            sig = () -> jlong,
+        },
+        pub fn native_finalize {
+            name = "native_finalize",
+            sig = (),
+        },
+    },
+    is_instance_of = {
+        crate::java::generated::dev::infrarust::NativeFinalize,
+    },
+}
 
 /// Initialize all Java bindings in this module.
 ///
@@ -155,9 +150,12 @@ bind_java_type! {
 ///
 /// * `env` - The JNI environment
 /// * `loader` - The LoaderContext to use for loading classes
-pub fn jni_init(env: &::jni::Env, loader: &::jni::refs::LoaderContext) -> ::jni::errors::Result<()> {
+pub fn jni_init(
+    env: &::jni::Env,
+    loader: &::jni::refs::LoaderContext,
+) -> ::jni::errors::Result<()> {
     let _ = InfrarustScheduledTaskAPI::get(env, loader)?;
-    let _ = InfrarustTaskBuilderAPI::get(env, loader)?;
     let _ = InfrarustSchedulerAPI::get(env, loader)?;
+    let _ = InfrarustTaskBuilderAPI::get(env, loader)?;
     Ok(())
 }

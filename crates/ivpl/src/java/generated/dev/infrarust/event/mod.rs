@@ -3,6 +3,56 @@
 use jni::bind_java_type;
 
 bind_java_type! {
+    pub EventHandlerBuilder => "dev.infrarust.event.EventHandlerBuilder",
+    type_map = {
+        crate::java::generated::com::velocitypowered::api::event::EventHandler => "com.velocitypowered.api.event.EventHandler",
+    },
+    constructors {
+        fn new(),
+    },
+    methods {
+        static fn build_continuation_handler(arg0: JObject, arg1: "java.lang.reflect.Method") -> crate::java::generated::com::velocitypowered::api::event::EventHandler,
+        static fn build_event_task_handler(arg0: JObject, arg1: "java.lang.reflect.Method") -> crate::java::generated::com::velocitypowered::api::event::EventHandler,
+        static fn build_void_handler(arg0: JObject, arg1: "java.lang.reflect.Method") -> crate::java::generated::com::velocitypowered::api::event::EventHandler,
+    },
+}
+
+bind_java_type! {
+    pub InfrarustEventManager1 => "dev.infrarust.event.InfrarustEventManager$1",
+}
+
+bind_java_type! {
+    pub InfrarustEventManagerAsyncLevel => "dev.infrarust.event.InfrarustEventManager$AsyncLevel",
+    type_map = {
+        crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel => "dev.infrarust.event.InfrarustEventManager$AsyncLevel",
+    },
+    constructors {
+        fn new(arg0: JString, arg1: jint),
+    },
+    fields {
+        static none {
+            name = "None",
+            sig = crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel,
+            get = none,
+        },
+        static partial {
+            name = "Partial",
+            sig = crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel,
+            get = partial,
+        },
+        static full {
+            name = "Full",
+            sig = crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel,
+            get = full,
+        },
+    },
+    methods {
+        static fn value_of(arg0: JString) -> crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel,
+        static fn values() -> crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel[],
+    },
+}
+
+bind_java_type! {
     pub InfrarustEventManagerContinuationTask => "dev.infrarust.event.InfrarustEventManager$ContinuationTask",
     type_map = {
         crate::java::generated::com::velocitypowered::api::event::Continuation => "com.velocitypowered.api.event.Continuation",
@@ -48,38 +98,20 @@ bind_java_type! {
 }
 
 bind_java_type! {
-    pub InfrarustEventManagerAsyncLevel => "dev.infrarust.event.InfrarustEventManager$AsyncLevel",
+    pub InfrarustEventManagerRegisteredEventHandler => "dev.infrarust.event.InfrarustEventManager$RegisteredEventHandler",
     type_map = {
+        crate::java::generated::com::velocitypowered::api::event::EventHandler => "com.velocitypowered.api.event.EventHandler",
+        crate::java::generated::com::velocitypowered::api::plugin::PluginContainer => "com.velocitypowered.api.plugin.PluginContainer",
         crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel => "dev.infrarust.event.InfrarustEventManager$AsyncLevel",
+        crate::java::generated::dev::infrarust::event::InfrarustEventManagerEventHandlingMethod => "dev.infrarust.event.InfrarustEventManager$EventHandlingMethod",
+        crate::java::generated::dev::infrarust::event::InfrarustEventManagerRegisteredEventHandler => "dev.infrarust.event.InfrarustEventManager$RegisteredEventHandler",
     },
     constructors {
-        fn new(arg0: JString, arg1: jint),
-    },
-    fields {
-        static none {
-            name = "None",
-            sig = crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel,
-            get = none,
-        },
-        static partial {
-            name = "Partial",
-            sig = crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel,
-            get = partial,
-        },
-        static full {
-            name = "Full",
-            sig = crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel,
-            get = full,
-        },
+        fn new(arg0: crate::java::generated::com::velocitypowered::api::plugin::PluginContainer, arg1: JClass, arg2: crate::java::generated::com::velocitypowered::api::event::EventHandler, arg3: crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel, arg4: jshort),
     },
     methods {
-        static fn value_of(arg0: JString) -> crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel,
-        static fn values() -> crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel[],
+        static fn from_event_handling_method(arg0: crate::java::generated::dev::infrarust::event::InfrarustEventManagerEventHandlingMethod, arg1: JObject, arg2: crate::java::generated::com::velocitypowered::api::plugin::PluginContainer) -> crate::java::generated::dev::infrarust::event::InfrarustEventManagerRegisteredEventHandler,
     },
-}
-
-bind_java_type! {
-    pub InfrarustEventManager1 => "dev.infrarust.event.InfrarustEventManager$1",
 }
 
 bind_java_type! {
@@ -157,39 +189,6 @@ bind_java_type! {
     },
 }
 
-bind_java_type! {
-    pub InfrarustEventManagerRegisteredEventHandler => "dev.infrarust.event.InfrarustEventManager$RegisteredEventHandler",
-    type_map = {
-        crate::java::generated::com::velocitypowered::api::event::EventHandler => "com.velocitypowered.api.event.EventHandler",
-        crate::java::generated::com::velocitypowered::api::plugin::PluginContainer => "com.velocitypowered.api.plugin.PluginContainer",
-        crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel => "dev.infrarust.event.InfrarustEventManager$AsyncLevel",
-        crate::java::generated::dev::infrarust::event::InfrarustEventManagerEventHandlingMethod => "dev.infrarust.event.InfrarustEventManager$EventHandlingMethod",
-        crate::java::generated::dev::infrarust::event::InfrarustEventManagerRegisteredEventHandler => "dev.infrarust.event.InfrarustEventManager$RegisteredEventHandler",
-    },
-    constructors {
-        fn new(arg0: crate::java::generated::com::velocitypowered::api::plugin::PluginContainer, arg1: JClass, arg2: crate::java::generated::com::velocitypowered::api::event::EventHandler, arg3: crate::java::generated::dev::infrarust::event::InfrarustEventManagerAsyncLevel, arg4: jshort),
-    },
-    methods {
-        static fn from_event_handling_method(arg0: crate::java::generated::dev::infrarust::event::InfrarustEventManagerEventHandlingMethod, arg1: JObject, arg2: crate::java::generated::com::velocitypowered::api::plugin::PluginContainer) -> crate::java::generated::dev::infrarust::event::InfrarustEventManagerRegisteredEventHandler,
-    },
-}
-
-bind_java_type! {
-    pub EventHandlerBuilder => "dev.infrarust.event.EventHandlerBuilder",
-    type_map = {
-        crate::java::generated::com::velocitypowered::api::event::EventHandler => "com.velocitypowered.api.event.EventHandler",
-    },
-    constructors {
-        fn new(),
-    },
-    methods {
-        static fn build_continuation_handler(arg0: JObject, arg1: "java.lang.reflect.Method") -> crate::java::generated::com::velocitypowered::api::event::EventHandler,
-        static fn build_event_task_handler(arg0: JObject, arg1: "java.lang.reflect.Method") -> crate::java::generated::com::velocitypowered::api::event::EventHandler,
-        static fn build_void_handler(arg0: JObject, arg1: "java.lang.reflect.Method") -> crate::java::generated::com::velocitypowered::api::event::EventHandler,
-    },
-}
-
-
 /// Initialize all Java bindings in this module.
 ///
 /// This loads and caches JClass references and method/field IDs for all
@@ -199,13 +198,16 @@ bind_java_type! {
 ///
 /// * `env` - The JNI environment
 /// * `loader` - The LoaderContext to use for loading classes
-pub fn jni_init(env: &::jni::Env, loader: &::jni::refs::LoaderContext) -> ::jni::errors::Result<()> {
+pub fn jni_init(
+    env: &::jni::Env,
+    loader: &::jni::refs::LoaderContext,
+) -> ::jni::errors::Result<()> {
+    let _ = EventHandlerBuilderAPI::get(env, loader)?;
+    let _ = InfrarustEventManager1API::get(env, loader)?;
+    let _ = InfrarustEventManagerAsyncLevelAPI::get(env, loader)?;
     let _ = InfrarustEventManagerContinuationTaskAPI::get(env, loader)?;
     let _ = InfrarustEventManagerEventHandlingMethodAPI::get(env, loader)?;
-    let _ = InfrarustEventManagerAsyncLevelAPI::get(env, loader)?;
-    let _ = InfrarustEventManager1API::get(env, loader)?;
-    let _ = InfrarustEventManagerAPI::get(env, loader)?;
     let _ = InfrarustEventManagerRegisteredEventHandlerAPI::get(env, loader)?;
-    let _ = EventHandlerBuilderAPI::get(env, loader)?;
+    let _ = InfrarustEventManagerAPI::get(env, loader)?;
     Ok(())
 }
