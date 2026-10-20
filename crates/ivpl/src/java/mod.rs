@@ -78,7 +78,28 @@ where
     }
 }
 
+// String
+
+impl<'local> TryFromJni<'local, JString<'local>> for String {
+    fn try_from_jni(
+        env: &mut jni::Env<'local>,
+        value: JString,
+    ) -> Result<Self, jni::errors::Error> {
+        return value.try_to_string(env);
+    }
+}
+
 impl<'local> ToJni<'local> for String {
+    type Kind = jni::objects::JString<'local>;
+
+    fn to_jni(self, env: &mut jni::Env<'local>) -> Result<Self::Kind, jni::errors::Error> {
+        return jni::objects::JString::from_str(env, self);
+    }
+}
+
+// &str
+
+impl<'local> ToJni<'local> for &str {
     type Kind = jni::objects::JString<'local>;
 
     fn to_jni(self, env: &mut jni::Env<'local>) -> Result<Self::Kind, jni::errors::Error> {
