@@ -1,4 +1,5 @@
 use std::{
+    any::{Any, TypeId},
     fmt::{Debug, Display},
     pin::Pin,
 };
@@ -125,13 +126,16 @@ impl InfrarustEventManagerAPI {
         });
     }
 
-    fn handle_event_blocking<'local, T, E>(
+    fn handle_event_blocking<'local, 'a, T, E>(
         event: &mut E,
-        this: &Weak<InfrarustEventManager<'static>>,
+        this: &'a Weak<InfrarustEventManager<'static>>,
     ) -> ::std::result::Result<(), jni::errors::Error>
     where
         E: infrarust_api::event::Event,
-        T: AsRef<JObject<'local>> + TryFromInfrarustEvent<'local, E> + ApplyEventResult<'local, E>,
+        T: AsRef<JObject<'local>>
+            + TryFromInfrarustEvent<'local, E>
+            + ApplyEventResult<'local, E>
+            + 'static,
     {
         let jvm = JavaVM::singleton()?;
 
@@ -146,13 +150,24 @@ impl InfrarustEventManagerAPI {
             // I would need to redo every event in java to implements cleanup logic.
             // Since the EventManager lifetime is tied to the ProxyServer it will outlive every event, it's alright.
             let plugin_context_handle = this.plugin_context_handle(env)?;
-            let java_event =
-                T::try_from_infrarust_event(event, env, plugin_context_handle).unwrap(); //TODO: Error handling
-            let future = this.fire(env, &java_event)?;
-            // Block the thread till fire is done
-            future.join(env)?;
-            T::apply_event_result(&java_event, env, event)?;
-            Ok(())
+            match (T::try_from_infrarust_event(event, env, plugin_context_handle)) {
+                Ok(java_event) => {
+                    let future = this.fire(env, &java_event)?;
+                    // Block the thread till fire is done
+                    future.join(env)?;
+                    T::apply_event_result(&java_event, env, event)?;
+                    return Ok(());
+                }
+                Err(error) => {
+                    println!(
+                        "Error when translating event of type {:#?} to {:#?}",
+                        std::any::type_name::<E>(),
+                        std::any::type_name::<T>()
+                    );
+                    println!("Error: {:#?}", error);
+                    return Ok(());
+                }
+            }
         });
     }
 }
