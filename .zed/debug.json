@@ -1,0 +1,21 @@
+[
+  {
+    "label": "Attach to infrarust",
+    "adapter": "CodeLLDB",
+    "request": "attach",
+    "program": "infrarust",
+    "sourceLanguages": [
+      "rust"
+    ]
+  },
+  {
+    "label": "Attach to infrarust (wait for launch)",
+    "adapter": "CodeLLDB",
+    "request": "attach",
+    "program": "infrarust",
+    "waitFor": true,
+    "sourceLanguages": [
+      "rust"
+    ]
+  }
+]
