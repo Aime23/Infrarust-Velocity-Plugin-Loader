@@ -18,6 +18,17 @@ use crate::{
 impl InfrarustPlayerNativeInterface for InfrarustPlayerAPI {
     type Error = jni::errors::Error;
 
+    fn native_disconnect<'local>(
+        env: &mut ::jni::Env<'local>,
+        this: InfrarustPlayer<'local>,
+        component: crate::java::generated::net::kyori::adventure::text::Component<'local>,
+    ) -> ::std::result::Result<(), Self::Error> {
+        let player = this.player_handle(env)?.into_instance();
+        let message = Component::try_from_jni(env, component)?;
+        player.disconnect(message);
+        return Ok(());
+    }
+
     fn native_finalize<'local>(
         env: &mut ::jni::Env<'local>,
         this: InfrarustPlayer<'local>,
