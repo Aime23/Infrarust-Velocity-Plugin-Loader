@@ -13,6 +13,7 @@ use crate::{
     java::{
         ToJni, ToJniArray,
         generated::dev::infrarust::{
+            command::InfrarustCommandManager,
             event::InfrarustEventManager,
             plugin::InfrarustPluginManager,
             proxy::{
@@ -217,5 +218,19 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
     > {
         let plugin_context = this.plugin_context_handle(env)?.into_instance();
         return plugin_context.proxy_info().bind.to_jni(env);
+    }
+
+    fn native_get_command_manager<'local>(
+        env: &mut ::jni::Env<'local>,
+        class: ::jni::objects::JClass<'local>,
+        arg0: crate::java::handle::PluginContextHandle,
+        arg1: crate::java::generated::dev::infrarust::proxy::InfrarustServer<'local>,
+    ) -> ::std::result::Result<
+        crate::java::generated::dev::infrarust::command::InfrarustCommandManager<'local>,
+        Self::Error,
+    > {
+        let plugin_context_handle =
+            PluginContextHandle::from_instance(arg0.into_instance().clone());
+        return InfrarustCommandManager::new(env, plugin_context_handle);
     }
 }

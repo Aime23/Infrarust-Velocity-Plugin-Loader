@@ -19,6 +19,7 @@ import com.velocitypowered.api.proxy.server.ServerInfo;
 import com.velocitypowered.api.scheduler.Scheduler;
 import com.velocitypowered.api.util.ProxyVersion;
 import dev.infrarust.NativeFinalize;
+import dev.infrarust.command.InfrarustCommandManager;
 import dev.infrarust.event.InfrarustEventManager;
 import dev.infrarust.plugin.InfrarustPluginManager;
 import dev.infrarust.proxy.server.InfrarustRegisteredServer;
@@ -35,6 +36,7 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
     protected final InfrarustEventManager eventManager;
     protected final InfrarustScheduler scheduler;
     protected final InfrarustPluginManager pluginManager;
+    protected final InfrarustCommandManager commandManager;
 
     public InfrarustServer(
             @RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle,
@@ -42,8 +44,10 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
         this.plugin_context_handle = plugin_context_handle;
         this.runtime_handle = runtime_handle;
         this.pluginManager = new InfrarustPluginManager(this);
+
         this.eventManager = native_get_event_manager(plugin_context_handle, this.pluginManager);
         this.scheduler = native_get_scheduler(plugin_context_handle, this);
+        this.commandManager = native_get_command_manager(plugin_context_handle, this);
     }
 
     public native void native_finalize();
@@ -53,6 +57,10 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
             InfrarustPluginManager pluginManager);
 
     public static native InfrarustScheduler native_get_scheduler(
+            @RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle,
+            InfrarustServer server);
+
+    public static native InfrarustCommandManager native_get_command_manager(
             @RustPrimitive("crate::java::handle::PluginContextHandle") long plugin_context_handle,
             InfrarustServer server);
 
@@ -170,7 +178,7 @@ public class InfrarustServer extends NativeFinalize implements ProxyServer {
 
     @Override
     public CommandManager getCommandManager() {
-        return null;
+        return this.commandManager;
     }
 
     @Override
