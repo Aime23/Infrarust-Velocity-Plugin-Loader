@@ -1,14 +1,14 @@
 package dev.infrarust;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;;
 
 public class InfrarustUtils {
     public static String serializeComponent(Component component) {
-        return JSONComponentSerializer.json().serialize(component);
+        return GsonComponentSerializer.gson().serialize(component);
     }
 
     public static Component deserializeComponent(String json) {
-        return JSONComponentSerializer.json().deserialize(json);
+        return GsonComponentSerializer.gson().deserialize(json);
     }
 }
