@@ -1,5 +1,5 @@
 use jni::{
-    objects::{JObject, JObjectArray},
+    objects::{JObject, JObjectArray, JString},
     refs::Reference,
 };
 
@@ -24,6 +24,26 @@ pub trait ToJni<'local> {
 }
 
 // Vec
+
+impl<'local, S, T> TryFromJni<'local, JObjectArray<'local, S>> for Vec<T>
+where
+    T: TryFromJni<'local, S>,
+    S: Reference<Kind<'local> = S> + Default + AsRef<JObject<'local>> + AsRef<S> + 'local,
+{
+    fn try_from_jni(
+        env: &mut jni::Env<'local>,
+        value: JObjectArray<S>,
+    ) -> Result<Self, jni::errors::Error> {
+        let len = value.len(env)?;
+        let mut out: Vec<T> = Vec::with_capacity(len);
+        for i in 0..len {
+            let element = value.get_element(env, i)?;
+            let element = T::try_from_jni(env, element)?;
+            out.push(element);
+        }
+        return Ok(out);
+    }
+}
 
 impl<'local, T, I> ToJni<'local> for Vec<T>
 where
