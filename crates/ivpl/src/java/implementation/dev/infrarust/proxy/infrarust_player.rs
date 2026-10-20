@@ -7,7 +7,7 @@ use jni::{bind_java_type, objects::JString};
 use crate::{
     handle::Handle,
     java::{
-        ToJni,
+        ToJni, TryFromJni,
         generated::dev::infrarust::proxy::{
             InfrarustPlayer, InfrarustPlayerAPI, InfrarustPlayerNativeInterface,
         },
@@ -62,14 +62,14 @@ impl InfrarustPlayerNativeInterface for InfrarustPlayerAPI {
         return JString::from_str(env, username);
     }
 
-    fn native_disconnect<'local>(
+    fn native_send_message<'local>(
         env: &mut ::jni::Env<'local>,
         this: InfrarustPlayer<'local>,
-        component: crate::java::generated::net::kyori::adventure::text::Component<'local>,
+        arg1: crate::java::generated::net::kyori::adventure::text::Component<'local>,
     ) -> ::std::result::Result<(), Self::Error> {
         let player = this.player_handle(env)?.into_instance();
-        // TODO: Use provided component
-        player.disconnect(Component::text("Disconnected"));
+        let message = Component::try_from_jni(env, arg1)?;
+        player.send_message(message);
         return Ok(());
     }
 }
