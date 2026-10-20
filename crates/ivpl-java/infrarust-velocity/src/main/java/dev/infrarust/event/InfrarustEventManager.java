@@ -442,11 +442,11 @@ public class InfrarustEventManager extends NativeFinalize implements EventManage
         private final Thread firedOnThread;
 
         // This field is modified via a VarHandle, so this field is used and cannot be final.
-        @SuppressWarnings({"UnusedVariable", "FieldMayBeFinal", "FieldCanBeLocal",})
+        @SuppressWarnings({"UnusedVariable", "FieldMayBeFinal", "FieldCanBeLocal", "unused",})
         private volatile int state = TASK_STATE_DEFAULT;
 
         // This field is modified via a VarHandle, so this field is used and cannot be final.
-        @SuppressWarnings({"UnusedVariable", "FieldMayBeFinal"})
+        @SuppressWarnings({"UnusedVariable", "FieldMayBeFinal", "unused"})
         private volatile boolean resumed = false;
 
         private ContinuationTask(final EventTask task, final RegisteredEventHandler[] registrations,
