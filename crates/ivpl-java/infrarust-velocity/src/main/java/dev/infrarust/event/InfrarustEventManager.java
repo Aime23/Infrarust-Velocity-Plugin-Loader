@@ -21,6 +21,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.checkerframework.checker.lock.qual.GuardedBy;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -50,8 +51,9 @@ public class InfrarustEventManager extends NativeFinalize implements EventManage
     private final WriteLock writeLock = lock.writeLock();
     private final ReadLock readLock = lock.readLock();
 
+    @GuardedBy("lock")
     private final List<RegisteredEventHandler> registeredEventHandlers = new ArrayList<>();
-
+    @GuardedBy("lock")
     private final Map<Class<?>, List<RegisteredEventHandler>> mappedEventHandlers = new HashMap<>();
 
     // End of lock
