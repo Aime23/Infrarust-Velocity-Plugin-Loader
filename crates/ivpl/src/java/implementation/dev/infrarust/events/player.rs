@@ -131,14 +131,26 @@ impl<'local> ApplyEventResult<'local, infrarust_api::events::KickedFromServerEve
     ) -> jni::errors::Result<()> {
         let result = self.get_result_1(env)?;
 
-        if env.is_instance_of(&result, KickedFromServerEventDisconnectPlayer::class_name())? {
+        if env.is_instance_of(
+            &result,
+            &*KickedFromServerEventDisconnectPlayer::lookup_class(
+                env,
+                &jni::refs::LoaderContext::None,
+            )?,
+        )? {
             let result = KickedFromServerEventDisconnectPlayer::cast_local(env, result)?;
             let reason = result.get_reason_component(env)?;
             let reason = infrarust_api::types::Component::try_from_jni(env, reason)?;
             event.set_result(
                 infrarust_api::events::KickedFromServerResult::DisconnectPlayer { reason },
             );
-        } else if env.is_instance_of(&result, KickedFromServerEventRedirectPlayer::class_name())? {
+        } else if env.is_instance_of(
+            &result,
+            &*KickedFromServerEventRedirectPlayer::lookup_class(
+                env,
+                &jni::refs::LoaderContext::None,
+            )?,
+        )? {
             let result = KickedFromServerEventRedirectPlayer::cast_local(env, result)?;
             let server = result.get_server(env)?;
             let server = InfrarustRegisteredServer::cast_local(env, server)?;
