@@ -99,8 +99,22 @@ impl<'local> TryFromInfrarustEvent<'local, infrarust_api::events::DisconnectEven
             .to_jni(env)
             .map_err(|err| TryFromInfrarustEventError::Java(err))?;
 
-        let login_status = DisconnectEventLoginStatus::SUCCESSFUL_LOGIN(env)
-            .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+        // Mirror Velocity's own teardown logic (ConnectedPlayer#teardown): a session that
+        // ended on its own reports SUCCESSFUL_LOGIN once the player reached a server and
+        // PRE_SERVER_JOIN otherwise, while a session ended by the proxy reports
+        // CANCELLED_BY_PROXY.
+        let login_status = match &value.cause {
+            infrarust_api::events::DisconnectCause::ClientQuit
+            | infrarust_api::events::DisconnectCause::Shutdown => {
+                if value.last_server.is_some() {
+                    DisconnectEventLoginStatus::SUCCESSFUL_LOGIN(env)
+                } else {
+                    DisconnectEventLoginStatus::PRE_SERVER_JOIN(env)
+                }
+            }
+            _ => DisconnectEventLoginStatus::CANCELLED_BY_PROXY(env),
+        }
+        .map_err(|err| TryFromInfrarustEventError::Java(err))?;
 
         let disconnect_event = DisconnectEvent::new(env, player, login_status)
             .map_err(|err| TryFromInfrarustEventError::Java(err))?;
