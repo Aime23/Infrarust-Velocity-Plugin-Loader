@@ -76,7 +76,8 @@ impl InfrarustEventManagerNativeInterface for InfrarustEventManagerAPI {
                     ServerConnectedEvent,
                     infrarust_api::events::ServerConnectedEvent
                 ),
-                (DisconnectEvent, infrarust_api::events::DisconnectEvent) // (PostLoginEvent, infrarust_api::events::PostLoginEvent) // Infrarust has not yet registered the player when firing this event, however, Velocity needs Player
+                (DisconnectEvent, infrarust_api::events::DisconnectEvent),
+                (PostLoginEvent, infrarust_api::events::PostLoginEvent)
             ]
         );
         register_events!(
