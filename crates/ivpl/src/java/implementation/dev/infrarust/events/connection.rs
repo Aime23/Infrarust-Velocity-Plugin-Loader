@@ -1,4 +1,4 @@
-use infrarust_api::{event::ResultedEvent, permissions::PermissionLevel::Player};
+use infrarust_api::event::ResultedEvent;
 use jni::objects::JString;
 
 use crate::java::{
@@ -40,28 +40,24 @@ impl<'local> TryFromInfrarustEvent<'local, infrarust_api::events::ServerConnecte
         let plugin_context = plugin_context_handle.into_instance();
         let player = plugin_context
             .player_registry()
-            .get_player_by_id(value.player_id)
-            .ok_or(TryFromInfrarustEventError::MissingPlayer(value.player_id))?;
+            .get_player_by_id(value.player_id())
+            .ok_or(TryFromInfrarustEventError::MissingPlayer(value.player_id()))?;
         let player = player
             .to_jni(env)
             .map_err(|err| TryFromInfrarustEventError::Java(err))?;
 
-        let player_registry_handle =
-            PlayerRegistryHandle::from_instance(Box::new(plugin_context.player_registry_handle()));
-        let config_service_handle =
-            ConfigServiceHandle::from_instance(Box::new(plugin_context.config_service_handle()));
+        let player_registry =
+            PlayerRegistryHandle::from_instance(Box::new(plugin_context.player_registry()));
+        let config_service =
+            ConfigServiceHandle::from_instance(Box::new(plugin_context.config_service()));
         let server_id = value
             .server
             .to_string()
             .to_jni(env)
             .map_err(|err| TryFromInfrarustEventError::Java(err))?;
-        let registered_server = InfrarustRegisteredServer::new(
-            env,
-            player_registry_handle,
-            config_service_handle,
-            server_id,
-        )
-        .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+        let registered_server =
+            InfrarustRegisteredServer::new(env, player_registry, config_service, server_id)
+                .map_err(|err| TryFromInfrarustEventError::Java(err))?;
 
         let server_connected_event = ServerConnectedEvent::new(
             env,
@@ -85,8 +81,8 @@ impl<'local> TryFromInfrarustEvent<'local, infrarust_api::events::DisconnectEven
         let plugin_context = plugin_context_handle.into_instance();
         let player = plugin_context
             .player_registry()
-            .get_player_by_id(value.player_id)
-            .ok_or(TryFromInfrarustEventError::MissingPlayer(value.player_id))?;
+            .get_player_by_id(value.player_id())
+            .ok_or(TryFromInfrarustEventError::MissingPlayer(value.player_id()))?;
         let player = player
             .to_jni(env)
             .map_err(|err| TryFromInfrarustEventError::Java(err))?;
@@ -111,8 +107,8 @@ impl<'local> TryFromInfrarustEvent<'local, infrarust_api::events::PostLoginEvent
         let plugin_context = plugin_context_handle.into_instance();
         let player = plugin_context
             .player_registry()
-            .get_player_by_id(value.player_id)
-            .ok_or(TryFromInfrarustEventError::MissingPlayer(value.player_id))?;
+            .get_player_by_id(value.player_id())
+            .ok_or(TryFromInfrarustEventError::MissingPlayer(value.player_id()))?;
 
         let player = player
             .to_jni(env)

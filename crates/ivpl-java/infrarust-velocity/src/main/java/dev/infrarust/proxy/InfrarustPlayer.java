@@ -283,7 +283,7 @@ public class InfrarustPlayer extends NativeFinalize implements Player {
 
     @Override
     public @NotNull Identity identity() {
-        return null;
+        return Identity.identity(this.getUniqueId());
     }
 
     private native void native_send_message(final @NotNull Component message);

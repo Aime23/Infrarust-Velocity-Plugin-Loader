@@ -43,9 +43,7 @@ impl CommandHandler for JavaCommandHandler {
     fn execute<'a>(
         &'a self,
         ctx: infrarust_api::prelude::CommandContext,
-        player_registry: &'a dyn infrarust_api::prelude::PlayerRegistry,
     ) -> infrarust_api::prelude::BoxFuture<'a, ()> {
-
         return Box::pin(async move {
             if let Ok(jvm) = JavaVM::singleton() {
                 jvm.attach_current_thread(|env| -> jni::errors::Result<()> {
@@ -53,7 +51,7 @@ impl CommandHandler for JavaCommandHandler {
                         .0
                         .upgrade_local(env)?
                         .ok_or(jni::errors::Error::ObjectFreed)?;
-                    let invocation = ctx.into_invocation(env, &command, player_registry)?;
+                    let invocation = ctx.into_invocation(env, &command)?;
                     if let Err(error) = command.execute(env, invocation) {
                         println!("Error executing command {:#?}", error);
                         env.exception_describe();
@@ -74,7 +72,6 @@ trait IntoInvocation {
         self,
         env: &mut jni::Env<'env_local>,
         command: &InvocableCommand<'local>,
-        player_registry: &dyn infrarust_api::prelude::PlayerRegistry,
     ) -> jni::errors::Result<AbstractCommandInvocation<'env_local>>;
 }
 
@@ -83,18 +80,15 @@ impl IntoInvocation for CommandContext {
         self,
         env: &mut jni::Env<'env_local>,
         command: &InvocableCommand<'local>,
-        player_registry: &dyn infrarust_api::prelude::PlayerRegistry,
     ) -> jni::errors::Result<AbstractCommandInvocation<'env_local>> {
-        let source: CommandSource = match (self.player_id) {
-            Some(player_id) => {
-                if let Some(player) = player_registry.get_player_by_id(player_id) {
-                    CommandSource::from(Player::from(player.to_jni(env)?))
-                } else {
-                    // Should not append
-                    panic!("Player disapered"); //TODO: add an empty type source
-                }
+        let source: CommandSource = match (self.source) {
+            infrarust_api::command::CommandSource::Player(player) => {
+                CommandSource::from(Player::from(player.to_jni(env)?))
             }
-            None => CommandSource::from(ConsoleCommandSource::from(InfrarustConsole::new(env)?)),
+            infrarust_api::command::CommandSource::Console(permission_checker) => {
+                CommandSource::from(ConsoleCommandSource::from(InfrarustConsole::new(env)?))
+            }
+            _ => todo!(),
         };
         if (env.is_instance_of(
             command,

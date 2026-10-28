@@ -1,3 +1,5 @@
+use infrarust_api::command::CommandSpec;
+
 use crate::java::{
     generated::{
         com,
@@ -25,7 +27,8 @@ impl InfrarustCommandManagerNativeInterface for InfrarustCommandManagerAPI {
         let aliases = meta.aliases(env)?;
         let aliases: Vec<&str> = aliases.iter().map(|x| &**x).collect();
         let handler = command.into_command_handler(env)?;
-        command_manager.register(&name, &aliases, "", Box::new(handler));
+        let specs = CommandSpec::new(&name).aliases(aliases); // TODO: Add description and usage
+        command_manager.register(specs, Box::new(handler));
         return Ok(());
     }
 

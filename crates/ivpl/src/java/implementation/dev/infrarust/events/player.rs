@@ -35,8 +35,8 @@ impl<'local> TryFromInfrarustEvent<'local, infrarust_api::events::ChatMessageEve
 
         let player = plugin_context
             .player_registry()
-            .get_player_by_id(value.player_id)
-            .ok_or(TryFromInfrarustEventError::MissingPlayer(value.player_id))?;
+            .get_player_by_id(value.player_id())
+            .ok_or(TryFromInfrarustEventError::MissingPlayer(value.player_id()))?;
         let player = player
             .to_jni(env)
             .map_err(|err| TryFromInfrarustEventError::Java(err))?;
@@ -80,15 +80,15 @@ impl<'local> TryFromInfrarustEvent<'local, infrarust_api::events::KickedFromServ
         plugin_context_handle: PluginContextHandle,
     ) -> Result<Self, TryFromInfrarustEventError> {
         let plugin_context = plugin_context_handle.into_instance();
-        let player_registry_handle =
-            PlayerRegistryHandle::from_instance(Box::new(plugin_context.player_registry_handle()));
-        let config_service_handle =
-            ConfigServiceHandle::from_instance(Box::new(plugin_context.config_service_handle()));
+        let player_registry =
+            PlayerRegistryHandle::from_instance(Box::new(plugin_context.player_registry()));
+        let config_service =
+            ConfigServiceHandle::from_instance(Box::new(plugin_context.config_service()));
 
         let player = plugin_context
             .player_registry()
-            .get_player_by_id(value.player_id)
-            .ok_or(TryFromInfrarustEventError::MissingPlayer(value.player_id))?;
+            .get_player_by_id(value.player_id())
+            .ok_or(TryFromInfrarustEventError::MissingPlayer(value.player_id()))?;
         let player = player
             .to_jni(env)
             .map_err(|err| TryFromInfrarustEventError::Java(err))?;
@@ -98,16 +98,14 @@ impl<'local> TryFromInfrarustEvent<'local, infrarust_api::events::KickedFromServ
             .to_string()
             .to_jni(env)
             .map_err(|err| TryFromInfrarustEventError::Java(err))?;
-        let registered_server = InfrarustRegisteredServer::new(
-            env,
-            player_registry_handle,
-            config_service_handle,
-            server_id,
-        )
-        .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+        let registered_server =
+            InfrarustRegisteredServer::new(env, player_registry, config_service, server_id)
+                .map_err(|err| TryFromInfrarustEventError::Java(err))?;
 
         let reason = value
-            .reason.clone()
+            .reason
+            .clone()
+            .unwrap_or_default()
             .to_jni(env)
             .map_err(|err| TryFromInfrarustEventError::Java(err))?;
 
@@ -142,7 +140,9 @@ impl<'local> ApplyEventResult<'local, infrarust_api::events::KickedFromServerEve
             let reason = result.get_reason_component(env)?;
             let reason = infrarust_api::types::Component::try_from_jni(env, reason)?;
             event.set_result(
-                infrarust_api::events::KickedFromServerResult::DisconnectPlayer { reason },
+                infrarust_api::events::KickedFromServerResult::DisconnectPlayer {
+                    reason: Some(reason),
+                },
             );
         } else if env.is_instance_of(
             &result,
@@ -156,7 +156,7 @@ impl<'local> ApplyEventResult<'local, infrarust_api::events::KickedFromServerEve
             let server = InfrarustRegisteredServer::cast_local(env, server)?;
             let server_id = server.server_id(env)?;
             let server_id = ServerId::new(server_id.try_to_string(env)?);
-            event.set_result(infrarust_api::events::KickedFromServerResult::RedirectTo(
+            event.set_result(infrarust_api::events::KickedFromServerResult::Redirect(
                 server_id,
             ));
         }

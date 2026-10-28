@@ -109,10 +109,10 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
         let registered_server = InfrarustRegisteredServer::new(
             env,
             PlayerRegistryHandle::from_instance(Box::new(
-                plugin_context.player_registry_handle().clone(),
+                plugin_context.player_registry().clone(),
             )),
             ConfigServiceHandle::from_instance(Box::new(
-                plugin_context.config_service_handle().clone(),
+                plugin_context.config_service().clone(),
             )),
             server_name,
         )?;
@@ -133,10 +133,10 @@ impl InfrarustServerNativeInterface for InfrarustServerAPI {
             servers_obj.push(InfrarustRegisteredServer::new(
                 env,
                 PlayerRegistryHandle::from_instance(Box::new(
-                    plugin_context.player_registry_handle().clone(),
+                    plugin_context.player_registry().clone(),
                 )),
                 ConfigServiceHandle::from_instance(Box::new(
-                    plugin_context.config_service_handle().clone(),
+                    plugin_context.config_service().clone(),
                 )),
                 server_name,
             )?);
