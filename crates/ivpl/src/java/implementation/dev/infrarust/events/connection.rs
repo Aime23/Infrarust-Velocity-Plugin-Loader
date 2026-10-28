@@ -59,13 +59,25 @@ impl<'local> TryFromInfrarustEvent<'local, infrarust_api::events::ServerConnecte
             InfrarustRegisteredServer::new(env, player_registry, config_service, server_id)
                 .map_err(|err| TryFromInfrarustEventError::Java(err))?;
 
-        let server_connected_event = ServerConnectedEvent::new(
-            env,
-            player,
-            registered_server,
-            InfrarustRegisteredServer::null(),
-        )
-        .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+        let previous_server = match &value.previous_server {
+            Some(previous_server) => {
+                let player_registry =
+                    PlayerRegistryHandle::from_instance(Box::new(plugin_context.player_registry()));
+                let config_service =
+                    ConfigServiceHandle::from_instance(Box::new(plugin_context.config_service()));
+                let server_id = previous_server
+                    .to_string()
+                    .to_jni(env)
+                    .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+                InfrarustRegisteredServer::new(env, player_registry, config_service, server_id)
+                    .map_err(|err| TryFromInfrarustEventError::Java(err))?
+            }
+            None => InfrarustRegisteredServer::null(),
+        };
+
+        let server_connected_event =
+            ServerConnectedEvent::new(env, player, registered_server, previous_server)
+                .map_err(|err| TryFromInfrarustEventError::Java(err))?;
         return Ok(server_connected_event);
     }
 }
