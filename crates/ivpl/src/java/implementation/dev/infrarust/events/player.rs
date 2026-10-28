@@ -6,8 +6,8 @@ use crate::java::{
     generated::{
         com::velocitypowered::api::event::player::{
             KickedFromServerEvent, KickedFromServerEventDisconnectPlayer,
-            KickedFromServerEventRedirectPlayer, KickedFromServerEventServerKickResult,
-            PlayerChatEvent, PlayerChatEventChatResult,
+            KickedFromServerEventNotify, KickedFromServerEventRedirectPlayer,
+            KickedFromServerEventServerKickResult, PlayerChatEvent, PlayerChatEventChatResult,
         },
         dev::infrarust::proxy::{InfrarustPlayer, server::InfrarustRegisteredServer},
         net::kyori::adventure::text::Component,
@@ -109,12 +109,69 @@ impl<'local> TryFromInfrarustEvent<'local, infrarust_api::events::KickedFromServ
             .to_jni(env)
             .map_err(|err| TryFromInfrarustEventError::Java(err))?;
 
-        let result = KickedFromServerEventDisconnectPlayer::create(env, &reason)
-            .map_err(|err| TryFromInfrarustEventError::Java(err))?;
-
-        let event =
-            KickedFromServerEvent::new(env, &player, &registered_server, &reason, true, &result)
+        // Reflect the default result chosen by the proxy so Java listeners see the pending
+        // action. KickedFromServerResult::SendToLimbo has no Velocity equivalent and falls
+        // back to disconnecting the player.
+        let result: KickedFromServerEventServerKickResult = match value.result() {
+            infrarust_api::events::KickedFromServerResult::DisconnectPlayer { reason } => {
+                let reason = reason
+                    .clone()
+                    .unwrap_or_else(|| value.reason.clone().unwrap_or_default());
+                let reason = reason
+                    .to_jni(env)
+                    .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+                KickedFromServerEventDisconnectPlayer::create(env, &reason)
+                    .map_err(|err| TryFromInfrarustEventError::Java(err))?
+                    .into()
+            }
+            infrarust_api::events::KickedFromServerResult::Redirect(server) => {
+                let player_registry =
+                    PlayerRegistryHandle::from_instance(Box::new(plugin_context.player_registry()));
+                let config_service =
+                    ConfigServiceHandle::from_instance(Box::new(plugin_context.config_service()));
+                let server_id = server
+                    .to_string()
+                    .to_jni(env)
+                    .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+                let registered_server = InfrarustRegisteredServer::new(
+                    env,
+                    player_registry,
+                    config_service,
+                    server_id,
+                )
                 .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+                KickedFromServerEventRedirectPlayer::create(env, &registered_server)
+                    .map_err(|err| TryFromInfrarustEventError::Java(err))?
+            }
+            infrarust_api::events::KickedFromServerResult::Notify { message } => {
+                let message = message
+                    .clone()
+                    .to_jni(env)
+                    .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+                KickedFromServerEventNotify::create(env, &message)
+                    .map_err(|err| TryFromInfrarustEventError::Java(err))?
+                    .into()
+            }
+            _ => {
+                let reason = value.reason.clone().unwrap_or_default();
+                let reason = reason
+                    .to_jni(env)
+                    .map_err(|err| TryFromInfrarustEventError::Java(err))?;
+                KickedFromServerEventDisconnectPlayer::create(env, &reason)
+                    .map_err(|err| TryFromInfrarustEventError::Java(err))?
+                    .into()
+            }
+        };
+
+        let event = KickedFromServerEvent::new(
+            env,
+            &player,
+            &registered_server,
+            &reason,
+            value.during_connect,
+            &result,
+        )
+        .map_err(|err| TryFromInfrarustEventError::Java(err))?;
         return Ok(event);
     }
 }
@@ -159,6 +216,14 @@ impl<'local> ApplyEventResult<'local, infrarust_api::events::KickedFromServerEve
             event.set_result(infrarust_api::events::KickedFromServerResult::Redirect(
                 server_id,
             ));
+        } else if env.is_instance_of(
+            &result,
+            &*KickedFromServerEventNotify::lookup_class(env, &jni::refs::LoaderContext::None)?,
+        )? {
+            let result = KickedFromServerEventNotify::cast_local(env, result)?;
+            let message = result.get_message_component(env)?;
+            let message = infrarust_api::types::Component::try_from_jni(env, message)?;
+            event.set_result(infrarust_api::events::KickedFromServerResult::Notify { message });
         }
         return Ok(());
     }
